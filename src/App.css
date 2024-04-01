@@ -1,0 +1,22 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  background-color: black;
+  font-family: 'Poppins';
+}
+.app-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  width: 100%;
+}
+
+.overflow-container {
+  max-height: calc(100vh - 100px); /* Adjust 100px according to your header/footer height */
+  overflow-y: auto;
+  width: 100%;
+}
