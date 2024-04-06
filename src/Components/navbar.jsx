@@ -7,6 +7,7 @@ const Navbar = () => {
       <h1>hello</h1>
       <h2>helllo</h2>
       <AiOutlineMenu size={30}/>
+      <h1>ok now changed in the test brannch </h1>
     </div>
   )
 }
