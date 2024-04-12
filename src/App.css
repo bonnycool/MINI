@@ -29,26 +29,10 @@
     align-items: center;
     justify-content: center;
   }
+   
 
   .flex > div {
     margin-bottom: 10px; /* Add space between logo and title on smaller screens */
   }
-
-  .text-lg {
-    font-size: 20px; /* Decrease font size for smaller screens */
-  }
-
-  .flex > div:first-child > img {
-    max-width: 100%; /* Ensure the GitsConnect logo resizes appropriately */
-    height: auto;
-  }
-}
-
-
-.gitsconnect-logo,
-.saintgits-logo {
-    max-height: 100%;
-    max-width: 120px; /* Adjust as needed */
-    height: auto;
-    width: auto;
+  
 }
