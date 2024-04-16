@@ -1,12 +1,11 @@
 
-
 import Header from "../Components/header";
 
 const Interface = () => {
   return (
-    <div >
+    <div style={{ paddingTop: '100px' }}> {/* Adjust the top padding as needed */}
       <Header />
-      <h2>helloS</h2>
+      your code goes here
       {/* Add the rest of your page components here */}
     </div>
   );
