@@ -1,55 +1,61 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
+import Header from '../Components/header';
+import Box1Image from '../Assests/imagesroni/blockchain1.jpg';
+import Box2Image from '../Assests/imagesroni/cyber1.jpg';
+import Box3Image from '../Assests/imagesroni/opensource1.jpg';
+import Box4Image from '../Assests/imagesroni/ai1.jpg';
 
-const Header = () => {
-    const [headerHeight, setHeaderHeight] = useState("auto");
-    const [isMobileScreen, setIsMobileScreen] = useState(false);
-    const [isTabletScreen, setIsTabletScreen] = useState(false);
-    const maxGitsConnectLogoWidthVh = 10; // Adjust the percentage as needed for GitsConnect logo
-    const maxGitsConnectLogoMobileWidth = 9; // Adjust the maximum width of the logo on mobile screens
-    const maxSaintGitsLogoWidthVh = 30; // Adjust the percentage as needed for SaintGits logo
-    const mobileHeaderHeight = "45px"; // Adjust the height of the header component in mobile version
-
-    useEffect(() => {
-        const handleResize = () => {
-            const screenWidth = window.innerWidth;
-            setIsMobileScreen(screenWidth <= 768);
-            setIsTabletScreen(screenWidth > 768 && screenWidth <= 1024);
-            setHeaderHeight(screenWidth <= 768 ? mobileHeaderHeight : "auto"); // Adjust the header height for mobile screen
-        };
-
-        // Add event listener for window resize
-        window.addEventListener('resize', handleResize);
-
-        // Call handleResize on initial load
-        handleResize();
-
-        // Cleanup the event listener on component unmount
-        return () => {
-            window.removeEventListener('resize', handleResize);
-        };
-    }, []);
-
+const FourBoxesPage = () => {
     return (
-        <header className="flex justify-between items-center p-2 text-white" style={{ backgroundColor: "#fff7ed", height: headerHeight, minHeight: "40px", position: "fixed", top: "0", left: "0", right: "0", zIndex: "1000" }}>
-            <div className="flex items-center">
-                <img src="../src/Assests/IMAGES/gitsconnectlogo.jpeg" alt="GitsConnect Logo" className="mr-2" style={{ height: "auto", maxWidth: `${isMobileScreen ? maxGitsConnectLogoMobileWidth + 'vw' : maxGitsConnectLogoWidthVh + 'vh'}`, maxHeight: "100%", marginRight: "10px" }} />
-                {/* Render GitsConnect text */}
-                {!isMobileScreen && (
-                    <h1 className="text-lg font-bold" style={{ color: "#d1d5db", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", fontSize: isTabletScreen ? "3.5vw" : "3.5vw", whiteSpace: "nowrap", marginLeft: isTabletScreen ? "5px" : "0" }}>GITSCONNECT</h1>
-                )}
-            </div>
-            {/* Render SaintGits logo only for desktop view */}
-            {!isMobileScreen && (
-                <div className="flex items-center">
-                    <img src="../src/Assests/IMAGES/saintgitslogo.png" alt="SaintGits Logo" className="mr-2" style={{ height: "auto", maxWidth: `${maxSaintGitsLogoWidthVh}vh`, maxHeight: "100%" }} />
+        <div>
+            {/* Include the header at the top */}
+            <Header />
+
+            {/* Container for the entire content */}
+            <div className="flex justify-center mt-16" style={{ marginTop: '60px' /* Adjust the margin top based on header height */ }}>
+                <div className="container flex flex-row">
+                    {/* Section A (Left side for navigation bar) */}
+                    <div className="w-1/4">
+                        {/* Placeholder for navigation bar */}
+                    </div>
+
+                    {/* Section B (Middle section with two boxes) */}
+                    <div className="w-1/3 flex flex-col mr-8 mt-16 items-center">
+                        {/* Box 1 in the top */}
+                        <button
+                            className="w-full h-64 mb-4 bg-blue-500"
+                            style={{ backgroundImage: `url(${Box1Image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                            onClick={() => console.log('Box 1 clicked!')}
+                        ></button>
+
+                        {/* Box 2 in the bottom */}
+                        <button
+                            className="w-full h-64 bg-green-500"
+                            style={{ backgroundImage: `url(${Box2Image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                            onClick={() => console.log('Box 2 clicked!')}
+                        ></button>
+                    </div>
+
+                    {/* Section C (Right side with two boxes) */}
+                    <div className="w-1/3 flex flex-col mr-8 mt-14 items-end">
+                        {/* Box 3 in the top */}
+                        <button
+                            className="w-full h-64 mb-4 bg-red-500"
+                            style={{ backgroundImage: `url(${Box3Image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                            onClick={() => console.log('Box 3 clicked!')}
+                        ></button>
+
+                        {/* Box 4 in the bottom */}
+                        <button
+                            className="w-full h-64 bg-yellow-500"
+                            style={{ backgroundImage: `url(${Box4Image})`, backgroundSize: 'cover', backgroundPosition: 'center' }}
+                            onClick={() => console.log('Box 4 clicked!')}
+                        ></button>
+                    </div>
                 </div>
-            )}
-            {/* Conditionally render GitsConnect text in the middle for mobile view */}
-            {isMobileScreen && (
-                <h1 className="text-2xl font-bold" style={{ color: "#d1d5db", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", whiteSpace: "nowrap", flex: "1", textAlign: "center", marginLeft: "10px" }}>GITSCONNECT</h1>
-            )}
-        </header>
+            </div>
+        </div>
     );
 };
 
-export default Header;
+export default FourBoxesPage;
