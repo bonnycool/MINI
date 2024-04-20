@@ -85,6 +85,7 @@ const Login = () => {
         maxWidth: isMobileScreen ? '100%' : '600px', // Limit the width for desktop version
         wordWrap: 'break-word', // Allow the text to wrap within the container
         lineHeight: isMobileScreen ? '1.5' : '2', // Set line height to ensure three lines of text
+        position: 'relative',
     };
 
     // Define the style for the container of secondary text
@@ -103,6 +104,74 @@ const Login = () => {
         wordSpacing: '0.75em', // Adjust the word spacing as per your preference
     };
 
+
+// Define the style for the mobile buttons (door opening icon)
+const mobileButtonStyle = {
+    backgroundColor: '#4CAF50', // Background color for the button
+    color: 'white', // Text color
+    padding: '10px 20px', // Padding
+    border: 'none', // Remove border
+    borderRadius: '50%', // Rounded shape
+    cursor: 'pointer', // Cursor style
+    position: 'absolute', // Position absolute for overlapping
+    top: '10px', // Distance from the top
+    right: '10px', // Distance from the right
+};
+// Define the style for the desktop buttons
+const buttonStyle = {
+    backgroundColor: 'white', // Background color for the buttons
+    color: 'black', // Text color
+    padding: '10px 20px', // Padding
+    border: 'none', // Remove border
+    borderRadius: '20px', // Adjust the roundness as needed
+    cursor: 'pointer', // Cursor style
+    margin: '10px', // Margin between buttons
+    width: '40%', // Set the width to a percentage of the container width
+    height: '40px', // Set a fixed height for the buttons
+    maxWidth: '200px', // Set a maximum width for the buttons
+    fontSize: '23px', // Adjust the font size as needed
+    display: 'flex', // Use flexbox
+    alignItems: 'center', // Center vertically
+    justifyContent: 'center', // Center horizontally
+    transition: 'background-color 0.3s, color 0.3s', // Smooth transition for hover effect
+
+}
+const desktopButtonsContainerStyle = {
+    position: 'fixed', // Use fixed positioning to keep the buttons at the bottom of the viewport
+    left: '50%', // Position at the horizontal center
+    transform: 'translateX(-50%)', // Center the container horizontally
+    bottom: '60px', // Distance from the bottom
+    width: '100%', // Adjust the width based on your preference
+    maxWidth: '600px', // Limit the maximum width for larger screens
+    display: 'flex',
+    justifyContent: 'space-around', // Distribute the buttons evenly
+};
+// Adjust the position of the buttons container based on your preferred height or width
+const desktopButtonsContainerWidth = '80%'; // Adjust based on your requirement
+const desktopButtonsContainerHeight = '100px'; // Adjust based on your requirement
+
+// Merge the styles with the container style
+const mergedDesktopButtonsContainerStyle = {
+    ...desktopButtonsContainerStyle,
+    width: desktopButtonsContainerWidth,
+    height: desktopButtonsContainerHeight,
+};
+
+// Define the style for the desktop buttons on hover
+const buttonHoverStyle = {
+    backgroundColor: '#4CAF50', // Background color for the buttons on hover
+    color: 'white', // Text color on hover
+};
+
+const handleMouseOver = (e) => {
+    Object.assign(e.target.style, buttonHoverStyle);
+};
+
+const handleMouseOut = (e) => {
+    Object.assign(e.target.style, buttonStyle);
+};
+
+
     return (
         <div style={backgroundImageStyle}>
             <Header />
@@ -116,11 +185,28 @@ const Login = () => {
             <span>platform tailored to meet the unique needs</span><br />
             <span>of students within the CS Department</span>
         </p>
-        
-         
-          
-                
+                     
+                     
                 )}
+                {/* Desktop buttons */}
+            {!isMobileScreen && (
+               <div style={mergedDesktopButtonsContainerStyle} ><button style={buttonStyle}
+               onMouseOver={handleMouseOver}
+               onMouseOut={handleMouseOut}>
+        Admin Login
+    </button>
+    <button style={buttonStyle}
+    onMouseOver={handleMouseOver}
+    onMouseOut={handleMouseOut}>
+        User Login
+    </button>
+           </div>
+           
+            )}
+             {/* Mobile login button (door opening icon) */}
+             {isMobileScreen && (
+                <button style={mobileButtonStyle}>Login</button>
+            )}
             </div>
             {/* Display the secondary text */}
             {secondaryText && <h4 className={`text-center mb-4 ${secondaryTextClass}`} style={secondaryTextGradient}>{secondaryText}</h4>}
@@ -134,6 +220,7 @@ const Login = () => {
                 .animate-fade-in {
                     animation: fadeInFromBelow 1s ease;
                 }
+                
             `}</style>
         </div>
     );
