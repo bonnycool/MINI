@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/header';
+import HeaderLogin from '../Components/headerlogin';
 
 const Login = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
@@ -46,6 +47,7 @@ const Login = () => {
         flexDirection: 'column',
         alignItems: 'center',
         justifyContent: 'center',
+       
     };
 
     // Define the welcome text for desktop and mobile versions
@@ -65,7 +67,7 @@ const Login = () => {
     const welcomeTextShadow = isMobileScreen ? '0px 2px 4px rgba(0, 0, 0, 0.5)' : 'none'; // Adjust the shadow effect as needed
 
     // Define the class for the secondary text to adjust the size and color
-    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-black-500 font-bold"; // Adjust the size and color as needed
+    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-salte'-500 font-bold"; // Adjust the size and color as needed
 
     // Define the gradient light effect for the secondary text
     const secondaryTextGradient = isMobileScreen ? {
@@ -105,18 +107,7 @@ const Login = () => {
     };
 
 
-// Define the style for the mobile buttons (door opening icon)
-const mobileButtonStyle = {
-    backgroundColor: '#4CAF50', // Background color for the button
-    color: 'white', // Text color
-    padding: '10px 20px', // Padding
-    border: 'none', // Remove border
-    borderRadius: '50%', // Rounded shape
-    cursor: 'pointer', // Cursor style
-    position: 'absolute', // Position absolute for overlapping
-    top: '10px', // Distance from the top
-    right: '10px', // Distance from the right
-};
+
 // Define the style for the desktop buttons
 const buttonStyle = {
     backgroundColor: 'white', // Background color for the buttons
@@ -170,11 +161,16 @@ const handleMouseOver = (e) => {
 const handleMouseOut = (e) => {
     Object.assign(e.target.style, buttonStyle);
 };
+const handleLogin = () => {
+    // Define what happens when the login button is clicked
+    console.log("Login button clicked");
+};
 
 
     return (
         <div style={backgroundImageStyle}>
-            <Header />
+            {/* Use the specialized header for the login page */}
+            <HeaderLogin onLogin={handleLogin} />
             <div style={containerStyle}>
                 {/* Display the welcome text wrapped in an <h1> tag with animation class */}
                 <h1 className={`font-bold mb-4 ${welcomeTextClass} animate-fade-in`} style={{ letterSpacing: welcomeTextLetterSpacing, textShadow: welcomeTextShadow }}>{welcomeText}</h1>
@@ -203,10 +199,7 @@ const handleMouseOut = (e) => {
            </div>
            
             )}
-             {/* Mobile login button (door opening icon) */}
-             {isMobileScreen && (
-                <button style={mobileButtonStyle}>Login</button>
-            )}
+           
             </div>
             {/* Display the secondary text */}
             {secondaryText && <h4 className={`text-center mb-4 ${secondaryTextClass}`} style={secondaryTextGradient}>{secondaryText}</h4>}
