@@ -1,0 +1,38 @@
+#root {
+  margin: 0 auto;
+  text-align: center;
+  background-color: black;
+  font-family: 'Poppins';
+}
+.app-container {
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.main {
+  width: 100%;
+}
+
+.overflow-container {
+  max-height: calc(100vh - 100px); /* Adjust 100px according to your header/footer height */
+  overflow-y: auto;
+  width: 100%;
+}
+
+
+/* Add this to your CSS file */
+@media (max-width: 768px) {
+  .flex {
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+   
+
+  .flex > div {
+    margin-bottom: 10px; /* Add space between logo and title on smaller screens */
+  }
+  
+}
