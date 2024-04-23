@@ -68,7 +68,7 @@ const Login = () => {
     const welcomeTextShadow = isMobileScreen ? '0px 2px 4px rgba(0, 0, 0, 0.5)' : 'none'; // Adjust the shadow effect as needed
 
     // Define the class for the secondary text to adjust the size and color
-    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-black-500 font-bold"; // Adjust the size and color as needed
+    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-yellow-500 font-bold"; // Adjust the size and color as needed
 
     // Define the gradient light effect for the secondary text
     const secondaryTextGradient = isMobileScreen ? {
@@ -167,7 +167,10 @@ const handleLogin = () => {
     console.log("Login button clicked");
 };
 const handleAdminLoginClick = () => {
-    navigate('/credentials'); // Navigate to the credentials page
+    navigate('/admincredentials'); // Navigate to the admincredentials page
+};
+const handleStudentLoginClick = () => {
+    navigate('/credentials'); // Navigate to the admincredentials page
 };
 
 
@@ -197,7 +200,10 @@ const handleAdminLoginClick = () => {
     </button>
     <button style={buttonStyle}
     onMouseOver={handleMouseOver}
-    onMouseOut={handleMouseOut}>
+    onMouseOut={handleMouseOut}
+    onClick={handleStudentLoginClick} >
+        
+        
         User Login
     </button>
            </div>

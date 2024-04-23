@@ -57,6 +57,7 @@ const Interface = () => {
                             style={{ backgroundImage: `url(${Box4Image})` }}
                             onClick={() => console.log('Button 4 clicked!')}
                         >
+                          
                             <span className="text-white font-bold text-2xl font-sans">AI Club</span>
                         </button>
                     </div>

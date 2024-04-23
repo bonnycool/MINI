@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../Components/header'; // Import the header file
 import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Import the background image
 
-const admincredentials = () => {
+const Admincredentials = () => {
     // State variables for username and password inputs
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -73,4 +73,4 @@ const admincredentials = () => {
     );
 };
 
-export default admincredentials;
+export default Admincredentials;
