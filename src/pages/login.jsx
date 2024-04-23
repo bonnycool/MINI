@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/header';
 import HeaderLogin from '../Components/headerlogin';
-
+import { useNavigate } from 'react-router-dom'; // For navigation
 const Login = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
     const [secondaryTextLineHeight, setSecondaryTextLineHeight] = useState(1.2);
+    const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
         const handleResize = () => {
@@ -67,7 +68,7 @@ const Login = () => {
     const welcomeTextShadow = isMobileScreen ? '0px 2px 4px rgba(0, 0, 0, 0.5)' : 'none'; // Adjust the shadow effect as needed
 
     // Define the class for the secondary text to adjust the size and color
-    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-black-500 font-bold"; // Adjust the size and color as needed
+    const secondaryTextClass = isMobileScreen ? "text-2xl text-purple-500 font-bold" : "text-lg text-yellow-500 font-bold"; // Adjust the size and color as needed
 
     // Define the gradient light effect for the secondary text
     const secondaryTextGradient = isMobileScreen ? {
@@ -165,6 +166,12 @@ const handleLogin = () => {
     // Define what happens when the login button is clicked
     console.log("Login button clicked");
 };
+const handleAdminLoginClick = () => {
+    navigate('/admincredentials'); // Navigate to the admincredentials page
+};
+const handleStudentLoginClick = () => {
+    navigate('/credentials'); // Navigate to the admincredentials page
+};
 
 
     return (
@@ -188,12 +195,15 @@ const handleLogin = () => {
             {!isMobileScreen && (
                <div style={mergedDesktopButtonsContainerStyle} ><button style={buttonStyle}
                onMouseOver={handleMouseOver}
-               onMouseOut={handleMouseOut}>
+               onMouseOut={handleMouseOut} onClick={handleAdminLoginClick} >
         Admin Login
     </button>
     <button style={buttonStyle}
     onMouseOver={handleMouseOver}
-    onMouseOut={handleMouseOut}>
+    onMouseOut={handleMouseOut}
+    onClick={handleStudentLoginClick} >
+        
+        
         User Login
     </button>
            </div>

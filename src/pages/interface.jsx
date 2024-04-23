@@ -1,63 +1,70 @@
 import React from 'react';
-import Header from "../Components/header";
+import Navbar from '../Components/navbar'; // Import the navbar component
+import Header from '../Components/header';
 import Box1Image from '../Assests/imagesroni/blockchain1.jpg';
 import Box2Image from '../Assests/imagesroni/cyber1.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
 import Box4Image from '../Assests/imagesroni/ai1.jpg';
 
 const Interface = () => {
-   
-  return (
-    <div style={{ paddingTop: '100px' }}> {/* Adjust the top padding as needed */}
-      <Header />
-      {/* Container for the entire content */}
-      <div className="flex justify-center mt-16">
-        <div className="container flex flex-row">
-          {/* Section A (Left side for navigation bar) */}
-          <div className="w-1/4">
-            {/* Placeholder for navigation bar */}
-          </div>
+    return (
+        <div className="flex">
+            {/* Section A: Navbar on the left side */}
+            <Navbar className="w-1/4" />
 
-          {/* Section B (Middle section with two boxes) */}
-          <div className="w-1/3 flex flex-col items-center">
-            {/* Box 1 in the top */}
-            <div
-              className="w-full h-64 mb-8 mr-8 bg-cover bg-center"
-              style={{ backgroundImage: `url(${Box1Image})` }}
-              onClick={() => console.log('Box 1 clicked!')}
-            ></div>
+            {/* Main content area */}
+            <div className="flex-1 p-4 ml-8">
+                {/* Header component */}
+                <Header />
 
-            {/* Box 2 in the bottom */}
-            <div
-              className="w-full h-64 mr-8 bg-cover bg-center"
-              style={{ backgroundImage: `url(${Box2Image})` }}
-              onClick={() => console.log('Box 2 clicked!')}
-            ></div>
-          </div>
+                {/* Middle and right content areas */}
+                <div className="flex justify-center mt-16">
+                    {/* Section B (middle section with two buttons) */}
+                    <div className="flex flex-col mt-10 ml-60 items-center w-1/3">
+                        {/* Button 1 */}
+                        <button
+                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${Box1Image})` }}
+                            onClick={() => console.log('Button 1 clicked!')}
+                        >
+                            <span className="text-white font-bold text-2xl font-sans">Blockchain Club</span>
+                        </button>
 
-          {/* Section C (Right side with two boxes) */}
-          <div className="w-1/3 flex flex-col items-end">
-            {/* Add smaller margin between Section B and Section C */}
-            <div className="mb-0"></div>
+                        {/* Button 2 */}
+                        <button
+                            className="w-full h-60 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${Box2Image})` }}
+                            onClick={() => console.log('Button 2 clicked!')}
+                        >
+                            <span className="text-white font-bold text-2xl font-sans">Cyber Security Club</span>
+                        </button>
+                    </div>
 
-            {/* Box 3 in the top */}
-            <div
-              className="w-full h-64 mb-6 ml-8 bg-cover bg-center"
-              style={{ backgroundImage: `url(${Box3Image})` }}
-              onClick={() => console.log('Box 3 clicked!')}
-            ></div>
+                    {/* Section C (right section with two buttons) */}
+                    <div className="flex flex-col mt-10 items-center w-1/3 ml-8">
+                        {/* Button 3 */}
+                        <button
+                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${Box3Image})` }}
+                            onClick={() => console.log('Button 3 clicked!')}
+                        >
+                            <span className="text-white font-bold text-2xl font-sans">Open Source Club</span>
+                        </button>
 
-            {/* Box 4 in the bottom */}
-            <div
-              className="w-full h-64 mt-6 mr-8 bg-cover bg-center"
-              style={{ backgroundImage: `url(${Box4Image})` }}
-              onClick={() => console.log('Box 4 clicked!')}
-            ></div>
-          </div>
+                        {/* Button 4 */}
+                        <button
+                            className="w-full h-60 bg-cover bg-center"
+                            style={{ backgroundImage: `url(${Box4Image})` }}
+                            onClick={() => console.log('Button 4 clicked!')}
+                        >
+                          
+                            <span className="text-white font-bold text-2xl font-sans">AI Club</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
-    </div>
-  );
+    );
 };
 
 export default Interface;
