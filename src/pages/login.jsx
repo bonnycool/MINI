@@ -1,10 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import Header from '../Components/header';
 import HeaderLogin from '../Components/headerlogin';
-
+import { useNavigate } from 'react-router-dom'; // For navigation
 const Login = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
     const [secondaryTextLineHeight, setSecondaryTextLineHeight] = useState(1.2);
+    const navigate = useNavigate(); // Initialize navigate
 
     useEffect(() => {
         const handleResize = () => {
@@ -165,6 +166,9 @@ const handleLogin = () => {
     // Define what happens when the login button is clicked
     console.log("Login button clicked");
 };
+const handleAdminLoginClick = () => {
+    navigate('/credentials'); // Navigate to the credentials page
+};
 
 
     return (
@@ -188,7 +192,7 @@ const handleLogin = () => {
             {!isMobileScreen && (
                <div style={mergedDesktopButtonsContainerStyle} ><button style={buttonStyle}
                onMouseOver={handleMouseOver}
-               onMouseOut={handleMouseOut}>
+               onMouseOut={handleMouseOut} onClick={handleAdminLoginClick} >
         Admin Login
     </button>
     <button style={buttonStyle}
