@@ -2,7 +2,7 @@ import React from 'react';
 
 const Navbar = ({ isOpen = false }) => {
     return (
-        <div className={`fixed top-0 left-0 h-full w-1/4 bg-gray-700 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
+        <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-700 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
             {/* Navigation links */}
             <ul className="space-y-7">
                 <li>
