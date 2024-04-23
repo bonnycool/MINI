@@ -1,9 +1,8 @@
 import React from 'react';
-import saintgitsLogo from '../Assests/IMAGES/saintgitslogo.png'; // Import the logo image
 
-const Navbar = () => {
+const Navbar = ({ isOpen = false }) => {
     return (
-        <div className="fixed top-0 left-0 h-full w-1/4 bg-gray-600 text-white p-4 flex flex-col justify-between">
+        <div className={`fixed top-0 left-0 h-full w-1/4 bg-gray-700 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
             {/* Navigation links */}
             <ul className="space-y-7">
                 <li>
@@ -23,15 +22,6 @@ const Navbar = () => {
                 </li>
                 {/* Add more navigation links as needed */}
             </ul>
-
-            {/* Logo at the bottom */}
-            <div className="mt-auto">
-                <img
-                    src={saintgitsLogo}
-                    alt="Saintgits Logo"
-                    className="w-124 h-24 mx-auto"
-                />
-            </div>
         </div>
     );
 };
