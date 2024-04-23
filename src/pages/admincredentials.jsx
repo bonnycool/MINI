@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Header from '../Components/header'; // Import the header file
 import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Import the background image
 
-const Credentials = () => {
+const admincredentials = () => {
     // State variables for username and password inputs
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
@@ -23,7 +23,6 @@ const Credentials = () => {
         console.log('Password:', password);
     };
 
-
     return (
         <div
             className="flex flex-col items-center justify-center h-screen bg-cover bg-center"
@@ -40,7 +39,7 @@ const Credentials = () => {
                     <input
                         type="text"
                         id="username"
-                        placeholder="Student Login"
+                        placeholder="Admin Login"
                         className="w-full p-2 rounded bg-white text-black border border-gray-300 text-center"
                         value={username}
                         onChange={handleUsernameChange}
@@ -74,4 +73,4 @@ const Credentials = () => {
     );
 };
 
-export default Credentials;
+export default admincredentials;
