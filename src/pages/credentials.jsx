@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import Header from '../Components/header';
 
 const Credentials = () => {
     // State variables for username and password inputs
@@ -23,6 +24,7 @@ const Credentials = () => {
 
     return (
         <div className="flex flex-col items-center justify-center h-screen bg-gray-100">
+            <Header/>
             <div className="bg-white p-6 rounded shadow-lg">
                 <h2 className="text-2xl mb-4">Login</h2>
                 {/* Username input box */}
