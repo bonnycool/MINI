@@ -1,7 +1,8 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Login from '../pages/login'; // Import the Login component
-import Interface from '../pages/interface';
+import Home from '../pages/home';
+import Homenavbar from './homenavabr';
 import Navbar from './navbar'; // Import the Navbar component
 import Credentials from '../pages/credentials';
 import Admincredentials from '../pages/admincredentials';
@@ -16,11 +17,11 @@ export function RouterPaths() {
 
             {/* Route for the interface page */}
             <Route
-                path="/interface"
+                path="/home"
                 element={
                     <>
-                        <Navbar />
-                        <Interface />
+                        <Homenavbar />
+                        <Home />
                     </>
                 }
             />
