@@ -1,14 +1,12 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from '../pages/login';
+import Login from '../pages/login'; // Import the Login component
 import Interface from '../pages/interface';
-import Navbar from './navbar';
-import Credentials from '../pages/credentials'; // Import the Credentials page
+import Navbar from './navbar'; // Import the Navbar component
+import Credentials from '../pages/credentials';
+import Admincredentials from '../pages/admincredentials'; // Import the Credentials component
 
 export function RouterPaths() {
-    // State to control the visibility of the Navbar
-    const [isOpen, setIsOpen] = useState(false);
-
     return (
         <Routes>
             <Route path="/" element={<Login />} />
@@ -16,15 +14,13 @@ export function RouterPaths() {
                 path="/interface"
                 element={
                     <>
-                        <Navbar isOpen={isOpen} />
+                        <Navbar />
                         <Interface />
                     </>
                 }
             />
-            <Route
-                path="/credentials"
-                element={<Credentials />}
-            />
+            <Route path="/credentials" element={<Credentials />} /> {/* Add the Credentials route */}
+            <Route path="/admincredentials" element={<Admincredentials />} /> {/* Add the Credentials route */}
             {/* Add more routes as needed */}
         </Routes>
     );
