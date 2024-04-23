@@ -23,41 +23,41 @@ const Interface = () => {
                     <div className="flex flex-col mt-10 ml-60 items-center w-1/3">
                         {/* Button 1 */}
                         <button
-                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            className="w-full h-60 mb-4 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box1Image})` }}
                             onClick={() => console.log('Button 1 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Blockchain Club</span>
+                            <span className="text-white font-bold text-2xl">Blockchain Club</span>
                         </button>
 
                         {/* Button 2 */}
                         <button
-                            className="w-full h-60 bg-cover bg-center"
+                            className="w-full h-60 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box2Image})` }}
                             onClick={() => console.log('Button 2 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Cyber Security Club</span>
+                            <span className="text-white font-bold text-2xl">Cyber Security Club</span>
                         </button>
                     </div>
-
+                    
                     {/* Section C (right section with two buttons) */}
                     <div className="flex flex-col mt-10 items-center w-1/3 ml-8">
                         {/* Button 3 */}
                         <button
-                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            className="w-full h-60 mb-4 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box3Image})` }}
                             onClick={() => console.log('Button 3 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Open Source Club</span>
+                            <span className="text-white font-bold text-2xl">Open Source Club</span>
                         </button>
 
                         {/* Button 4 */}
                         <button
-                            className="w-full h-60 bg-cover bg-center"
+                            className="w-full h-60 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box4Image})` }}
                             onClick={() => console.log('Button 4 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">AI Club</span>
+                            <span className="text-white font-bold text-2xl">AI Club</span>
                         </button>
                     </div>
                 </div>
