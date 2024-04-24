@@ -23,20 +23,20 @@ const Interface = () => {
                     <div className="flex flex-col mt-10 ml-60 items-center w-1/3">
                         {/* Button 1 */}
                         <button
-                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            className="w-full h-60 mb-4 bg-cover bg-center relative overflow-hidden"
                             style={{ backgroundImage: `url(${Box1Image})` }}
                             onClick={() => console.log('Button 1 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Blockchain Club</span>
+                            <span className="text-white font-bold text-2xl font-sans absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 bg-black bg-opacity-50 hover:opacity-100 hover:bg-opacity-0">Blockchain Club</span>
                         </button>
 
                         {/* Button 2 */}
                         <button
-                            className="w-full h-60 bg-cover bg-center"
+                            className="w-full h-60 bg-cover bg-center relative overflow-hidden"
                             style={{ backgroundImage: `url(${Box2Image})` }}
                             onClick={() => console.log('Button 2 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Cyber Security Club</span>
+                            <span className="text-white font-bold text-2xl font-sans absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 bg-black bg-opacity-50 hover:opacity-100 hover:bg-opacity-0">Cyber Security Club</span>
                         </button>
                     </div>
 
@@ -44,21 +44,20 @@ const Interface = () => {
                     <div className="flex flex-col mt-10 items-center w-1/3 ml-8">
                         {/* Button 3 */}
                         <button
-                            className="w-full h-60 mb-4 bg-cover bg-center"
+                            className="w-full h-60 mb-4 bg-cover bg-center relative overflow-hidden"
                             style={{ backgroundImage: `url(${Box3Image})` }}
                             onClick={() => console.log('Button 3 clicked!')}
                         >
-                            <span className="text-white font-bold text-2xl font-sans">Open Source Club</span>
+                            <span className="text-white font-bold text-2xl font-sans absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 bg-black bg-opacity-50 hover:opacity-100 hover:bg-opacity-0">Open Source Club</span>
                         </button>
 
                         {/* Button 4 */}
                         <button
-                            className="w-full h-60 bg-cover bg-center"
+                            className="w-full h-60 bg-cover bg-center relative overflow-hidden"
                             style={{ backgroundImage: `url(${Box4Image})` }}
                             onClick={() => console.log('Button 4 clicked!')}
                         >
-                          
-                            <span className="text-white font-bold text-2xl font-sans">AI Club</span>
+                            <span className="text-white font-bold text-2xl font-sans absolute inset-0 flex items-center justify-center opacity-0 transition-opacity duration-300 bg-black bg-opacity-50 hover:opacity-100 hover:bg-opacity-0">AI Club</span>
                         </button>
                     </div>
                 </div>

@@ -1,4 +1,4 @@
-import React,{ useState } from 'react';
+import React, { useState } from 'react';
 import Header from '../Components/header'; // Import the header file
 import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Import the background image
 
@@ -6,6 +6,8 @@ const Credentials = () => {
     // State variables for username and password inputs
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
 
     // Event handlers for input changes
     const handleUsernameChange = (event) => {
@@ -18,11 +20,27 @@ const Credentials = () => {
 
     // Event handler for login button click
     const handleLogin = () => {
+        // Reset error messages
+        setUsernameError('');
+        setPasswordError('');
+
+        // Validate username
+        if (!isValidUsername(username)) {
+            setUsernameError('Use saintgits mail');
+            return;
+        }
+
         // Add login logic here
         console.log('Username:', username);
         console.log('Password:', password);
     };
 
+    // Function to validate username
+    const isValidUsername = (username) => {
+        // Regular expression for validating email address
+        const emailRegex = /^[^\s@]+@saintgits\.org$/;
+        return emailRegex.test(username);
+    };
 
     return (
         <div
@@ -45,6 +63,7 @@ const Credentials = () => {
                         value={username}
                         onChange={handleUsernameChange}
                     />
+                    {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
                 </div>
 
                 {/* Password input box */}

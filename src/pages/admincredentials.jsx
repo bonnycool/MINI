@@ -7,6 +7,10 @@ const Admincredentials = () => {
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
 
+    // State variables for validation errors
+    const [usernameError, setUsernameError] = useState('');
+    const [passwordError, setPasswordError] = useState('');
+
     // Event handlers for input changes
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
@@ -18,9 +22,32 @@ const Admincredentials = () => {
 
     // Event handler for login button click
     const handleLogin = () => {
+        // Reset validation errors
+        setUsernameError('');
+        setPasswordError('');
+
+        // Validate username
+        if (!isValidEmail(username)) {
+            setUsernameError('Use Ssaintgits Mail');
+            return;
+        }
+
+        // Validate password
+        if (password.length < 8) {
+            setPasswordError('Password must be at least 8 characters long');
+            return;
+        }
+
         // Add login logic here
         console.log('Username:', username);
         console.log('Password:', password);
+    };
+
+    // Function to validate email address
+    const isValidEmail = (email) => {
+        // Regular expression for validating email address
+        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        return emailRegex.test(email);
     };
 
     return (
@@ -44,6 +71,7 @@ const Admincredentials = () => {
                         value={username}
                         onChange={handleUsernameChange}
                     />
+                    {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
                 </div>
 
                 {/* Password input box */}
@@ -57,6 +85,7 @@ const Admincredentials = () => {
                         value={password}
                         onChange={handlePasswordChange}
                     />
+                    {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
                 </div>
 
                 {/* Login button */}
