@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { FaSignInAlt } from 'react-icons/fa';
 
 const Headerlogin = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
@@ -12,7 +13,7 @@ const Headerlogin = () => {
         };
 
         window.addEventListener('resize', handleResize);
-        handleResize(); // Check on initial render
+        handleResize(); // Initial check on render
 
         return () => {
             window.removeEventListener('resize', handleResize);
@@ -21,7 +22,7 @@ const Headerlogin = () => {
 
     const handleLogin = () => {
         console.log("Login button clicked");
-        // Handle login functionality or redirect to login page
+        // Handle login logic or redirect to login page
     };
 
     return (
@@ -29,11 +30,12 @@ const Headerlogin = () => {
             className="flex justify-between items-center p-2 text-white"
             style={{
                 backgroundColor: "#fff7ed",
-                position: "fixed",
+                position: "fixed", // Keeps the header in place
                 top: "0",
                 left: "0",
                 right: "0",
                 zIndex: "1000",
+                padding: "0.5em 1em", // Compact padding
             }}
         >
             <div className="flex items-center">
@@ -42,8 +44,7 @@ const Headerlogin = () => {
                     alt="GitsConnect Logo"
                     style={{
                         height: "auto",
-                        maxWidth: `${isMobileScreen ? '9vw' : '10vh'}`,
-                        maxHeight: "100%",
+                        maxWidth: isMobileScreen ? '8vw' : '10vh',
                         marginRight: "10px",
                     }}
                 />
@@ -55,20 +56,18 @@ const Headerlogin = () => {
                         color: "#d1d5db",
                         textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
                         fontSize: isTabletScreen ? "3.5vw" : "3.5vw",
-                        whiteSpace: "nowrap",
                     }}
                 >
                     GITSCONNECT
                 </h1>
             </div>
 
-            {/* Render SaintGits logo only for desktop and tablet */}
+            {/* SaintGits logo for desktop and tablet */}
             {!isMobileScreen && (
                 <div className="flex items-center">
                     <img
                         src="../src/Assests/IMAGES/saintgitslogo.png"
                         alt="SaintGits Logo"
-                        className="mr-2"
                         style={{
                             height: "auto",
                             maxWidth: `${30}vh`,
@@ -78,20 +77,23 @@ const Headerlogin = () => {
                 </div>
             )}
 
-            {/* Add the Login button */}
+            {/* Mobile-specific login button with centered position */}
             {isMobileScreen && (
-                <button
-                    onClick={handleLogin}
-                    className="bg-green-500 text-white rounded-full px-4 py-2"
-                    style={{
-                        position: "absolute",
-                        top: "4px",
-                        right: "10px",
-                        cursor: "pointer",
-                    }}
-                >
-                    Login
-                </button>
+                <div className="flex items-center justify-end flex-1"> 
+                    <button
+                        onClick={handleLogin}
+                        className="bg-green-500 text-white rounded-full p-3"
+                        style={{
+                            position: "relative",
+                            top: "0", // Centers vertically in the header
+                            right: "10px", // Ensures it's on the right side
+                            cursor: "pointer",
+                            padding: "0.5em", // Compact padding
+                        }}
+                    >
+                        <FaSignInAlt size={24} />
+                    </button>
+                </div>
             )}
         </header>
     );
