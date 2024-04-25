@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import Header from '../Components/header';
 import HeaderLogin from '../Components/headerlogin';
 import { useNavigate } from 'react-router-dom'; // For navigation
+
 const Login = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
     const [secondaryTextLineHeight, setSecondaryTextLineHeight] = useState(1.2);

@@ -46,7 +46,7 @@ const Admincredentials = () => {
     // Function to validate email address
     const isValidEmail = (email) => {
         // Regular expression for validating email address
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        const emailRegex = /^[^\s@]+@saintgits\.org$/;
         return emailRegex.test(email);
     };
 

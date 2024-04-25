@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../Components/header'; // Import the Header component
 
+
 const SuperAdmin = () => {
     return (
         <div className="flex h-screen">

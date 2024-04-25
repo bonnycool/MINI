@@ -8,6 +8,14 @@ import Credentials from '../pages/credentials';
 import Admincredentials from '../pages/admincredentials';
 import SuperAdmin from '../pages/superadmin'; // Import the Super Admin component
 import Supernavbar from './supernavbar'; // Import the Supernavbar component
+import Blockchain from '../pages/blockchain';
+import AI from '../pages/aiclub';
+import Opensource from '../pages/opensource';
+import Cyber from '../pages/cybersecurity';
+import AboutUs from '../pages/about';
+import Contact from '../pages/contact';
+
+
 
 export function RouterPaths() {
     return (
