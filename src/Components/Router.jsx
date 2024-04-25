@@ -20,7 +20,7 @@ import BlockchainEvents from '../pages/blockchainevents';
 import AIEvents from '../pages/aievents';
 import OSEvents from '../pages/opensourceevents';
 import CyberEvents from '../pages/cyberevents';
-
+import AdminCalendar from '../pages/admincalendar';
 
 
 export function RouterPaths() {
@@ -56,6 +56,7 @@ export function RouterPaths() {
             <Route path="/aievents" element={<AIEvents />} />
             <Route path="/opensourceevents" element={<OSEvents />} />
             <Route path="/cyberevents" element={<CyberEvents />} />
+            <Route path="/admincalendar" element={<AdminCalendar />} />
 
             {/* Route for the Super Admin page */}
             <Route
