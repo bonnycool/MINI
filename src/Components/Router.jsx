@@ -1,14 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Login from '../pages/login'; // Import the Login component
-import Interface from '../pages/interface';
+import Home from '../pages/home';
+import Homenavbar from './homenavabr';
 import Navbar from './navbar'; // Import the Navbar component
 import Credentials from '../pages/credentials';
 import Admincredentials from '../pages/admincredentials';
 import SuperAdmin from '../pages/superadmin'; // Import the Super Admin component
 import Supernavbar from './supernavbar'; // Import the Supernavbar component
-import Blockchain from '../pages/blockchain';
-
 
 export function RouterPaths() {
     return (
@@ -18,11 +17,11 @@ export function RouterPaths() {
 
             {/* Route for the interface page */}
             <Route
-                path="/interface"
+                path="/home"
                 element={
                     <>
-                        <Navbar />
-                        <Interface />
+                        <Homenavbar />
+                        <Home />
                     </>
                 }
             />
@@ -32,6 +31,12 @@ export function RouterPaths() {
 
             {/* Route for the admin credentials page */}
             <Route path="/admincredentials" element={<Admincredentials />} />
+            <Route path="/blockchain" element={<Blockchain />} />
+            <Route path="/aiclub" element={<AI />} />
+            <Route path="/opensource" element={<Opensource />} />
+            <Route path="/cybersecurity" element={<Cyber />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<AboutUs />} />
 
             {/* Route for the Super Admin page */}
             <Route

@@ -2,13 +2,7 @@ import React from 'react';
 
 const SuperNavbar = ({ isOpen = false }) => {
     return (
-        <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-900 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
-            {/* Branding/logo */}
-            <div className="flex items-center mb-14">
-                <img src="/path/to/logo.png" alt="Logo" className="w-8 h-8 mr-2" />
-                <span className="text-xl font-bold">Your Brand</span>
-            </div>
-            
+        <div className={`fixed top-0 left-0 h-full w-1/4 bg-gray-700 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
             {/* Navigation links */}
             <ul className="space-y-4">
                 <li>
