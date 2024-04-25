@@ -9,6 +9,11 @@ import Admincredentials from '../pages/admincredentials';
 import SuperAdmin from '../pages/superadmin'; // Import the Super Admin component
 import Supernavbar from './supernavbar'; // Import the Supernavbar component
 import Blockchain from '../pages/blockchain';
+import AI from '../pages/aiclub';
+import Opensource from '../pages/opensource';
+import Cyber from '../pages/cybersecurity';
+import AboutUs from '../pages/about';
+import Contact from '../pages/contact';
 
 
 export function RouterPaths() {
@@ -34,6 +39,11 @@ export function RouterPaths() {
             {/* Route for the admin credentials page */}
             <Route path="/admincredentials" element={<Admincredentials />} />
             <Route path="/blockchain" element={<Blockchain />} />
+            <Route path="/aiclub" element={<AI />} />
+            <Route path="/opensource" element={<Opensource />} />
+            <Route path="/cybersecurity" element={<Cyber />} />
+            <Route path="/contact" element={<Contact />} />
+            <Route path="/about" element={<AboutUs />} />
 
             {/* Route for the Super Admin page */}
             <Route
