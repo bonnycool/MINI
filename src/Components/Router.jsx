@@ -14,6 +14,12 @@ import Opensource from '../pages/opensource';
 import Cyber from '../pages/cybersecurity';
 import AboutUs from '../pages/about';
 import Contact from '../pages/contact';
+import ClubCalendar from '../pages/clubcalendar';
+import UpcomingEvents from '../pages/blockchainevents';
+import BlockchainEvents from '../pages/blockchainevents';
+import AIEvents from '../pages/aievents';
+import OSEvents from '../pages/opensourceevents';
+import CyberEvents from '../pages/cyberevents';
 
 
 
@@ -45,6 +51,11 @@ export function RouterPaths() {
             <Route path="/cybersecurity" element={<Cyber />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
+            <Route path="/clubcalendar" element={<ClubCalendar />} />
+            <Route path="/blockchainevents" element={<BlockchainEvents />} />
+            <Route path="/aievents" element={<AIEvents />} />
+            <Route path="/opensourceevents" element={<OSEvents />} />
+            <Route path="/cyberevents" element={<CyberEvents />} />
 
             {/* Route for the Super Admin page */}
             <Route

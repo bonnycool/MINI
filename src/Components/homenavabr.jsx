@@ -14,6 +14,9 @@ const Homenavbar = ({ isOpen = false }) => {
                     <a href="/home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                 </li>
                 <li>
+                    <a href="/clubcalendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
+                </li>
+                <li>
                     <a href="/about" className="block p-2 hover:bg-blue-800 rounded">About</a>
                 </li>
                 <li>

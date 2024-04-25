@@ -27,7 +27,7 @@ const Contact = () => {
                 <Header />
 
                 {/* Contact section */}
-                <div className="container mx-auto px-4 py-8">
+                <div className="container mx-auto px-4 py-8 ml-20">
                     <h1 className="text-3xl font-bold text-gray-800 mb-8">Contact Us</h1>
 
                     {/* Contact cards */}

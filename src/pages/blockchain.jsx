@@ -1,4 +1,5 @@
 import React from 'react';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
 import Navbar from '../Components/navbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 import Box1Image from '../Assests/imagesroni/calendar5.jpg';
@@ -6,8 +7,9 @@ import Box2Image from '../Assests/imagesroni/dl.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
 import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
 
-
 const Blockchain = () => {
+    const navigate = useNavigate(); // Initialize useNavigate
+
     return (
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
@@ -28,7 +30,7 @@ const Blockchain = () => {
                         <button
                             className="h-40 mt-20 bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box3Image})` }}
-                            onClick={() => console.log('Upcoming Events clicked')}
+                            onClick={() => navigate('/blockchainevents')} // Navigate to /blockchain-events
                         >
                             <span className="text-white text-2xl font-bold">Upcoming Events</span>
                         </button>
@@ -55,9 +57,9 @@ const Blockchain = () => {
                         {/* Button C1 */}
                         <button
                             className="h-40 mt-20 bg-purple-500 rounded-md flex items-center justify-center hover:bg-purple-600 transition duration-300"
-                            onClick={() => console.log('Workshop materials clicked')}
+                            onClick={() => console.log('Club materials clicked')}
                         >
-                            <span className="text-white text-2xl font-bold">Workshop materials</span>
+                            <span className="text-white text-2xl font-bold">Club materials</span>
                         </button>
                         {/* Button C2 */}
                         <button
