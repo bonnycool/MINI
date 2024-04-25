@@ -9,6 +9,8 @@ import Admincredentials from '../pages/admincredentials';
 import SuperAdmin from '../pages/superadmin'; // Import the Super Admin component
 import Supernavbar from './supernavbar'; // Import the Supernavbar component
 import Blockchain from '../pages/blockchain';
+import Blockchain from '../pages/blockchain';
+
 
 export function RouterPaths() {
     return (

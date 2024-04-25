@@ -30,12 +30,12 @@ const Header = () => {
     }, []);
 
     return (
-        <header className="flex justify-between items-center p-2 text-white" style={{ backgroundColor: "#fff7ed", height: headerHeight, minHeight: "40px", position: "fixed", top: "0", left: "0", right: "0", zIndex: "1000" }}>
+        <header className="flex justify-between items-center p-2 text-white" style={{ backgroundColor: "#fff7ed", height: headerHeight, minHeight: "40px", position: "fixed", top: "0", left: "0", right: "0", zIndex: "1000", fontFamily: "'Montserrat', sans-serif" }}>
             <div className="flex items-center">
                 <img src="../src/Assests/IMAGES/gitsconnectlogo.jpeg" alt="GitsConnect Logo" className="mr-2" style={{ height: "auto", maxWidth: `${isMobileScreen ? maxGitsConnectLogoMobileWidth + 'vw' : maxGitsConnectLogoWidthVh + 'vh'}`, maxHeight: "100%", marginRight: "10px" }} />
                 {/* Render GitsConnect text */}
                 {!isMobileScreen && (
-                    <h1 className="text-lg font-bold" style={{ color: "#d1d5db", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", fontSize: isTabletScreen ? "3.5vw" : "3.5vw", whiteSpace: "nowrap", marginLeft: isTabletScreen ? "5px" : "0" }}>GITSCONNECT</h1>
+                    <h1 className="text-lg font-bold" style={{ color: "#000", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", fontSize: isTabletScreen ? "3.5vw" : "3.5vw", whiteSpace: "nowrap", marginLeft: isTabletScreen ? "5px" : "0" }}>GITSCONNECT</h1>
                 )}
             </div>
             {/* Render SaintGits logo only for desktop view */}
@@ -46,7 +46,7 @@ const Header = () => {
             )}
             {/* Conditionally render GitsConnect text in the middle for mobile view */}
             {isMobileScreen && (
-                <h1 className="text-2xl font-bold" style={{ color: "#d1d5db", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", whiteSpace: "nowrap", flex: "1", textAlign: "center", marginLeft: "10px" }}>GITSCONNECT</h1>
+                <h1 className="text-2xl font-bold" style={{ color: "#000", textShadow: "1px 1px 2px rgba(0,0,0,0.2)", whiteSpace: "nowrap", flex: "1", textAlign: "center", marginLeft: "10px", fontWeight: "bold" }}>GITSCONNECT</h1>
             )}
         </header>
     );
