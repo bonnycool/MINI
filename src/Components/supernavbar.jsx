@@ -6,9 +6,8 @@ const SuperNavbar = ({ isOpen = false }) => {
             {/* Branding/logo */}
             <div className="flex items-center mb-14">
                 <img src="/path/to/logo.png" alt="Logo" className="w-8 h-8 mr-2" />
-                <span className="text-xl font-bold">Your Brand</span>
+                <span className="text-xl font-bold">GITSCONNECT</span>
             </div>
-            
             {/* Navigation links */}
             <ul className="space-y-4">
                 <li>

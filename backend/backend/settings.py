@@ -20,7 +20,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-792df*kyby_snns+(yvm9*evwm%rh*+2fznc#inr_7@7v27l=='
+SECRET_KEY = 'django-insecure-c-z13h5mi%#a0q%!l7nh@rcj2!yzf&5v24b-)8fg!&%*nz+yzk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -37,7 +37,9 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'student_login',
+    'accounts',
+    'corsheaders',  # Add this to installed apps
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -48,6 +50,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',  # Add this to middleware
+    'django.middleware.common.CommonMiddleware',
 ]
 
 ROOT_URLCONF = 'backend.urls'
@@ -76,8 +80,12 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+         'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
+        'NAME': 'gitsconnect',  # Replace with your MySQL database name
+        'USER': 'root',  # MySQL username
+        'PASSWORD': 'T#9758@qlph',  # MySQL password
+        'HOST': 'localhost',  # Usually 'localhost'
+        'PORT': '3306',  # Default MySQL port
     }
 }
 
@@ -122,3 +130,17 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+DEBUG = True  # Enable debug mode to see detailed error information
+
+# In settings.py
+REST_FRAMEWORK = {
+    'DEFAULT_RENDERER_CLASSES': (
+        'rest_framework.renderers.JSONRenderer',  # Ensure JSONRenderer is the default
+    ),
+}
+
+CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for development)
+
+CORS_ALLOWED_ORIGINS = [
+     "http://localhost:1573",  # Allow frontend running on this domain/port
+]
