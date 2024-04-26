@@ -7,7 +7,7 @@ import Box2Image from '../Assests/imagesroni/dl.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
 import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
 
-const AdminBlockchain = () => {
+const AdminAI = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     return (
@@ -30,7 +30,7 @@ const AdminBlockchain = () => {
                         <button
                             className="h-40 mt-20 bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box3Image})` }}
-                            onClick={() => navigate('/admin-blockchain-events')} // Navigate to /blockchain-events
+                            onClick={() => navigate('/admin-ai-events')} // Navigate to /blockchain-events
                         >
                             <span className="text-white text-2xl font-bold">Upcoming Events</span>
                         </button>
@@ -46,7 +46,7 @@ const AdminBlockchain = () => {
                         <button
                             className="h-40 bg-red-500 rounded-md flex items-center justify-center hover:bg-red-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box4Image})` }}
-                            onClick={() => navigate('/admin-blockchain-rules')}
+                            onClick={() => navigate('/admin-ai-rules')}
                         >
                             <span className="text-white text-2xl font-bold">Rules and Regulations</span>
                         </button>
@@ -57,7 +57,7 @@ const AdminBlockchain = () => {
                         {/* Button C1 */}
                         <button
                             className="h-40 mt-20 bg-purple-500 rounded-md flex items-center justify-center hover:bg-purple-600 transition duration-300"
-                            onClick={() => navigate('/admin-blockchain-club-materials')}
+                            onClick={() => navigate('/admin-ai-club-materials')}
                         >
                             <span className="text-white text-2xl font-bold">Club materials</span>
                         </button>
@@ -72,7 +72,7 @@ const AdminBlockchain = () => {
                         {/* Button C3 */}
                         <button
                             className="h-40 bg-yellow-500 rounded-md flex items-center justify-center hover:bg-yellow-600 transition duration-300"
-                            onClick={() => navigate('/admin-blockchain-support')}
+                            onClick={() => navigate('/admin-ai-support')}
                         >
                             <span className="text-white text-2xl font-bold">Support</span>
                         </button>
@@ -83,4 +83,4 @@ const AdminBlockchain = () => {
     );
 };
 
-export default AdminBlockchain;
+export default AdminAI;

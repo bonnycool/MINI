@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
-const AdminBlockchainEvents = () => {
+const AdminCyberEvents = () => {
     // State to manage events data
     const [events, setEvents] = useState([
         {
@@ -179,4 +179,4 @@ const AdminBlockchainEvents = () => {
     );
 };
 
-export default AdminBlockchainEvents;
+export default AdminCyberEvents;
