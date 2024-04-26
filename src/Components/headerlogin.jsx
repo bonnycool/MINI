@@ -60,7 +60,8 @@ const HeaderLogin = () => {
                     alt="GitsConnect Logo"
                     style={{
                         height: "auto",
-                        maxWidth: isMobileScreen ? '8vw' : '10vh',
+                        maxWidth: `${isMobileScreen ? '9vw' : '10vh'}`,
+                        maxHeight: "100%",
                         marginRight: "10px",
                     }}
                 />
@@ -77,6 +78,20 @@ const HeaderLogin = () => {
                     GITSCONNECT
                 </h1>
             </div>
+              {/* Render SaintGits logo only for desktop and tablet */}
+              {!isMobileScreen && (
+                <div className="flex items-center">
+                    <img
+                        src="../src/Assests/IMAGES/saintgitslogo.png"
+                        alt="SaintGits Logo"
+                        className="mr-2"
+                        style={{
+                            height: "auto",
+                            maxWidth: `${30}vh`,
+                            maxHeight: "100%",
+                        }}
+                    />
+                </div>)}
 
             {/* Dropdown for Admin and User Login on Mobile */}
             {isMobileScreen && (

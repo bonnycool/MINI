@@ -9,3 +9,11 @@ class UserCredentials(models.Model):
 
     def __str__(self):
         return self.username  # Display name for the model
+    
+# New model for admin credentials
+class AdminCredentials(models.Model):
+    admin_username = models.CharField(max_length=100, unique=True)  # Unique admin username
+    admin_password = models.CharField(max_length=100)  # Admin password
+
+    def __str__(self):
+        return self.admin_username

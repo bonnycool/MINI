@@ -3,7 +3,7 @@ from django.http import JsonResponse
 from .models import UserCredentials  # Ensure this import works
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
-
+from .models import AdminCredentials  # Import the new model
 # Define the create_user function
 def create_user(request):
     # Example logic to create a user
@@ -26,3 +26,17 @@ def login_view(request):
         return JsonResponse({"message": "Login successful"}, status=200)
     except UserCredentials.DoesNotExist:
         return JsonResponse({"message": "Invalid credentials"}, status=401)
+
+
+@api_view(['POST'])
+def admin_login(request):
+    # Retrieve the username and password from the POST request data
+    admin_username = request.data.get('admin_username')
+    admin_password = request.data.get('admin_password')
+
+    # Check if the credentials are correct
+    try:
+        admin = AdminCredentials.objects.get(admin_username=admin_username, admin_password=admin_password)
+        return JsonResponse({"message": "Admin login successful"}, status=200)  # Success response
+    except AdminCredentials.DoesNotExist:
+        return JsonResponse({"message": "Invalid admin credentials"}, status=401)  # Error response
