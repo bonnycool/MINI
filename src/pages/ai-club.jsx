@@ -7,7 +7,7 @@ import Box2Image from '../Assests/imagesroni/dl.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
 import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
 
-const Opensource = () => {
+const AI = () => {
     const navigate = useNavigate(); // Initialize useNavigate
 
     return (
@@ -30,7 +30,7 @@ const Opensource = () => {
                         <button
                             className="h-40 mt-20 bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box3Image})` }}
-                            onClick={() => navigate('/opensource-events')} // Navigate to /ai-events
+                            onClick={() => navigate('/ai-events')} // Navigate to /ai-events
                         >
                             <span className="text-white text-2xl font-bold">Upcoming Events</span>
                         </button>
@@ -38,7 +38,7 @@ const Opensource = () => {
                         <button
                             className="h-40 bg-green-500 rounded-md flex items-center justify-center hover:bg-green-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box1Image})` }}
-                            onClick={() => console.log('E-Certificate clicked')}
+                            onClick={() => console.log('E-Certificate')}
                         >
                             <span className="text-white text-2xl font-bold">E-Certificate</span>
                         </button>
@@ -46,7 +46,8 @@ const Opensource = () => {
                         <button
                             className="h-40 bg-red-500 rounded-md flex items-center justify-center hover:bg-red-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box4Image})` }}
-                            onClick={() => navigate ('/opensource-rules')} >
+                            onClick={() => navigate('/ai-rules')}
+                        >
                             <span className="text-white text-2xl font-bold">Rules and Regulations</span>
                         </button>
                     </div>
@@ -56,7 +57,7 @@ const Opensource = () => {
                         {/* Button C1 */}
                         <button
                             className="h-40 mt-20 bg-purple-500 rounded-md flex items-center justify-center hover:bg-purple-600 transition duration-300"
-                            onClick={() => navigate ('/opensource-club-materials')}
+                            onClick={() => navigate ('/ai-club-materials')}
                         >
                             <span className="text-white text-2xl font-bold">Club Materials</span>
                         </button>
@@ -71,7 +72,7 @@ const Opensource = () => {
                         {/* Button C3 */}
                         <button
                             className="h-40 bg-yellow-500 rounded-md flex items-center justify-center hover:bg-yellow-600 transition duration-300"
-                            onClick={() => navigate('/opensource-support')}
+                            onClick={() => navigate('/ai-support')}
                         >
                             <span className="text-white text-2xl font-bold">Support</span>
                         </button>
@@ -82,4 +83,4 @@ const Opensource = () => {
     );
 };
 
-export default Opensource;
+export default AI;

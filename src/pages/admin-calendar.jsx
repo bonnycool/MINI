@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import 'react-calendar/dist/Calendar.css'; // Import the CSS for react-calendar
 import Calendar from 'react-calendar'; // Import the Calendar component
-import Homenavbar from '../Components/homenavabr'; // Import the navbar component
+import AdminNavbar from '../Components/adminnavbar'; // Import the navbar component
 import Header from '../Components/header'; // Import the header component
 
-const ClubCalendar = () => {
+const AdminCalendar = () => {
     // State to manage the current club and its events
     const [currentClub, setCurrentClub] = useState('Blockchain');
     const [events, setEvents] = useState({
@@ -103,7 +103,7 @@ const ClubCalendar = () => {
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
             <div className="w-1/5">
-                <Homenavbar />
+                <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
@@ -226,4 +226,4 @@ const ClubCalendar = () => {
     );
 };
 
-export default ClubCalendar;
+export default AdminCalendar;
