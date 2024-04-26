@@ -30,7 +30,7 @@ const Blockchain = () => {
                         <button
                             className="h-40 mt-20 bg-blue-500 rounded-md flex items-center justify-center hover:bg-blue-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box3Image})` }}
-                            onClick={() => navigate('/blockchainevents')} // Navigate to /blockchain-events
+                            onClick={() => navigate('/blockchain-events')} // Navigate to /blockchain-events
                         >
                             <span className="text-white text-2xl font-bold">Upcoming Events</span>
                         </button>
@@ -38,17 +38,17 @@ const Blockchain = () => {
                         <button
                             className="h-40 bg-green-500 rounded-md flex items-center justify-center hover:bg-green-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box1Image})` }}
-                            onClick={() => console.log('Calendar clicked')}
+                            onClick={() => console.log('E-Certificate clicked')}
                         >
-                            <span className="text-white text-2xl font-bold">Calendar</span>
+                            <span className="text-white text-2xl font-bold">E-Certificate</span>
                         </button>
                         {/* Button B3 */}
                         <button
                             className="h-40 bg-red-500 rounded-md flex items-center justify-center hover:bg-red-600 transition duration-300"
                             style={{ backgroundImage: `url(${Box4Image})` }}
-                            onClick={() => console.log('E-certificates clicked')}
+                            onClick={() => navigate('/blockchain-rules')}
                         >
-                            <span className="text-white text-2xl font-bold">E-Certificates</span>
+                            <span className="text-white text-2xl font-bold">Rules and Regulations</span>
                         </button>
                     </div>
 
@@ -57,7 +57,7 @@ const Blockchain = () => {
                         {/* Button C1 */}
                         <button
                             className="h-40 mt-20 bg-purple-500 rounded-md flex items-center justify-center hover:bg-purple-600 transition duration-300"
-                            onClick={() => console.log('Club materials clicked')}
+                            onClick={() => navigate('/blockchain-club-materials')}
                         >
                             <span className="text-white text-2xl font-bold">Club materials</span>
                         </button>
@@ -72,7 +72,7 @@ const Blockchain = () => {
                         {/* Button C3 */}
                         <button
                             className="h-40 bg-yellow-500 rounded-md flex items-center justify-center hover:bg-yellow-600 transition duration-300"
-                            onClick={() => console.log('Support clicked')}
+                            onClick={() => navigate('/blockchain-support')}
                         >
                             <span className="text-white text-2xl font-bold">Support</span>
                         </button>

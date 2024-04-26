@@ -5,24 +5,45 @@ import Home from '../pages/home';
 import Homenavbar from './homenavabr';
 import Navbar from './navbar'; // Import the Navbar component
 import Credentials from '../pages/credentials';
-import Admincredentials from '../pages/admincredentials';
-import SuperAdmin from '../pages/superadmin'; // Import the Super Admin component
+import Admincredentials from '../pages/admin-credentials';
+import SuperAdmin from '../pages/super-admin'; // Import the Super Admin component
 import Supernavbar from './supernavbar'; // Import the Supernavbar component
 import Blockchain from '../pages/blockchain';
-import AI from '../pages/aiclub';
+import AI from '../pages/ai-club';
 import Opensource from '../pages/opensource';
-import Cyber from '../pages/cybersecurity';
+import Cyber from '../pages/cyber-security';
 import AboutUs from '../pages/about';
 import Contact from '../pages/contact';
-import ClubCalendar from '../pages/clubcalendar';
-import UpcomingEvents from '../pages/blockchainevents';
-import BlockchainEvents from '../pages/blockchainevents';
-import AIEvents from '../pages/aievents';
-import OSEvents from '../pages/opensourceevents';
-import CyberEvents from '../pages/cyberevents';
-import Dutyleave from '../pages/dutyleave';
-import AdminCalendar from '../pages/admincalendar';
-import AdminDutyLeave from '../pages/admindutyleave';
+import ClubCalendar from '../pages/club-calendar';
+import UpcomingEvents from '../pages/blockchain-events';
+import BlockchainEvents from '../pages/blockchain-events';
+import AIEvents from '../pages/ai-events';
+import OSEvents from '../pages/opensource-events';
+import CyberEvents from '../pages/cyber-events';
+import Dutyleave from '../pages/duty-leave';
+import AdminCalendar from '../pages/admin-calendar';
+import AdminDutyLeave from '../pages/admin-duty-leave';
+import AdminBlockchain from '../pages/admin-blockchain';
+import AdminHome from '../pages/admin-home';
+import AdminNavbar from './adminnavbar';
+import AdminAboutUs from '../pages/admin-about';
+import BlockchainClubMaterials from '../pages/blockchain-club-materials';
+import AdminBlockchainEvents from '../pages/admin-blockchain-events';
+import BlockchainClubRules from '../pages/blockchain-rules';
+import OpenSourceClubRules from '../pages/opensource-rules';
+import AIClubRules from '../pages/ai-rules';
+import CyberClubRules from '../pages/cyber-rules';
+import AdminBlockchainClubMaterials from '../pages/admin-blockchain-club-materials';
+import CyberClubMaterials from '../pages/cyber-club-materials';
+import OpensourceClubMaterials from '../pages/opensource-club-materials';
+import AIClubMaterials from '../pages/ai-club-materials';
+import CybersecurityClubContact from '../pages/cyber-support';
+import AIClubContactInfo from '../pages/ai-support';
+import OpenSourceClubContact from '../pages/opensource-support';
+import BlockchainClubContact from '../pages/blockchain-support';
+
+
+
 
 export function RouterPaths() {
     return (
@@ -40,6 +61,15 @@ export function RouterPaths() {
                     </>
                 }
             />
+            <Route
+                path="/admin-home"
+                element={
+                    <>
+                        <AdminNavbar />
+                        <AdminHome />
+                    </>
+                }
+            />
 
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
@@ -52,14 +82,33 @@ export function RouterPaths() {
             <Route path="/cybersecurity" element={<Cyber />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/about" element={<AboutUs />} />
-            <Route path="/clubcalendar" element={<ClubCalendar />} />
-            <Route path="/blockchainevents" element={<BlockchainEvents />} />
-            <Route path="/aievents" element={<AIEvents />} />
-            <Route path="/opensourceevents" element={<OSEvents />} />
-            <Route path="/cyberevents" element={<CyberEvents />} />
-            <Route path-l="/admincalendar" element={<AdminCalendar />} />
-            <Route path="/dutyleave" element={<Dutyleave />} />
-            <Route path="/admindutyleave" element={<AdminDutyLeave />} />
+            <Route path="/club-calendar" element={<ClubCalendar />} />
+            <Route path="/blockchain-events" element={<BlockchainEvents />} />
+            <Route path="/ai-events" element={<AIEvents />} />
+            <Route path="/opensource-events" element={<OSEvents />} />
+            <Route path="/cyber-events" element={<CyberEvents />} />
+            <Route path="/admin-calendar" element={<AdminCalendar />} />
+            <Route path="/duty-leave" element={<Dutyleave />} />
+            <Route path="/admin-duty-leave" element={<AdminDutyLeave />} />
+            <Route path="/admin-blockchain" element={<AdminBlockchain />} />
+            <Route path="/admin-about" element={<AdminAboutUs />} />
+            <Route path="/admin-blockchain-events" element={<AdminBlockchainEvents />} />
+            <Route path="/blockchain-club-materials" element={<BlockchainClubMaterials />} />
+            <Route path="/admin-blockchain-club-materials" element={<AdminBlockchainClubMaterials />} />
+            <Route path="/ai-rules" element={<AIClubRules />} />
+            <Route path="/blockchain-rules" element={<BlockchainClubRules />} />
+            <Route path="/opensource-rules" element={<OpenSourceClubRules />} />
+            <Route path="/cyber-rules" element={<CyberClubRules />} />
+            <Route path="/cyber-club-materials" element={<CyberClubMaterials />} />
+            <Route path="/ai-club-materials" element={<AIClubMaterials />} />
+            <Route path="/opensource-club-materials" element={<OpensourceClubMaterials />} />
+            <Route path="/cyber-support" element={<CybersecurityClubContact />} />
+            <Route path="/ai-support" element={<AIClubContactInfo />} />
+            <Route path="/blockchain-support" element={<BlockchainClubContact />} />
+            <Route path="/opensource-support" element={<OpenSourceClubContact />} />
+
+
+
             {/* Route for the Super Admin page */}
             <Route
                 path="/superadmin"

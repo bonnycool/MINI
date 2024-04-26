@@ -15,7 +15,10 @@ const Navbar = ({ isOpen = false }) => {
                     <a href="home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                 </li>
                 <li>
-                    <a href="/clubcalendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
+                    <a href="/club-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
+                </li>
+                <li>
+                    <a href="/duty-leave" className="block p-2 hover:bg-blue-800 rounded">Duty Leave</a>
                 </li>
                 <li>
                     <a href="/about" className="block p-2 hover:bg-blue-800 rounded">About</a>

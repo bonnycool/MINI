@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import Navbar from '../Components/navbar'; // Import the Navbar component
+import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
 const AdminDutyLeave = () => {
@@ -87,7 +87,7 @@ const AdminDutyLeave = () => {
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
             <div className="w-1/5 h-full">
-                <Navbar />
+                <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
