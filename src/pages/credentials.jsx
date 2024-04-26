@@ -9,42 +9,39 @@ const Credentials = () => {
   const [password, setPassword] = useState('');
   const [usernameError, setUsernameError] = useState('');
   const [passwordError, setPasswordError] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const [loginError, setLoginError] = useState(''); // Error message for invalid login
 
   const navigate = useNavigate(); // Hook to navigate to different routes
-
-  const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
-  };
-
-  const handlePasswordChange = (event) => {
-    setPassword(event.target.value);
-  };
 
   const handleLogin = () => {
     setUsernameError('');
     setPasswordError('');
-    setLoginError('');
+    setLoginError(''); // Clear existing error messages
 
     if (!isValidUsername(username)) {
-      setUsernameError('Use saintgits mail');
+      setUsernameError('Use a valid saintgits email'); // Set error for invalid username
       return;
     }
 
+    // Send POST request to verify login
     axios.post('http://127.0.0.1:8000/api/login/', { username, password })
       .then((response) => {
         if (response.status === 200) {
-          navigate('/home');  // Navigate to home page on successful login
+          navigate('/home');  // Successful login, navigate to home page
         }
       })
       .catch((error) => {
-        setLoginError('Invalid login credentials');  // Show error on failed login
+        // Display error message for failed login
+        if (error.response && error.response.status === 401) {
+          setLoginError('Invalid login credentials'); // Show "Invalid credentials" message
+        } else {
+          setLoginError('An unexpected error occurred. Please try again later.'); // General error handling
+        }
       });
-
   };
 
   const isValidUsername = (username) => {
-    const emailRegex = /^[^\s@]+@saintgits\.org$/;
+    const emailRegex = /^[^\s@]+@saintgits\.org$/; // Ensure valid email format
     return emailRegex.test(username);
   };
 
@@ -59,33 +56,37 @@ const Credentials = () => {
           <label htmlFor="username" className="block text-white mb-1">Username:</label>
           <input
             type="text"
-            id="username"
             placeholder="Student Login"
-            className="w-full p-2 rounded bg-white text-black border border-gray-300 text-center"
             value={username}
-            onChange={(e) => setUsername(e.target.value)}
+            onChange={(e) => {
+              setUsername(e.target.value); // Update username
+              setUsernameError(''); // Clear previous username error
+            }}
+            className="w-full p-2 rounded bg-white text-black border border-gray-300 text-center"
           />
-          {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
+          {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}  
         </div>
         <div className="mb-4 w-1/2">
           <label htmlFor="password" className="block text-white mb-1">Password:</label>
           <input
             type="password"
-            id="password"
             placeholder="Password"
-            className="w-full p-2 rounded bg-white text-black border border-gray-300 text-center"
             value={password}
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={(e) => {
+              setPassword(e.target.value); // Update password
+              setPasswordError(''); // Clear previous password error
+            }}
+            className="w-full p-2 rounded bg-white text-black border border-gray-300 text-center"
           />
-          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
         </div>
         <div className="text-center w-1/4">
           <button
             className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600"
-            onClick={handleLogin}
+            onClick={handleLogin}  // Trigger login
           >
             Login
           </button>
+          {loginError && <p className="text-red-500 text-sm">{loginError}</p>} 
         </div>
       </div>
     </div>
