@@ -2,11 +2,11 @@ import React, { useState } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
-const AdminBlockchainClubMaterials = () => {
+const AdminCyberClubMaterials = () => {
     // State to manage events data with references and links
     const [events, setEvents] = useState([
         {
-            title: 'Blockchain Workshop',
+            title: 'CyberSecurity Workshop',
             references: [
                 {
                     title: 'Reference 1',
@@ -20,7 +20,7 @@ const AdminBlockchainClubMaterials = () => {
             ],
         },
         {
-            title: 'AI Symposium',
+            title: 'CyberSecurity Symposium',
             references: [
                 {
                     title: 'Reference A',
@@ -248,4 +248,4 @@ const AdminBlockchainClubMaterials = () => {
     );
 };
 
-export default AdminBlockchainClubMaterials;
+export default AdminCyberClubMaterials;

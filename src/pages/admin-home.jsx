@@ -34,7 +34,7 @@ const AdminHome = () => {
                         <button
                             className="w-full h-60 ml-10 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box2Image})` }}
-                            onClick={() => window.location.href = '/cybersecurity'}
+                            onClick={() => window.location.href = '/admin-cyber'}
                         >
                             <span className="text-white font-bold text-2xl">Cyber Security Club</span>
                         </button>
@@ -46,7 +46,7 @@ const AdminHome = () => {
                         <button
                             className="w-full h-60 mb-10 ml-20 bg-cover bg-center rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box3Image})` }}
-                            onClick={() => window.location.href = '/opensource'}
+                            onClick={() => window.location.href = '/admin-opensource'}
                         >
                             <span className="text-white font-bold text-2xl">Open Source Club</span>
                         </button>
@@ -55,7 +55,7 @@ const AdminHome = () => {
                         <button
                             className="w-full h-60 bg-cover bg-center ml-20 rounded-lg hover:opacity-80"
                             style={{ backgroundImage: `url(${Box4Image})` }}
-                            onClick={() => window.location.href = '/aiclub'}
+                            onClick={() => window.location.href = '/admin-ai'}
                         >
                             <span className="text-white font-bold text-2xl">AI Club</span>
                         </button>
