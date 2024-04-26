@@ -2,18 +2,18 @@ import React, { useState } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
-const AdminBlockchainEvents = () => {
+const AdminAIEvents = () => {
     // State to manage events data
     const [events, setEvents] = useState([
         {
-            title: 'Blockchain Workshop',
+            title: 'AI Workshop',
             date: 'April 10, 2024',
             time: '2:00 PM',
             location: 'Room 101',
             description: 'A workshop on blockchain technology and its applications.',
         },
         {
-            title: 'Blockchain Symposium',
+            title: 'AI Symposium',
             date: 'April 15, 2024',
             time: '10:00 AM',
             location: 'Auditorium',
@@ -179,4 +179,4 @@ const AdminBlockchainEvents = () => {
     );
 };
 
-export default AdminBlockchainEvents;
+export default AdminAIEvents;
