@@ -84,7 +84,7 @@ const Login = () => {
         flexDirection: 'column',
         alignItems: 'center',
         textAlign: 'center',
-        marginTop: isMobileScreen ? '-30rem' : '1.5rem', // Add margin only for mobile screen
+        marginTop: isMobileScreen ? '-25rem' : '1.5rem', // Add margin only for mobile screen
         maxWidth: isMobileScreen ? '100%' : '600px', // Limit the width for desktop version
         wordWrap: 'break-word', // Allow the text to wrap within the container
         lineHeight: isMobileScreen ? '1.5' : '2', // Set line height to ensure three lines of text
