@@ -66,29 +66,29 @@ const ClubCalendar = () => {
                 {/* Content area */}
                 <div className="flex flex-col h-full">
                     {/* Club selection */}
-                    <div className="mb-4 mt-10">
+                    <div className="mb-4 mt-8">
                         <h3 className="text-2xl font-bold mb-2">Select Club:</h3>
                         <button
                             onClick={() => setCurrentClub('Blockchain')}
-                            className={`mr-4 ${currentClub === 'Blockchain' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+                            className={`mr-4 ${currentClub === 'Blockchain' ? 'bg-blue-500 text-white' : 'bg-gray-300'} rounded-md px-4 py-2`}
                         >
                             Blockchain
                         </button>
                         <button
                             onClick={() => setCurrentClub('Cybersecurity')}
-                            className={`mr-4 ${currentClub === 'Cybersecurity' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+                            className={`mr-4 ${currentClub === 'Cybersecurity' ? 'bg-blue-500 text-white' : 'bg-gray-300'} rounded-md px-4 py-2`}
                         >
                             Cybersecurity
                         </button>
                         <button
                             onClick={() => setCurrentClub('Opensource')}
-                            className={`mr-4 ${currentClub === 'Opensource' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+                            className={`mr-4 ${currentClub === 'Opensource' ? 'bg-blue-500 text-white' : 'bg-gray-300'} rounded-md px-4 py-2`}
                         >
                             Opensource
                         </button>
                         <button
                             onClick={() => setCurrentClub('AI')}
-                            className={`mr-4 ${currentClub === 'AI' ? 'bg-blue-500 text-white' : 'bg-gray-300'}`}
+                            className={`mr-4 ${currentClub === 'AI' ? 'bg-blue-500 text-white' : 'bg-gray-300'} rounded-md px-4 py-2`}
                         >
                             AI Club
                         </button>
@@ -100,23 +100,24 @@ const ClubCalendar = () => {
                         <Calendar
                             onChange={handleDateChange}
                             value={selectedDate}
-                            className="w-full h-full"
+                            className="w-full h-full bg-white rounded-lg shadow-md"
                             tileContent={renderTileContent} // Render events on the calendar
                         />
                     </div>
-                      {/* Event description box */}
-                                        <div className="mt-4 p-4 border border-gray-300 rounded-lg">
-                                            <h3 className="text-xl font-bold mb-2">Event Details</h3>
-                                            {selectedEvent ? (
-                                                <>
-                                                    <p><strong>Description:</strong> {selectedEvent.description}</p>
-                                                    <p><strong>Time:</strong> {selectedEvent.time}</p>
-                                                    <p><strong>Conducted By:</strong> {selectedEvent.conductedBy}</p>
-                                                </>
-                                            ) : (
-                                                <p>No event</p>
-                                            )}
-                                        </div>
+                    
+                    {/* Event description box */}
+                    <div className="mt-4 p-4 border border-gray-300 rounded-lg">
+                        <h3 className="text-xl font-bold mb-2">Event Details</h3>
+                        {selectedEvent ? (
+                            <>
+                                <p><strong>Description:</strong> {selectedEvent.description}</p>
+                                <p><strong>Time:</strong> {selectedEvent.time}</p>
+                                <p><strong>Conducted By:</strong> {selectedEvent.conductedBy}</p>
+                            </>
+                        ) : (
+                            <p>No event</p>
+                        )}
+                    </div>
                 </div>
             </div>
         </div>

@@ -15,7 +15,6 @@ import Cyber from '../pages/cyber-security';
 import AboutUs from '../pages/about';
 import Contact from '../pages/contact';
 import ClubCalendar from '../pages/club-calendar';
-import UpcomingEvents from '../pages/blockchain-events';
 import BlockchainEvents from '../pages/blockchain-events';
 import AIEvents from '../pages/ai-events';
 import OSEvents from '../pages/opensource-events';
@@ -41,7 +40,6 @@ import CybersecurityClubContact from '../pages/cyber-support';
 import AIClubContactInfo from '../pages/ai-support';
 import OpenSourceClubContact from '../pages/opensource-support';
 import BlockchainClubContact from '../pages/blockchain-support';
-
 
 
 
@@ -106,6 +104,8 @@ export function RouterPaths() {
             <Route path="/ai-support" element={<AIClubContactInfo />} />
             <Route path="/blockchain-support" element={<BlockchainClubContact />} />
             <Route path="/opensource-support" element={<OpenSourceClubContact />} />
+    
+
 
 
 
