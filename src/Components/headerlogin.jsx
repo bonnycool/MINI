@@ -1,8 +1,13 @@
 import React, { useState, useEffect } from 'react';
+import { FaSignInAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
 
-const Headerlogin = () => {
+const HeaderLogin = () => {
     const [isMobileScreen, setIsMobileScreen] = useState(false);
     const [isTabletScreen, setIsTabletScreen] = useState(false);
+    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
+    const navigate = useNavigate(); // Navigation hook for route changes
 
     useEffect(() => {
         const handleResize = () => {
@@ -12,16 +17,28 @@ const Headerlogin = () => {
         };
 
         window.addEventListener('resize', handleResize);
-        handleResize(); // Check on initial render
+        handleResize(); // Initial check on render
 
         return () => {
             window.removeEventListener('resize', handleResize);
         };
     }, []);
 
-    const handleLogin = () => {
-        console.log("Login button clicked");
-        // Handle login functionality or redirect to login page
+    const handleLoginButtonClick = () => {
+        // Toggle the dropdown visibility
+        setIsDropdownVisible(!isDropdownVisible);
+    };
+
+    const handleAdminLogin = () => {
+        // Navigate to the admin login page
+        navigate('/admincredentials');
+        setIsDropdownVisible(false); // Hide the dropdown after click
+    };
+
+    const handleUserLogin = () => {
+        // Navigate to the user login page
+        navigate('/credentials');
+        setIsDropdownVisible(false); // Hide the dropdown after click
     };
 
     return (
@@ -34,6 +51,7 @@ const Headerlogin = () => {
                 left: "0",
                 right: "0",
                 zIndex: "1000",
+                padding: "0.5em 1em", // Compact padding
             }}
         >
             <div className="flex items-center">
@@ -55,15 +73,13 @@ const Headerlogin = () => {
                         color: "#d1d5db",
                         textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
                         fontSize: isTabletScreen ? "3.5vw" : "3.5vw",
-                        whiteSpace: "nowrap",
                     }}
                 >
                     GITSCONNECT
                 </h1>
             </div>
-
-            {/* Render SaintGits logo only for desktop and tablet */}
-            {!isMobileScreen && (
+              {/* Render SaintGits logo only for desktop and tablet */}
+              {!isMobileScreen && (
                 <div className="flex items-center">
                     <img
                         src="../src/Assests/IMAGES/saintgitslogo.png"
@@ -75,26 +91,60 @@ const Headerlogin = () => {
                             maxHeight: "100%",
                         }}
                     />
-                </div>
-            )}
+                </div>)}
 
-            {/* Add the Login button */}
+            {/* Dropdown for Admin and User Login on Mobile */}
             {isMobileScreen && (
-                <button
-                    onClick={handleLogin}
-                    className="bg-green-500 text-white rounded-full px-4 py-2"
-                    style={{
-                        position: "absolute",
-                        top: "4px",
-                        right: "10px",
-                        cursor: "pointer",
-                    }}
-                >
-                    Login
-                </button>
+                <div className="flex items-center justify-end flex-1">
+                    <button
+                        onClick={handleLoginButtonClick}
+                        className="bg-green-500 text-white rounded-full p-3"
+                        style={{
+                            position: "relative",
+                            top: "0",
+                            right: "10px",
+                            cursor: "pointer",
+                            padding: "0.5em",
+                        }}
+                    >
+                        <FaSignInAlt size={24} />
+                    </button>
+
+                    {/* Dropdown menu with login options */}
+                    {isDropdownVisible && (
+                        <div
+                            style={{
+                                position: 'absolute',
+                                top: '100%', // Position below the button
+                                right: '10px', // Right-aligned with some margin
+                                backgroundColor: 'black',
+                                borderRadius: '10px',
+                                boxShadow: '0 2px 10px rgba(0, 0, 0, 0.1)', // Light shadow
+                                padding: '10px', // Padding for menu
+                            }}
+                        >
+                            <div>
+                                <button
+                                    style={{ padding: '10px', cursor: 'pointer' }}
+                                    onClick={handleAdminLogin}
+                                >
+                                    Admin Login
+                                </button>
+                            </div>
+                            <div>
+                                <button
+                                    style={{ padding: '10px', cursor: 'pointer' }}
+                                    onClick={handleUserLogin}
+                                >
+                                    User Login
+                                </button>
+                            </div>
+                        </div>
+                    )}
+                </div>
             )}
         </header>
     );
 };
 
-export default Headerlogin;
+export default HeaderLogin;

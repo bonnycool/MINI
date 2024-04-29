@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
-const AdminBlockchainClubMaterials = () => {
+const AdminOpensourceClubMaterials = () => {
     // State to manage events data with references and links
     const [events, setEvents] = useState([
         {
@@ -248,4 +248,4 @@ const AdminBlockchainClubMaterials = () => {
     );
 };
 
-export default AdminBlockchainClubMaterials;
+export default AdminOpensourceClubMaterials;

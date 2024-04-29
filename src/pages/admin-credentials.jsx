@@ -1,17 +1,18 @@
 import React, { useState } from 'react';
+import axios from 'axios'; // Import Axios
+import { useNavigate } from 'react-router-dom'; // For navigation
 import Header from '../Components/header'; // Import the header file
-import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Import the background image
+import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Background image
 
 const Admincredentials = () => {
-    // State variables for username and password inputs
     const [username, setUsername] = useState('');
     const [password, setPassword] = useState('');
-
-    // State variables for validation errors
     const [usernameError, setUsernameError] = useState('');
     const [passwordError, setPasswordError] = useState('');
+    const [loginError, setLoginError] = useState(''); // State to store login errors
 
-    // Event handlers for input changes
+    const navigate = useNavigate(); // For navigation
+
     const handleUsernameChange = (event) => {
         setUsername(event.target.value);
     };
@@ -20,34 +21,46 @@ const Admincredentials = () => {
         setPassword(event.target.value);
     };
 
-    // Event handler for login button click
-    const handleLogin = () => {
-        // Reset validation errors
-        setUsernameError('');
-        setPasswordError('');
-
-        // Validate username
-        if (!isValidEmail(username)) {
-            setUsernameError('Use Ssaintgits Mail');
-            return;
-        }
-
-        // Validate password
-        if (password.length < 8) {
-            setPasswordError('Password must be at least 8 characters long');
-            return;
-        }
-
-        // Add login logic here
-        console.log('Username:', username);
-        console.log('Password:', password);
+    const isValidEmail = (email) => {
+        const emailRegex = /^[^\s@]+@saintgits\.org$/; // Saintgits email validation
+        return emailRegex.test(email);
     };
 
-    // Function to validate email address
-    const isValidEmail = (email) => {
-        // Regular expression for validating email address
-        const emailRegex = /^[^\s@]+@saintgits\.org$/;
-        return emailRegex.test(email);
+    const handleLogin = async () => {
+        setUsernameError('');
+        setPasswordError('');
+        setLoginError('');
+
+        if (!isValidEmail(username)) {
+            setUsernameError('Please use a Saintgits email.');
+            return;
+        }
+
+        if (password.length < 8) {
+            setPasswordError('Password must be at least 8 characters long.');
+            return;
+        }
+
+        try {
+            // Make a POST request to your backend login endpoint
+            const response = await axios.post(
+                'http://127.0.0.1:8000/api/admin-login/',
+                {
+                    admin_username: username,
+                    admin_password: password,
+                }
+            );
+
+            if (response.status === 200) {
+                navigate('/admin-home'); // Navigate to admin home page
+            }
+        } catch (error) {
+            if (error.response && error.response.status === 401) {
+                setLoginError('Invalid login credentials.');
+            } else {
+                setLoginError('An unexpected error occurred.');
+            }
+        }
     };
 
     return (
@@ -55,14 +68,14 @@ const Admincredentials = () => {
             className="flex flex-col items-center justify-center h-screen bg-cover bg-center"
             style={{ backgroundImage: `url(${backgroundImage})` }}
         >
-            {/* Add Header */}
             <Header />
 
-            {/* Form container */}
             <div className="flex flex-col items-center justify-center w-1/2">
                 {/* Username input box */}
                 <div className="mb-4 w-1/2">
-                    <label htmlFor="username" className="block text-white mb-1">Username:</label>
+                    <label htmlFor="username" className="block text-white mb-1">
+                        Username:
+                    </label>
                     <input
                         type="text"
                         id="username"
@@ -71,12 +84,14 @@ const Admincredentials = () => {
                         value={username}
                         onChange={handleUsernameChange}
                     />
-                    {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
+                    {usernameError && <p className="text-red-500">{usernameError}</p>}
                 </div>
 
                 {/* Password input box */}
-                <div className="mb-4 w-1/2">
-                    <label htmlFor="password" className="block text-white mb-1">Password:</label>
+                <div class="mb-4 w-1/2">
+                    <label htmlFor="password" className="block text-white mb-1">
+                        Password:
+                    </label>
                     <input
                         type="password"
                         id="password"
@@ -85,7 +100,7 @@ const Admincredentials = () => {
                         value={password}
                         onChange={handlePasswordChange}
                     />
-                    {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}
+                    {passwordError && <p className="text-red-500">{passwordError}</p>}
                 </div>
 
                 {/* Login button */}
@@ -97,6 +112,9 @@ const Admincredentials = () => {
                         Login
                     </button>
                 </div>
+
+                {/* Display login error */}
+                {loginError && <p className="text-red-500">{loginError}</p>}
             </div>
         </div>
     );

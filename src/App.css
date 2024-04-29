@@ -28,9 +28,18 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
+    
   }
-   
-
+  .input-box {
+    width: 50px; /* Reduce the width for mobile screens */
+    padding: 6px; /* Adjust padding for smaller screens */
+    font-size: 0.875rem; /* Smaller font size for mobile */
+  }
+  .button {
+    width: 50%; /* Full-width button for mobile screens */
+    padding: 8px; /* Adjust padding for buttons */
+  }
   .flex > div {
     margin-bottom: 10px; /* Add space between logo and title on smaller screens */
   }

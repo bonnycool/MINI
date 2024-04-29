@@ -43,6 +43,7 @@ import BlockchainClubContact from '../pages/blockchain-support';
 
 
 
+
 export function RouterPaths() {
     return (
         <Routes>
@@ -104,8 +105,6 @@ export function RouterPaths() {
             <Route path="/ai-support" element={<AIClubContactInfo />} />
             <Route path="/blockchain-support" element={<BlockchainClubContact />} />
             <Route path="/opensource-support" element={<OpenSourceClubContact />} />
-    
-
 
 
 
