@@ -6,6 +6,7 @@ import Box2Image from '../Assests/imagesroni/bonny.jpg';
 import Box3Image from '../Assests/imagesroni/christopher.jpg';
 import Box4Image from '../Assests/imagesroni/alon.jpg';
 
+
 const AdminAboutUs = () => {
     const [isLoaded, setIsLoaded] = useState(false);
 
