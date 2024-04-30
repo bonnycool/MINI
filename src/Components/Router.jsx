@@ -40,9 +40,23 @@ import CybersecurityClubContact from '../pages/cyber-support';
 import AIClubContactInfo from '../pages/ai-support';
 import OpenSourceClubContact from '../pages/opensource-support';
 import BlockchainClubContact from '../pages/blockchain-support';
-
-
-
+import AdminAIClubContactInfo from '../pages/admin-ai-support';
+import AdminBlockchainClubContact from '../pages/admin-blockchain-support';
+import AdminCybersecurityClubContact from '../pages/admin-cyber-support';
+import AdminOpenSourceClubContact from '../pages/admin-opensource-support';
+import AdminOpensourceClubMaterials from '../pages/admin-opensource-club-materials';
+import AdminOpensource from '../pages/admin-opensource';
+import AdminOpensourceEvents from '../pages/admin-opensource-events';
+import AdminOpenSourceClubRules from '../pages/admin-opensource-rules';
+import AdminBlockchainClubRules from '../pages/admin-blockchain-rules';
+import AdminCyber from '../pages/admin-cyber';
+import AdminCyberEvents from '../pages/admin-cyber-events';
+import AdminCyberClubRules from '../pages/admin-cyber-rules';
+import AdminCyberClubMaterials from '../pages/admin-cyber-club-materials';
+import AdminAI from '../pages/admin-ai';
+import AdminAIEvents from '../pages/admin-ai-events';
+import AdminAIClubRules from '../pages/admin-ai-rules';
+import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
 
 export function RouterPaths() {
     return (
@@ -105,6 +119,25 @@ export function RouterPaths() {
             <Route path="/ai-support" element={<AIClubContactInfo />} />
             <Route path="/blockchain-support" element={<BlockchainClubContact />} />
             <Route path="/opensource-support" element={<OpenSourceClubContact />} />
+            <Route path="/admin-blockchain-support" element={<AdminBlockchainClubContact />} />
+            <Route path="/admin-ai-support" element={<AdminAIClubContactInfo />} />
+            <Route path="/admin-opensource-support" element={<AdminOpenSourceClubContact />} />
+            <Route path="/admin-cyber-support" element={<AdminCybersecurityClubContact />} />
+            <Route path="/admin-opensource-rules" element={<AdminOpenSourceClubRules />} />
+            <Route path="/admin-opensource-support" element={<AdminOpenSourceClubContact />} />
+            <Route path="/admin-opensource-club-materials" element={<AdminOpensourceClubMaterials />} />
+            <Route path="/admin-opensource" element={<AdminOpensource />} />
+            <Route path="/admin-opensource-events" element={<AdminOpensourceEvents />} />
+            <Route path="/admin-blockchain-rules" element={<AdminBlockchainClubRules />} />
+            <Route path="/admin-cyber-rules" element={<AdminCyberClubRules />} />
+            <Route path="/admin-cyber" element={<AdminCyber />} />
+            <Route path="/admin-cyber-events" element={<AdminCyberEvents />} />
+            <Route path="/admin-cyber-club-materials" element={<AdminCyberClubMaterials />} />
+            <Route path="/admin-ai" element={<AdminAI />} />
+            <Route path="/admin-ai-events" element={<AdminAIEvents />} />
+            <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
+            <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
+
 
 
 
