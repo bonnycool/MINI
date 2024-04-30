@@ -40,22 +40,27 @@ const BlockchainEvents = () => {
                 {/* Event list */}
                 <div className="grid gap-6">
                     {events.map((event, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
+                        <div key={index} className="p-6 bg-white rounded-lg shadow-md">
                             {/* Event title */}
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
+                            <h3 className="text-2xl font-bold text-blue-600 mb-2">{event.title}</h3>
 
                             {/* Event details */}
-                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
-                            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
-                            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
+                            <p className="text-gray-700 mb-2"><strong>Date:</strong> {event.date}</p>
+                            <p className="text-gray-700 mb-2"><strong>Time:</strong> {event.time}</p>
+                            <p className="text-gray-700 mb-2"><strong>Location:</strong> {event.location}</p>
 
                             {/* Event description */}
-                            <p className="text-gray-600 mb-4">{event.description}</p>
+                            <p className="text-gray-800 mb-4">{event.description}</p>
 
-                            {/* Action button */}
-                            <button className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600">
-                                Register
-                            </button>
+                            {/* Action buttons */}
+                            <div className="flex justify-end">
+                                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600">
+                                    Register
+                                </button>
+                                <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+                                    Add to Calendar
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>

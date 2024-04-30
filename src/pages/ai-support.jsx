@@ -17,49 +17,68 @@ const AIClubContactInfo = () => {
 
                 {/* Content area */}
                 <div className="mt-6">
-                    <h2 className="text-2xl font-bold mb-6 text-gray-800">AI Club Contact Information</h2>
-                    
                     {/* Club Head */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2">Club Head</h3>
-                    <p>Email: head@aiclub.com</p>
-                    <p>Phone: +1 (555) 123-4567</p>
+                    <div className="bg-white rounded-lg shadow-md p-10 mb-10">
+                        <h2 className="text-xl font-bold text-blue-600 mb-2">Club Head</h2>
+                        <p className="text-gray-700">Email: head@aiclub.com</p>
+                        <p className="text-gray-700">Phone: +1 (555) 123-4567</p>
+                    </div>
                     
                     {/* Secretary */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Secretary</h3>
-                    <p>Email: secretary@aiclub.com</p>
-                    <p>Phone: +1 (555) 234-5678</p>
+                    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h2 className="text-xl font-bold text-blue-600 mb-2">Secretary</h2>
+                        <p className="text-gray-700">Email: secretary@aiclub.com</p>
+                        <p className="text-gray-700">Phone: +1 (555) 234-5678</p>
+                    </div>
                     
                     {/* Faculty Members */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Faculty Members</h3>
-                    <p>Faculty Member 1:</p>
-                    <p>Email: faculty1@aiclub.com</p>
-                    <p>Phone: +1 (555) 345-6789</p>
-                    
-                    <p className="mt-2">Faculty Member 2:</p>
-                    <p>Email: faculty2@aiclub.com</p>
-                    <p>Phone: +1 (555) 456-7890</p>
-                    
-                    <p className="mt-2">Faculty Member 3:</p>
-                    <p>Email: faculty3@aiclub.com</p>
-                    <p>Phone: +1 (555) 567-8901</p>
+                    <div className="bg-white rounded-lg shadow-md p-6 mb-6">
+                        <h2 className="text-xl font-bold text-blue-600 mb-2">Faculty Members</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Faculty Member 1:</p>
+                                <p className="text-gray-700">Email: faculty1@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 345-6789</p>
+                            </div>
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Faculty Member 2:</p>
+                                <p className="text-gray-700">Email: faculty2@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 456-7890</p>
+                            </div>
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Faculty Member 3:</p>
+                                <p className="text-gray-700">Email: faculty3@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 567-8901</p>
+                            </div>
+                        </div>
+                    </div>
                     
                     {/* Other Members */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Other Members</h3>
-                    <p>Member 1:</p>
-                    <p>Email: member1@aiclub.com</p>
-                    <p>Phone: +1 (555) 678-9012</p>
-                    
-                    <p className="mt-2">Member 2:</p>
-                    <p>Email: member2@aiclub.com</p>
-                    <p>Phone: +1 (555) 789-0123</p>
-                    
-                    <p className="mt-2">Member 3:</p>
-                    <p>Email: member3@aiclub.com</p>
-                    <p>Phone: +1 (555) 890-1234</p>
-                    
-                    <p className="mt-2">Member 4:</p>
-                    <p>Email: member4@aiclub.com</p>
-                    <p>Phone: +1 (555) 901-2345</p>
+                    <div className="bg-white rounded-lg shadow-md p-6">
+                        <h2 className="text-xl font-bold text-blue-600 mb-2">Other Members</h2>
+                        <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Member 1:</p>
+                                <p className="text-gray-700">Email: member1@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 678-9012</p>
+                            </div>
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Member 2:</p>
+                                <p className="text-gray-700">Email: member2@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 789-0123</p>
+                            </div>
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Member 3:</p>
+                                <p className="text-gray-700">Email: member3@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 890-1234</p>
+                            </div>
+                            <div className="border border-gray-300 p-4 rounded-lg">
+                                <p className="text-gray-700">Member 4:</p>
+                                <p className="text-gray-700">Email: member4@aiclub.com</p>
+                                <p className="text-gray-700">Phone: +1 (555) 901-2345</p>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
