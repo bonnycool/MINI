@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
-import Box1Image from '../Assests/imagesroni/alan.jpeg';
-import Box2Image from '../Assests/imagesroni/bonny.jpg';
-import Box3Image from '../Assests/imagesroni/christopher.jpg';
-import Box4Image from '../Assests/imagesroni/alon.jpg';
+import Box1Image from '../Assests/IMAGES/alan.jpeg';
+import Box2Image from '../Assests/IMAGES/bonny.jpg'
+import Box3Image from '../Assests/IMAGES/christopher.jpg';
+import Box4Image from '../Assests/IMAGES/alon.jpg';
 
 
 const AdminAboutUs = () => {
