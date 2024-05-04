@@ -144,3 +144,11 @@ CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for development)
 CORS_ALLOWED_ORIGINS = [
      "http://localhost:1573",  # Allow frontend running on this domain/port
 ]
+CORS_ALLOW_METHODS = ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS']  # Allowed HTTP methods
+CORS_ALLOW_HEADERS = ['Content-Type', 'Authorization']  # Allowed headers
+
+SESSION_ENGINE = 'django.contrib.sessions.backends.db'  # or other appropriate backend
+SESSION_COOKIE_NAME = 'sessionid'  # Default cookie name
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
+SESSION_COOKIE_AGE = 1209600  # Two weeks in seconds
+

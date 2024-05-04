@@ -1,6 +1,6 @@
 import React from 'react';
 import Homenavbar from '../Components/homenavabr'; // Import the navbar component
-import Header from '../Components/header';
+import Userheader from '../Components/userheader';
 import Box1Image from '../Assests/imagesroni/blockchain1.jpg';
 import Box2Image from '../Assests/imagesroni/cyber1.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
@@ -15,7 +15,7 @@ const Home = () => {
             {/* Main content area */}
             <div className="flex-1 p-4 ml-8">
                 {/* Header component */}
-                <Header />
+                <Userheader />
 
                 {/* Middle and right content areas */}
                 <div className="flex justify-center mt-16">
