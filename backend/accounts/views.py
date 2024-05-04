@@ -1,9 +1,16 @@
 # In accounts/views.py
-from django.http import JsonResponse
+from django.http import HttpResponse, JsonResponse
 from .models import UserCredentials  # Ensure this import works
 from django.contrib.auth import authenticate
 from rest_framework.decorators import api_view
 from .models import AdminCredentials  # Import the new model
+from django.contrib.auth.hashers import check_password  # Import check_password
+from rest_framework.decorators import api_view, authentication_classes, permission_classes
+from django.views.decorators.cache import never_cache
+from django.contrib.auth import logout
+
+from django.views.decorators.cache import cache_control
+
 
 from django.contrib.auth.decorators import login_required
 from .decorator import role_required  # Import your custom decorator
@@ -28,16 +35,16 @@ def get_users(request):
 @api_view(['POST'])
 def login_view(request):
     username = request.data.get('username')
-    password = request.data.get('password')
+    plaintext_password = request.data.get('password')
 
-    # Authenticate by matching username and password
     try:
-        user = UserCredentials.objects.get(username=username, password=password)
-        return JsonResponse({"message": "Login successful"}, status=200)
+        user = UserCredentials.objects.get(username=username)
+        if check_password(plaintext_password, user.password):  # type: ignore # Check hashed password
+            return JsonResponse({"message": "Login successful"}, status=200)
+        else:
+            return JsonResponse({"message": "Invalid credentials"}, status=401)
     except UserCredentials.DoesNotExist:
         return JsonResponse({"message": "Invalid credentials"}, status=401)
-
-
 @api_view(['POST'])
 def admin_login(request):
     # Retrieve the username and password from the POST request data
@@ -50,3 +57,13 @@ def admin_login(request):
         return JsonResponse({"message": "Admin login successful"}, status=200)  # Success response
     except AdminCredentials.DoesNotExist:
         return JsonResponse({"message": "Invalid admin credentials"}, status=401)  # Error response
+
+@api_view(['POST'])
+def logout_view(request):
+    request.session.flush()  # Clear all session data
+    return JsonResponse({"message": "Logged out successfully"})
+@cache_control(no_store=True, no_cache=True, must_revalidate=True)
+def protected_view(request):
+    return HttpResponse("This is a protected view")
+
+

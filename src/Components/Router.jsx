@@ -57,6 +57,7 @@ import AdminAI from '../pages/admin-ai';
 import AdminAIEvents from '../pages/admin-ai-events';
 import AdminAIClubRules from '../pages/admin-ai-rules';
 import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
+import ProtectedRoute from './protected';
 
 export function RouterPaths() {
     return (
@@ -68,10 +69,12 @@ export function RouterPaths() {
             <Route
                 path="/home"
                 element={
+                    <ProtectedRoute>
                     <>
                         <Homenavbar />
                         <Home />
                     </>
+                    </ProtectedRoute>
                 }
             />
             <Route
