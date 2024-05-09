@@ -38,11 +38,9 @@ const Contact = () => {
                 <Header />
 
                 {/* Contact section */}
-<<<<<<< HEAD
-                <div className="container mx-auto px-10 py-10" style={{ marginLeft: '16.63%' }}>
 =======
                 <div className="container mx-auto px-10 py-10" style={{ marginLeft: '20%' }}>
->>>>>>> 7f3b8431d5a1aa60687b3d4bea2df7510afcd880
+
                     <h1 className="text-4xl font-bold text-gray-800 mb-8">Contact Us</h1>
 
                     {/* Contact cards */}

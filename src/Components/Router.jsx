@@ -57,11 +57,9 @@ import AdminAI from '../pages/admin-ai';
 import AdminAIEvents from '../pages/admin-ai-events';
 import AdminAIClubRules from '../pages/admin-ai-rules';
 import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
-<<<<<<< HEAD
-=======
-//import ProtectedRoute from './protected';
-//import Profile from './profile';
-//>>>>>>> 7f3b8431d5a1aa60687b3d4bea2df7510afcd880
+import ProtectedRoute from './protected';
+import Profile from './profile';
+
 
 export function RouterPaths() {
     return (
