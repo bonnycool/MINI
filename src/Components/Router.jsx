@@ -58,6 +58,7 @@ import AdminAIEvents from '../pages/admin-ai-events';
 import AdminAIClubRules from '../pages/admin-ai-rules';
 import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
 import ProtectedRoute from './protected';
+import Profile from './profile';
 
 export function RouterPaths() {
     return (
@@ -86,7 +87,7 @@ export function RouterPaths() {
                     </>
                 }
             />
-
+             <Route path="/edit-profile" element={<Profile/>} />
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
 

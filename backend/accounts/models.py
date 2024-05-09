@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.hashers import make_password  # Import the make_password function
+from django.core.validators import RegexValidator
+
 
 class Role(models.Model):
     role_name = models.CharField(max_length=50, unique=True)  # Role names like 'admin', 'user', etc.
@@ -29,3 +31,23 @@ class AdminCredentials(models.Model):
     def __str__(self):
         return self.admin_username
     
+class Profile(models.Model):
+    # Auto-incremented primary key
+    id = models.AutoField(primary_key=True)
+    
+    # One-to-One relationship with UserCredentials
+    email = models.OneToOneField(UserCredentials, on_delete=models.CASCADE, related_name='profile', to_field='username')
+    
+    # Other attributes
+    roll_no = models.CharField(max_length=20, blank=True, null=True)  # Roll number
+    semester = models.IntegerField(blank=True, null=True)  # Semester number
+    branch = models.CharField(max_length=100, blank=True, null=True)  # Branch name
+    phone_number = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message='Enter a valid phone number')]
+    )
+
+    def __str__(self):
+        return f"Profile of {self.email.username}"

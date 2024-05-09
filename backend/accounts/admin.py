@@ -1,6 +1,6 @@
 # In accounts/admin.py
 from django.contrib import admin
-from .models import AdminCredentials, Role, UserCredentials  # Import your model
+from .models import AdminCredentials, Role, UserCredentials ,Profile # Import your model
 
 admin.site.register(Role)
 class RoleAdmin(admin.ModelAdmin):
@@ -19,3 +19,4 @@ class UserCredentialsAdmin(admin.ModelAdmin):
 
 # Register the AdminCredentials model with the admin interface
 admin.site.register(AdminCredentials)
+admin.site.register(Profile)

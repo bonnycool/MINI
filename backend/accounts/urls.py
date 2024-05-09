@@ -1,6 +1,6 @@
 # In accounts/urls.py
 from django.urls import path
-from .views import admin_login, create_user, get_users,login_view,logout_view # Ensure both are imported
+from .views import admin_login, create_user, get_profile, get_users,login_view,logout_view # Ensure both are imported
 
 
 urlpatterns = [
@@ -9,5 +9,6 @@ urlpatterns = [
     path('login/', login_view, name='login'),  # Ensure the login endpoint is defined
     path('admin-login/', admin_login, name='admin-login'),  # URL for admin login
     path('logout/',logout_view, name='logout'),  # Correct mapping
+     path('get-profile/', get_profile, name='get_profile'),
    
 ]

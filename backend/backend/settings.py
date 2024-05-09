@@ -81,7 +81,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
-        'NAME': 'gitsconnect',  # Replace with your MySQL database name
+        'NAME': 'mini',  # Replace with your MySQL database name
         'USER': 'root',  # MySQL username
         'PASSWORD': 'T#9758@qlph',  # MySQL password
         'HOST': 'localhost',  # Usually 'localhost'
