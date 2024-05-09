@@ -1,36 +1,48 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-// Function to get the stored token (if using token-based authentication)
+// Function to get the stored token
 const getAuthToken = () => {
-  return localStorage.getItem('authToken'); // Adjust as needed
+  return localStorage.getItem('authToken');  // Retrieve the stored token
 };
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({});
   const [message, setMessage] = useState('');
+  const navigate = useNavigate();  // For navigation on error or logout
 
   useEffect(() => {
     const fetchProfile = async () => {
       try {
         const authToken = getAuthToken();  // Get the stored token
         if (!authToken) {
-          throw new Error('Authentication token not found');
+          throw new Error("Authentication token not found");
         }
+
+        // Make the API request with the Authorization header
         const response = await axios.get('http://127.0.0.1:8000/api/get-profile/', {
           headers: {
-            Authorization: `Bearer ${authToken}`,  // Include token in header
+            Authorization: `Bearer ${authToken}`,  // Include token in the header
           },
         });
-        setProfileData(response.data);  // Set the profile data from the response
+
+        // Set the profile data on successful response
+        setProfileData(response.data);
       } catch (error) {
-        console.error('Error fetching profile:', error);
-        setMessage('Error fetching profile');  // Display a friendly error message
+        console.error("Error fetching profile:", error);
+        
+        if (error.response && error.response.status === 403) {
+          setMessage("Session expired or unauthorized. Please log in again.");
+          navigate("/home");  // Redirect to login if unauthorized
+        } else {
+          setMessage("Error fetching profile.");
+        }
       }
     };
 
-    fetchProfile();  // Fetch the profile on component mount
-  }, []);  // Run only on initial render
+    fetchProfile();  // Fetch profile data on component mount
+  }, [navigate]);  // Include navigate in the dependency array to avoid closure issues
 
   // Destructure the profile data
   const { email, name, semester, roll_number, phone_number } = profileData;
@@ -49,6 +61,5 @@ const Profile = () => {
     </div>
   );
 };
-
 
 export default Profile;
