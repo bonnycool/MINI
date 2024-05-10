@@ -26,7 +26,7 @@ const Cyber = () => {
                         <button
                             className="h-48 mt-20 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box3Image})`, backgroundPosition: 'center' }}
-                            onClick={() => navigate('/blockchain-events')}
+                            onClick={() => navigate('/cyber-events')}
                         >
                             Upcoming Events
                         </button>
