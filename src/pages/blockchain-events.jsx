@@ -58,7 +58,13 @@ const BlockchainEvents = () => {
                                     Register
                                 </button>
                                 <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
-                                    Add to Calendar
+                                <a href="/club-calendar">
+                                  <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+                                   Show in Calendar
+                                   </button>
+                                   </a>
+
+                            
                                 </button>
                             </div>
                         </div>

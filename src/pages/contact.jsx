@@ -41,7 +41,7 @@ const Contact = () => {
 =======
                 <div className="container mx-auto px-10 py-10" style={{ marginLeft: '20%' }}>
 
-                    <h1 className="text-4xl font-bold text-gray-800 mb-8">Contact Us</h1>
+                    <h1 className="text-4xl font-bold text-gray-800 mb-8"></h1>
 
                     {/* Contact cards */}
                     <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 w-5/6 gap-8 justify-center ${loaded ? 'opacity-100 transition-opacity duration-500' : 'opacity-0'}`}>
