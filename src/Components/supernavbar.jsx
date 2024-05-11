@@ -8,21 +8,25 @@ const SuperNavbar = ({ isOpen = false }) => {
                 <img src="/path/to/logo.png" alt="Logo" className="w-8 h-8 mr-2" />
                 <span className="text-xl font-bold">GITSCONNECT</span>
             </div>
+            
             {/* Navigation links */}
             <ul className="space-y-4">
                 <li>
-                    <a href="/home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
+                    <a href="/admin-home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                 </li>
                 <li>
-                    <a href="/about" className="block p-2 hover:bg-blue-800 rounded">About</a>
+                    <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
+                </li>
+
+                <li>
+                    <a href="/admin-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Duty Leave Status</a>
                 </li>
                 <li>
-                    <a href="/contact" className="block p-2 hover:bg-blue-800 rounded">Contact</a>
+                    <a href="/admin-about" className="block p-2 hover:bg-blue-800 rounded">Create Club</a>
                 </li>
                 <li>
-                    <a href="https://docs.google.com/forms/d/e/1FAIpQLScel_fNqqR_S7B0bW4Ua9tu07K--P_KyqmGLEz4AQSG9zi46Q/viewform?usp=sf_link" className="block p-2 hover:bg-blue-800 rounded">Create Club</a>
+                    <a href="/admin-about" className="block p-2 hover:bg-blue-800 rounded">About</a>
                 </li>
-                
                 {/* Add more navigation links as needed */}
             </ul>
         </div>

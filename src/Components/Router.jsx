@@ -59,7 +59,7 @@ import AdminAIClubRules from '../pages/admin-ai-rules';
 import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
 import ProtectedRoute from './protected';
 import Profile from './profile';
-
+import SuperNavbar from './supernavbar';
 
 export function RouterPaths() {
     return (
@@ -142,6 +142,7 @@ export function RouterPaths() {
             <Route path="/admin-ai-events" element={<AdminAIEvents />} />
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
+            <Route path="/supernavbar" element={<SuperNavbar     />} />
 
 
 

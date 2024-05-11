@@ -1,5 +1,5 @@
 import React from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the navbar component
+import SuperNavbar from '../Components/supernavbar'; // Import the navbar component
 import Header from '../Components/header';
 import Box1Image from '../Assests/imagesroni/blockchain1.jpg';
 import Box2Image from '../Assests/imagesroni/cyber1.jpg';
@@ -10,7 +10,7 @@ const AdminHome = () => {
     return (
         <div className="flex">
             {/* Section A: Navbar on the left side */}
-            <AdminNavbar className="w-1/5" />
+            <SuperNavbar className="w-1/5" />
 
             {/* Main content area */}
             <div className="flex-1 p-4 ml-8">
