@@ -80,10 +80,10 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 
 DATABASES = {
     'default': {
-         'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
+        'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
         'NAME': 'mini',  # Replace with your MySQL database name
         'USER': 'root',  # MySQL username
-        'PASSWORD': '12345678',  # MySQL password
+        'PASSWORD': '#Alon@1234',  # MySQL password
         'HOST': 'localhost',  # Usually 'localhost'
         'PORT': '3306',  # Default MySQL port
     }

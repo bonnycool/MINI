@@ -61,9 +61,9 @@ const AdminAIEvents = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="md:w-1/5 h-1/5 md:h-full">
                 <AdminNavbar />
             </div>
 
@@ -73,10 +73,10 @@ const AdminAIEvents = () => {
                 <Header />
 
                 {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mb-6 text-gray-800 mt-20">Upcoming Events</h2>
 
                 {/* Event list */}
-                <div className="grid gap-6">
+                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                     {events.map((event, index) => (
                         <div key={index} className="p-4 bg-white rounded-lg shadow-md">
                             {/* Event title */}
@@ -107,68 +107,70 @@ const AdminAIEvents = () => {
                 <div className="mt-8">
                     <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
                     <form onSubmit={handleFormSubmit}>
-                        <div className="mb-4">
-                            <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.title}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
-                            <input
-                                type="date"
-                                id="date"
-                                name="date"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.date}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
-                            <input
-                                type="time"
-                                id="time"
-                                name="time"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.time}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
-                            <input
-                                type="text"
-                                id="location"
-                                name="location"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.location}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.description}
-                                onChange={handleInputChange}
-                                required
-                            />
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
+                                <input
+                                    type="date"
+                                    id="date"
+                                    name="date"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.date}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
+                                <input
+                                    type="time"
+                                    id="time"
+                                    name="time"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.time}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.location}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="col-span-2">
+                                <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
                         </div>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 mt-4"
                         >
                             Add Event
                         </button>
