@@ -61,9 +61,9 @@ const AdminAIEvents = () => {
     };
 
     return (
-        <div className="flex flex-col md:flex-row h-screen">
+        <div className="flex flex-col md:flex-row min-h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="md:w-1/5 h-1/5 md:h-full">
+            <div className="md:w-1/5 h-full">
                 <AdminNavbar />
             </div>
 
@@ -73,7 +73,7 @@ const AdminAIEvents = () => {
                 <Header />
 
                 {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800 mt-20">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mb-6 text-gray-800 mt-10 md:mt-20">Upcoming Events</h2>
 
                 {/* Event list */}
                 <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
