@@ -60,14 +60,14 @@ const OpensourceClubMaterials = () => {
     ];
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full lg:w-1/5 h-full">
                 <Navbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
+            <div className="flex-1 h-full p-4 lg:p-8 lg:mt-10 bg-gray-100">
                 {/* Header component */}
                 <Header />
 

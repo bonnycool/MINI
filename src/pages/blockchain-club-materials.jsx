@@ -60,21 +60,21 @@ const BlockchainClubMaterials = () => {
     ];
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full md:w-1/5 h-full">
                 <Navbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
+            <div className="flex-1 h-full p-8 mt-10 md:mt-0 bg-gray-100">
                 {/* Header component */}
                 <Header />
 
                 {/* Content area */}
                 <div className="flex flex-col gap-6 mt-6">
                     {events.map((event, index) => (
-                        <div key={index} className="bg-white p-4 rounded-lg shadow-md">
+                        <div key={index} className={`bg-white p-4 rounded-lg shadow-md ${index === 0 ? 'mt-8' : ''}`}>
                             {/* Event title */}
                             <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
 

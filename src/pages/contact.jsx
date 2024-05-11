@@ -1,10 +1,9 @@
 import React, { useEffect, useState } from 'react';
-import Homenavbar from '../Components/homenavabr'; // Import the navbar component
+import Homenavbar from '../Components/homenavabr';
 import Header from '../Components/header';
-import { FaEnvelope } from 'react-icons/fa'; // Import the envelope icon from react-icons library
+import { FaEnvelope } from 'react-icons/fa';
 
 const Contact = () => {
-    // Define an array of objects containing contact information for different roles
     const contacts = [
         { role: 'HOD - Head of Department', email: 'arun@example.com' },
         { role: 'Blockchain Faculty', email: 'blockchain@example.com' },
@@ -15,13 +14,11 @@ const Contact = () => {
         { role: 'Cybersecurity Student Head', email: 'cybersecurity_student@example.com' },
         { role: 'Opensource Student Head', email: 'opensource_student@example.com' },
         { role: 'AI Student Head', email: 'ai_student@example.com' },
-
     ];
 
     const [loaded, setLoaded] = useState(false);
 
     useEffect(() => {
-        // Simulate loading time for demonstration purposes
         setTimeout(() => {
             setLoaded(true);
         }, 1000);
@@ -29,22 +26,12 @@ const Contact = () => {
 
     return (
         <div className="flex flex-col h-screen">
-            {/* Navbar */}
             <Homenavbar />
-
-            {/* Main content */}
             <div className="flex-1 bg-gray-100">
-                {/* Header */}
                 <Header />
-
-                {/* Contact section */}
-=======
-                <div className="container mx-auto px-10 py-10" style={{ marginLeft: '20%' }}>
-
-                    <h1 className="text-4xl font-bold text-gray-800 mb-8"></h1>
-
-                    {/* Contact cards */}
-                    <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 w-5/6 gap-8 justify-center ${loaded ? 'opacity-100 transition-opacity duration-500' : 'opacity-0'}`}>
+                <div className="container mx-auto px-10 py-10">
+                    <h1 className="text-4xl font-bold text-gray-800 mb-8">Contact Us</h1>
+                    <div className={`grid grid-cols-1 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-center ${loaded ? 'opacity-100 transition-opacity duration-500' : 'opacity-0'}`}>
                         {contacts.map((contact, index) => (
                             <div key={index} className="p-6 bg-white rounded-lg shadow-md border border-gray-300">
                                 <h2 className="text-xl font-semibold mb-4">{contact.role}</h2>

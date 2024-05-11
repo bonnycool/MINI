@@ -23,9 +23,9 @@ const AIEvents = () => {
     ];
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full md:w-1/5 h-full">
                 <Navbar />
             </div>
 
@@ -35,7 +35,7 @@ const AIEvents = () => {
                 <Header />
 
                 {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mb-5 mt-20 text-gray-800">Upcoming Events</h2>
 
                 {/* Event list */}
                 <div className="grid gap-6">

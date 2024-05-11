@@ -23,9 +23,9 @@ const BlockchainEvents = () => {
     ];
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full md:w-1/5 h-full">
                 <Navbar />
             </div>
 
@@ -35,7 +35,7 @@ const BlockchainEvents = () => {
                 <Header />
 
                 {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mb-6  mt-20 text-gray-800">Upcoming Events</h2>
 
                 {/* Event list */}
                 <div className="grid gap-6">
@@ -57,15 +57,11 @@ const BlockchainEvents = () => {
                                 <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600">
                                     Register
                                 </button>
-                                <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
                                 <a href="/club-calendar">
-                                  <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
-                                   Show in Calendar
-                                   </button>
-                                   </a>
-
-                            
-                                </button>
+                                    <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+                                        Show in Calendar
+                                    </button>
+                                </a>
                             </div>
                         </div>
                     ))}

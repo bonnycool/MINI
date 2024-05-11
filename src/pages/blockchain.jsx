@@ -27,7 +27,7 @@ const Blockchain = () => {
                     {/* First Column */}
                     <div className="flex flex-col lg:w-1/2 space-y-6 p-4 lg:px-8">
                         <button
-                            className="h-48 lg:mt-20 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 lg:mt-20 lg:mb-6 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box3Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate('/blockchain-events')}
                         >
@@ -52,7 +52,7 @@ const Blockchain = () => {
                     {/* Second Column */}
                     <div className="flex flex-col lg:w-1/2 space-y-6 p-4 lg:px-8">
                         <button
-                            className="h-48 lg:mt-20 bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 lg:mt-20 lg:mb-6 bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box5Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate ('/blockchain-club-materials')}
                         >
