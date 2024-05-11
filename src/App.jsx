@@ -1,17 +1,18 @@
-import React, { useEffect } from 'react';
+import { initializeApp } from 'firebase/app';
+import React, { useEffect, useState } from 'react';
 import 'tailwindcss/tailwind.css';
 import { RouterPaths } from "./Components/Router";
 import { BrowserRouter as Router } from "react-router-dom";
-import firebase from '../backend/firebase'; // Import the initialized Firebase app
+import { getAuth } from 'firebase/auth'; // Changed import to use `getAuth` method
+import firebaseConfig from '../backend/firebaseConfig'; // Import your Firebase configuration
+
+
+// Initialize Firebase app
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app); // Initialize authentication
 
 function App() {
-  useEffect(() => {
-    // Initialize Firebase if not already initialized
-    if (!firebase.apps.length) {
-      firebase.initializeApp(firebaseConfig);
-    }
-  }, []); // Ensure useEffect runs only once when the component mounts
-
+  
   return (
     <div className="app-container">
       <Router>
@@ -19,9 +20,9 @@ function App() {
           <RouterPaths />
         </div>
       </Router>
+      <div></div>
     </div>
   );
 }
 
 export default App;
-

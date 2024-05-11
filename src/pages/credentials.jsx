@@ -1,14 +1,24 @@
 import React, { useState, useEffect } from 'react';
-import * as firebase from '@firebase/app';
-
-import '@firebase/firestore';
-//import '@firebase/auth';
-
+import { initializeApp } from '@firebase/app';
+import { getFirestore } from '@firebase/firestore';
 import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg';
 import mobileBackground from '../Assests/imagesroni/Login.jpg';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/headerlogin';
-import bcrypt from 'bcryptjs'; // Import bcrypt for password hashing
+
+// Initialize Firebase app
+const firebaseConfig = {
+    apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+    authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+    projectId: "gitsconnect-aa3f5",
+    storageBucket: "gitsconnect-aa3f5.appspot.com",
+    messagingSenderId: "229347354180",
+    appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+    measurementId: "G-JQHTHQTJ76"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp); // Initialize Firestore
 
 const Credentials = () => {
   const [username, setUsername] = useState('');
@@ -19,22 +29,29 @@ const Credentials = () => {
 
   const handleLogin = async () => {
     try {
-      const userDoc = await firebase.firestore().collection('usercredentials').doc(username).get();
-      if (!userDoc.exists) {
+      // Query Firestore for the user document based on the username
+      const userSnapshot = await db.collection('usercredentials').doc('login').where('username', '==', username).get();
+    
+      // Check if the document exists
+      if (userSnapshot.empty) {
         setError('Invalid username or password');
         return;
       }
-
-      const userData = userDoc.data();
-      const hashedPassword = userData.password; // Get hashed password from Firestore
-      const isPasswordCorrect = await bcrypt.compare(password, hashedPassword); // Compare hashed passwords
-
-      if (isPasswordCorrect) {
+    
+      // Get the first document (assuming there's only one user per username)
+      const userData = userSnapshot.docs[0].data();
+    
+      // Retrieve the password from the user document
+      const storedPassword = userData.password;
+    
+      // Compare the entered password with the stored password
+      if (password === storedPassword) {
         navigate('/home');
       } else {
         setError('Invalid username or password');
       }
     } catch (error) {
+      console.error('Error logging in:', error);
       setError('An unexpected error occurred.');
     }
   };
