@@ -40,10 +40,11 @@ const Credentials = () => {
       return;
     }
 
-    axios.post('http://127.0.0.1:8000/api/login/', { username, password })
+    axios.post('http://127.0.0.1:8000/api/login/', { username, password})
       .then((response) => {
         if (response.status === 200) {
         const token = response.data.token; // Assuming the token is returned in 'data.token'
+        console.log("Storing token:", token); // Debug output
         localStorage.setItem('authToken', token); // Store the token in localStorage
           navigate('/home'); // Successful login, navigate to home page
         }

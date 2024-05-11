@@ -40,6 +40,8 @@ INSTALLED_APPS = [
     'accounts',
     'corsheaders',  # Add this to installed apps
     'rest_framework',
+    'rest_framework.authtoken',
+   \
 ]
 
 MIDDLEWARE = [
@@ -81,7 +83,7 @@ WSGI_APPLICATION = 'backend.wsgi.application'
 DATABASES = {
     'default': {
          'ENGINE': 'django.db.backends.mysql',  # Use MySQL as the backend
-        'NAME': 'mini',  # Replace with your MySQL database name
+        'NAME': 'test',  # Replace with your MySQL database name
         'USER': 'root',  # MySQL username
         'PASSWORD': 'T#9758@qlph',  # MySQL password
         'HOST': 'localhost',  # Usually 'localhost'
@@ -137,6 +139,8 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',  # Ensure JSONRenderer is the default
     ),
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',)
 }
 
 CORS_ALLOW_ALL_ORIGINS = True  # Allow all origins (for development)
@@ -152,3 +156,11 @@ SESSION_COOKIE_NAME = 'sessionid'  # Default cookie name
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True  # Expire session when the browser closes
 SESSION_COOKIE_AGE = 1209600  # Two weeks in seconds
 
+# settings.py
+AUTHENTICATION_BACKENDS = [
+    'django.contrib.auth.backends.ModelBackend', 
+    # Default Django authentication
+    # Add custom backends here if applicable
+]
+
+#AUTH_USER_MODEL = 'accounts.UserCredentials'
