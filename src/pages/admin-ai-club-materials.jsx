@@ -133,9 +133,9 @@ const AdminAIClubMaterials = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="md:w-1/5 h-full">
                 <AdminNavbar />
             </div>
 
