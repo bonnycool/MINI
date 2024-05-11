@@ -7,6 +7,27 @@ const getAuthToken = () => {
   return localStorage.getItem('authToken'); // Retrieve the stored token
 };
 
+// Function to fetch profile data from the API
+const fetchProfileData = async () => {
+  try {
+    const response = await axios.get(`${API_URL}/get-profile/`);
+    setProfileData(response.data);
+  } catch (error) {
+    handleErrorResponse(error);
+  }
+};
+// Function to handle error responses
+const handleErrorResponse = (error, navigate) => {
+  if (error.response && error.response.status === 401) {
+    setErrorMessage("Session expired or unauthorized. Please log in again.");
+    navigate("/home"); // Redirect to login
+  } else if (error.response && error.response.status === 500) {
+    setErrorMessage("Internal server error. Please try again later.");
+  } else {
+    setErrorMessage("Error fetching profile.");
+  }
+};
+
 const Profile = () => {
   const [profileData, setProfileData] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
@@ -20,22 +41,10 @@ const Profile = () => {
           throw new Error("Authentication token not found");
         }
 
-        const response = await axios.get('http://127.0.0.1:8000/api/get-profile/', {
-          headers: {
-            Authorization: `Bearer ${authToken}`, // Include token in the request header
-          },
-        });
-
-        setProfileData(response.data);
+        const data = await fetchProfileData(authToken);
+        setProfileData(data);
       } catch (error) {
-        console.error("Error fetching profile:", error);
-        
-        if (error.response && error.response.status === 401) {
-          setErrorMessage("Session expired or unauthorized. Please log in again.");
-          navigate("/home"); // Redirect to login
-        } else {
-          setErrorMessage("Error fetching profile.");
-        }
+        handleErrorResponse(error, navigate);
       }
     };
 

@@ -1,22 +1,29 @@
-# In accounts/admin.py
 from django.contrib import admin
-from .models import AdminCredentials, Role, UserCredentials ,Profile # Import your model
+from django.contrib.auth.admin import UserAdmin
+from .models import CustomUser, Role, Profile, AdminCredentials
 
-admin.site.register(Role)
-class RoleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'role_name')  # Display the ID and role name
-    search_fields = ('role_name',)  # Enable search by role name
-    list_filter = ('role_name',)  # Add a filter for role names
-# Register the UserCredentials model with the admin site
-admin.site.register(UserCredentials)
+class CustomUserAdmin(UserAdmin):
+    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active', 'get_role')
+    list_filter = ('role',)
 
-# If you're customizing the admin options
-class UserCredentialsAdmin(admin.ModelAdmin):
-    list_display = ('username', 'password')  # Display specific fields
-    search_fields = ('username',)  # Optional search functionality
-    list_filter = ('roles',)  # Filter by roles
-    autocomplete_fields = ['roles']  # Enable autocomplete for many-to-many field
+    def get_role(self, obj):
+        return obj.role
+    get_role.short_description = 'Role'
 
-# Register the AdminCredentials model with the admin interface
-admin.site.register(AdminCredentials)
-admin.site.register(Profile)
+# Re-register UserAdmin
+admin.site.register(CustomUser, CustomUserAdmin)
+
+class RoleViewAdmin(admin.ModelAdmin):
+    list_display = ('role_name',)
+
+admin.site.register(Role, RoleViewAdmin)
+
+class ProfileAdmin(admin.ModelAdmin):
+    list_display = ('user',)
+
+admin.site.register(Profile, ProfileAdmin)
+
+class AdminCredentialsAdmin(admin.ModelAdmin):
+    list_display = ('admin_user', 'admin_password')
+
+admin.site.register(AdminCredentials, AdminCredentialsAdmin)

@@ -1,99 +1,40 @@
-# In accounts/views.py
+from django.contrib.auth.models import AbstractUser, UserManager
+from django.db import models
+from django.core.validators import RegexValidator
 
-from django.http import HttpResponse, JsonResponse
-from .models import UserCredentials,Profile # Ensure this import works
-from django.contrib.auth import authenticate
-from rest_framework.decorators import api_view
-from .models import AdminCredentials  # Import the new model
-from django.contrib.auth.hashers import check_password,make_password  # Import check_password
-from rest_framework.decorators import api_view, authentication_classes, permission_classes
-from django.views.decorators.cache import never_cache
-from django.contrib.auth import logout
-from rest_framework.authentication import SessionAuthentication, BasicAuthentication
-from rest_framework.response import Response
-from django.views.decorators.cache import cache_control
-from rest_framework import status
-from rest_framework.permissions import IsAuthenticated
-from rest_framework.authentication import TokenAuthentication 
-from rest_framework.authtoken.models import Token
-import logging
-logger = logging.getLogger(__name__)
-
-from django.contrib.auth.decorators import login_required
-from .decorator import role_required  # Import your custom decorator
-from django.contrib.auth import get_user_model
-
-@login_required
-@role_required('admin')  # Use the decorator to restrict access to admins
-def admin_view(request):
-    # Your admin view logic here
+class CustomUserGroupsManager(UserManager):
     pass
 
-# Define the create_user function
-def create_user(request):
-    # Example logic to create a user
-    UserCredentials.objects.create(username='test1_user', password='test_password')
-    return JsonResponse({'message': 'User created successfully'})
-def get_users(request):
-    users = UserCredentials.objects.all()  # Retrieve all users
-    users_list = [{'username': user.username, 'password': user.password} for user in users]
-    return JsonResponse({'users': users_list})
+class CustomUserGroups(AbstractUser):
+    roll_no = models.CharField(max_length=20, blank=True, null=True)  # Roll number
+    semester = models.IntegerField(blank=True, null=True)  # Semester number
+    branch = models.CharField(max_length=100, blank=True, null=True)  # Branch name
+    phone_number = models.CharField(
+        max_length=15,
+        blank=True,
+        null=True,
+        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message='Enter a valid phone number')]
+    )
 
+    objects = CustomUserGroupsManager()
 
-@api_view(['POST'])
-def login_view(request):
- username = request.data.get('username')
- plaintext_password = request.data.get('password')
+    def __str__(self):
+        return f"Profile of {self.username}"
 
- try:
-        user = UserCredentials.objects.get(username=username)
-        if check_password(plaintext_password, user.password):  # type: ignore # Check hashed password
+class RoleView(models.Model):
+    role_name = models.CharField(max_length=50, unique=True)  # Role names like 'admin', 'user', etc.
 
-         
-            return JsonResponse({"message": "Login successful"}, status=200)
-        else:
-            return JsonResponse({"message": "Invalid credentials"}, status=401)
- except UserCredentials.DoesNotExist:
-        return JsonResponse({"message": "Invalid credentials"}, status=401)
-@api_view(['POST'])
-def admin_login(request):
-    # Retrieve the username and password from the POST request data
-    admin_username = request.data.get('admin_username')
-    admin_password = request.data.get('admin_password')
+    def __str__(self):
+        return self.role_name
 
-    # Check if the credentials are correct
-    try:
-        admin = AdminCredentials.objects.get(admin_username=admin_username, admin_password=admin_password)
-        return JsonResponse({"message": "Admin login successful"}, status=200)  # Success response
-    except AdminCredentials.DoesNotExist:
-        return JsonResponse({"message": "Invalid admin credentials"}, status=401)  # Error response
+class Profile(models.Model):
+    user = models.OneToOneField(CustomUserGroups, on_delete=models.CASCADE)
+    role = models.ForeignKey(RoleView, on_delete=models.CASCADE)  # Each user can have only one role
+    # Add any additional fields you want to store in the profile
 
-@api_view(['POST'])
-def logout_view(request):
-    request.session.flush()  # Clear all session data
-    return JsonResponse({"message": "Logged out successfully"})
-@cache_control(no_store=True, no_cache=True, must_revalidate=True)
-def protected_view(request):
-    return HttpResponse("This is a protected view")
+class AdminCredentials(models.Model):
+    admin_user = models.ForeignKey(CustomUserGroups, on_delete=models.CASCADE, related_name='admin_credentials')  # Unique admin identifier
+    admin_password = models.CharField(max_length=100)  # Admin's password
 
-
-
-@api_view(['GET'])
-@authentication_classes([TokenAuthentication])  # Ensure correct authentication
-@permission_classes([IsAuthenticated])  # Ensure authentication is required
-def get_profile(request):
-    user_email = request.user.username  # Get the username of the authenticated user
-    try:
-        profile = Profile.objects.get(email__username=user_email)  # Get the profile
-    except Profile.DoesNotExist:
-        user = UserCredentials.objects.get(username=user_email)  # Get the UserCredentials object
-        profile = Profile.create(email=user)  # Create a new profile
-
-    data = {
-        "email": user_email,
-        "name": profile.name or '',
-        "semester": profile.semester or '',
-        "roll_no": profile.roll_no or '',
-        "phone_number": profile.phone_number or '',
-    }
-    return Response(data, status=status.HTTP_200_OK)
+    def __str__(self):
+        return self.admin_user
