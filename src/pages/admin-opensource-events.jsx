@@ -12,13 +12,6 @@ const AdminOpensourceEvents = () => {
             location: 'Room 101',
             description: 'A workshop on blockchain technology and its applications.',
         },
-        {
-            title: 'Opensource Symposium',
-            date: 'April 15, 2024',
-            time: '10:00 AM',
-            location: 'Auditorium',
-            description: 'A symposium on the latest trends in AI and machine learning.',
-        },
         // Add more events as needed
     ]);
 
@@ -61,14 +54,14 @@ const AdminOpensourceEvents = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full lg:w-1/5 h-full">
                 <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 p-8 bg-gray-100">
+            <div className="flex-1 p-4 lg:p-8 bg-gray-100">
                 {/* Header component */}
                 <Header />
 
@@ -107,68 +100,70 @@ const AdminOpensourceEvents = () => {
                 <div className="mt-8">
                     <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
                     <form onSubmit={handleFormSubmit}>
-                        <div className="mb-4">
-                            <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
-                            <input
-                                type="text"
-                                id="title"
-                                name="title"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.title}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
-                            <input
-                                type="date"
-                                id="date"
-                                name="date"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.date}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
-                            <input
-                                type="time"
-                                id="time"
-                                name="time"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.time}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
-                            <input
-                                type="text"
-                                id="location"
-                                name="location"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.location}
-                                onChange={handleInputChange}
-                                required
-                            />
-                        </div>
-                        <div className="mb-4">
-                            <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
-                            <textarea
-                                id="description"
-                                name="description"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.description}
-                                onChange={handleInputChange}
-                                required
-                            />
+                        <div className="grid grid-cols-1 lg:grid-cols-2 gap-4">
+                            <div>
+                                <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
+                                <input
+                                    type="text"
+                                    id="title"
+                                    name="title"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.title}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
+                                <input
+                                    type="date"
+                                    id="date"
+                                    name="date"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.date}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
+                                <input
+                                    type="time"
+                                    id="time"
+                                    name="time"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.time}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
+                                <input
+                                    type="text"
+                                    id="location"
+                                    name="location"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.location}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div>
+                                <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
                         </div>
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 mt-4 lg:mt-0"
                         >
                             Add Event
                         </button>

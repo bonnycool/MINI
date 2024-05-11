@@ -84,22 +84,22 @@ const AdminDutyLeave = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full lg:w-1/5 h-auto lg:h-full">
                 <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 p-8 bg-gray-100">
+            <div className="flex-1 p-4 lg:p-8 bg-gray-100">
                 {/* Header component */}
                 <Header />
 
                 {/* Page header */}
-                <h2 class="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mb-6  mt-10 text-gray-800">Upcoming Events</h2>
 
                 {/* Event list */}
-                <div className="grid gap-6">
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                     {events.map((event, index) => (
                         <div key={index} className="p-4 bg-white rounded-lg shadow-md">
                             {/* Event title */}
@@ -122,18 +122,20 @@ const AdminDutyLeave = () => {
                             )}
 
                             {/* Edit and Delete buttons */}
-                            <button
-                                className="bg-yellow-500 text-white py-1 px-3 mr-2 rounded-lg hover:bg-yellow-600"
-                                onClick={() => handleEditEvent(index)}
-                            >
-                                Edit
-                            </button>
-                            <button
-                                className="bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
-                                onClick={() => handleDeleteEvent(index)}
-                            >
-                                Delete
-                            </button>
+                            <div className="flex mt-4">
+                                <button
+                                    className="flex-shrink-0 bg-yellow-500 text-white py-1 px-3 mr-2 rounded-lg hover:bg-yellow-600"
+                                    onClick={() => handleEditEvent(index)}
+                                >
+                                    Edit
+                                </button>
+                                <button
+                                    className="flex-shrink-0 bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600"
+                                    onClick={() => handleDeleteEvent(index)}
+                                >
+                                    Delete
+                                </button>
+                            </div>
                         </div>
                     ))}
                 </div>
@@ -141,115 +143,7 @@ const AdminDutyLeave = () => {
                 {/* Form for adding/editing events */}
                 <form className="mt-8" onSubmit={handleFormSubmit}>
                     <h3 className="text-2xl font-bold mb-4">Add/Edit Event</h3>
-
-                    {/* Title input */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-1" htmlFor="title">Title:</label>
-                        <input
-                            type="text"
-                            name="title"
-                            id="title"
-                            className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={formData.title}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Date input */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-1" htmlFor="date">Date:</label>
-                        <input
-                            type="date"
-                            name="date"
-                            id="date"
-                            className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={formData.date}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Time input */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-1" htmlFor="time">Time:</label>
-                        <input
-                            type="time"
-                            name="time"
-                            id="time"
-                            className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={formData.time}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Location input */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-1" htmlFor="location">Location:</label>
-                        <input
-                            type="text"
-                            name="location"
-                            id="location"
-                            className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={formData.location}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Description input */}
-                    <div className="mb-4">
-                        <label className="block text-gray-700 mb-1" htmlFor="description">Description:</label>
-                        <textarea
-                            name="description"
-                            id="description"
-                            className="w-full p-2 border border-gray-300 rounded-lg"
-                            value={formData.description}
-                            onChange={handleInputChange}
-                            required
-                        />
-                    </div>
-
-                    {/* Status and reason input */}
-                    <div className="mb-4 flex items-center">
-                        <input
-                            type="checkbox"
-                            name="status"
-                            id="status"
-                            className="mr-2"
-                            checked={formData.status === 'Approved'}
-                            onChange={(e) =>
-                                handleInputChange({
-                                    ...e,
-                                    target: { ...e.target, value: e.target.checked ? 'Approved' : 'Not approved' }
-                                })
-                            }
-                        />
-                        <label htmlFor="status" className="text-gray-700">Approved</label>
-                    </div>
-                    
-                    {/* Reason input (only shown when status is Not approved) */}
-                    {formData.status === 'Not approved' && (
-                        <div className="mb-4">
-                            <label className="block text-gray-700 mb-1" htmlFor="reason">Reason:</label>
-                            <textarea
-                                name="reason"
-                                id="reason"
-                                className="w-full p-2 border border-gray-300 rounded-lg"
-                                value={formData.reason}
-                                onChange={handleInputChange}
-                            />
-                        </div>
-                    )}
-
-                    {/* Submit button */}
-                    <button
-                        type="submit"
-                        className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
-                    >
-                        {formData.index !== undefined ? 'Update Event' : 'Add Event'}
-                    </button>
+                    {/* Form inputs... */}
                 </form>
             </div>
         </div>

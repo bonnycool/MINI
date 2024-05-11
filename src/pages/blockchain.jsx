@@ -13,18 +13,21 @@ const Blockchain = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex h-screen">
-            <div className="w-1/5 h-full">
+        <div className="flex flex-col lg:flex-row h-screen">
+            {/* Sidebar */}
+            <div className="w-full lg:w-1/5 h-full">
                 <Navbar />
             </div>
 
-            <div className="flex-1 h-full">
+            {/* Main Content */}
+            <div className="flex-1 h-full bg-gray-100">
                 <Header />
 
-                <div className="flex h-full">
-                    <div className="flex flex-col w-1/2 space-y-6 p-4">
+                <div className="flex flex-col lg:flex-row h-full">
+                    {/* First Column */}
+                    <div className="flex flex-col lg:w-1/2 space-y-6 p-4 lg:px-8">
                         <button
-                            className="h-48 mt-20 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 lg:mt-20 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box3Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate('/blockchain-events')}
                         >
@@ -46,9 +49,10 @@ const Blockchain = () => {
                         </button>
                     </div>
 
-                    <div className="flex flex-col w-1/2 space-y-6 p-4">
+                    {/* Second Column */}
+                    <div className="flex flex-col lg:w-1/2 space-y-6 p-4 lg:px-8">
                         <button
-                            className="h-48 mt-20 bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 lg:mt-20 bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box5Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate ('/blockchain-club-materials')}
                         >
@@ -76,4 +80,3 @@ const Blockchain = () => {
 };
 
 export default Blockchain;
-

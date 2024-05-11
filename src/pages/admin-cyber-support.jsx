@@ -3,7 +3,6 @@ import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar compon
 import Header from '../Components/header'; // Import the Header component
 
 const AdminCyberClubContactInfo = () => {
-    // State to manage contact information
     const [contactInfo, setContactInfo] = useState({
         head: {
             email: 'head@Cyberclub.com',
@@ -47,7 +46,6 @@ const AdminCyberClubContactInfo = () => {
         ],
     });
 
-    // Function to handle form input changes
     const handleInputChange = (e, category, index) => {
         const { name, value } = e.target;
         setContactInfo((prevState) => {
@@ -61,7 +59,6 @@ const AdminCyberClubContactInfo = () => {
         });
     };
 
-    // Function to add a new contact
     const handleAddContact = (category) => {
         setContactInfo((prevState) => {
             const updatedInfo = { ...prevState };
@@ -71,7 +68,6 @@ const AdminCyberClubContactInfo = () => {
         });
     };
 
-    // Function to remove a contact
     const handleRemoveContact = (category, index) => {
         setContactInfo((prevState) => {
             const updatedInfo = { ...prevState };
@@ -81,14 +77,14 @@ const AdminCyberClubContactInfo = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full bg-gray-800 text-white">
+            <div className="w-full lg:w-1/5 h-auto lg:h-full bg-gray-800 text-white">
                 <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 bg-gray-100">
+            <div className="flex-1 h-auto lg:h-full p-8 bg-gray-100">
                 {/* Add Header component at the top */}
                 <Header />
 
@@ -242,3 +238,4 @@ const AdminCyberClubContactInfo = () => {
 };
 
 export default AdminCyberClubContactInfo;
+

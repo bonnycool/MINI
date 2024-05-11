@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 
 const AdminOpensourceClubContactInfo = () => {
-    // State to manage contact information
     const [contactInfo, setContactInfo] = useState({
         head: {
             email: 'head@Cyberclub.com',
@@ -18,36 +17,17 @@ const AdminOpensourceClubContactInfo = () => {
                 email: 'faculty1@Cyberclub.com',
                 phone: '+1 (555) 345-6789',
             },
-            {
-                email: 'faculty2@Cyberclub.com',
-                phone: '+1 (555) 456-7890',
-            },
-            {
-                email: 'faculty3@Cyberclub.com',
-                phone: '+1 (555) 567-8901',
-            },
+            // Add more faculty members as needed
         ],
         members: [
             {
                 email: 'member1@Cyberclub.com',
                 phone: '+1 (555) 678-9012',
             },
-            {
-                email: 'member2@Cyberclub.com',
-                phone: '+1 (555) 789-0123',
-            },
-            {
-                email: 'member3@Cyberclub.com',
-                phone: '+1 (555) 890-1234',
-            },
-            {
-                email: 'member4@Cyberclub.com',
-                phone: '+1 (555) 901-2345',
-            },
+            // Add more members as needed
         ],
     });
 
-    // Function to handle form input changes
     const handleInputChange = (e, category, index) => {
         const { name, value } = e.target;
         setContactInfo((prevState) => {
@@ -61,7 +41,6 @@ const AdminOpensourceClubContactInfo = () => {
         });
     };
 
-    // Function to add a new contact
     const handleAddContact = (category) => {
         setContactInfo((prevState) => {
             const updatedInfo = { ...prevState };
@@ -71,7 +50,6 @@ const AdminOpensourceClubContactInfo = () => {
         });
     };
 
-    // Function to remove a contact
     const handleRemoveContact = (category, index) => {
         setContactInfo((prevState) => {
             const updatedInfo = { ...prevState };
@@ -81,77 +59,72 @@ const AdminOpensourceClubContactInfo = () => {
     };
 
     return (
-        <div className="flex h-screen">
-            {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full bg-gray-800 text-white">
+        <div className="flex flex-col lg:flex-row h-screen">
+            <div className="w-full lg:w-1/5 h-full bg-gray-800 text-white">
                 <AdminNavbar />
             </div>
 
-            {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 bg-gray-100">
-                {/* Add Header component at the top */}
+            <div className="flex-1 h-full p-4 lg:p-8 bg-gray-100">
                 <Header />
-
-                {/* Content area */}
                 <div className="mt-6">
                     <h2 className="text-3xl font-semibold mb-6 text-gray-800">Opensource Club Contact Information</h2>
 
-                    {/* Club Head */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Club Head</h3>
-                        <form className="flex flex-col">
-                            <label className="mb-4">
-                                Email:
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={contactInfo.head.email}
-                                    onChange={(e) => handleInputChange(e, 'head')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                            <label className="mb-4">
-                                Phone:
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={contactInfo.head.phone}
-                                    onChange={(e) => handleInputChange(e, 'head')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                        </form>
-                    </div>
+                    <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                        <div className="border-black border-2 rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-blue-600 mb-2">Club Head</h3>
+                            <form className="flex flex-col">
+                                <label className="mb-4">
+                                    Email:
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={contactInfo.head.email}
+                                        onChange={(e) => handleInputChange(e, 'head')}
+                                        className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                    />
+                                </label>
+                                <label className="mb-4">
+                                    Phone:
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={contactInfo.head.phone}
+                                        onChange={(e) => handleInputChange(e, 'head')}
+                                        className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                    />
+                                </label>
+                            </form>
+                        </div>
 
-                    {/* Secretary */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Secretary</h3>
-                        <form className="flex flex-col">
-                            <label className="mb-4">
-                                Email:
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={contactInfo.secretary.email}
-                                    onChange={(e) => handleInputChange(e, 'secretary')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                            <label className="mb-4">
-                                Phone:
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={contactInfo.secretary.phone}
-                                    onChange={(e) => handleInputChange(e, 'secretary')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                        </form>
+                        <div className="border-black border-2 rounded-lg p-6">
+                            <h3 className="text-xl font-semibold text-blue-600 mb-2">Secretary</h3>
+                            <form className="flex flex-col">
+                                <label className="mb-4">
+                                    Email:
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={contactInfo.secretary.email}
+                                        onChange={(e) => handleInputChange(e, 'secretary')}
+                                        className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                    />
+                                </label>
+                                <label className="mb-4">
+                                    Phone:
+                                    <input
+                                        type="text"
+                                        name="phone"
+                                        value={contactInfo.secretary.phone}
+                                        onChange={(e) => handleInputChange(e, 'secretary')}
+                                        className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                    />
+                                </label>
+                            </form>
+                        </div>
                     </div>
 
                     {/* Faculty Members */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-6">
+                    <div className="border-black border-2 rounded-lg p-6 mt-6">
                         <h3 className="text-xl font-semibold text-blue-600 mb-2">Faculty Members</h3>
                         {contactInfo.faculty.map((faculty, index) => (
                             <div key={index} className="mb-4">
@@ -194,7 +167,7 @@ const AdminOpensourceClubContactInfo = () => {
                     </div>
 
                     {/* Other Members */}
-                    <div className="border-black border-2 rounded-lg p-6">
+                    <div className="border-black border-2 rounded-lg p-6 mt-6">
                         <h3 className="text-xl font-semibold text-blue-600 mb-2">Other Members</h3>
                         {contactInfo.members.map((member, index) => (
                             <div key={index} className="mb-4">
@@ -242,3 +215,4 @@ const AdminOpensourceClubContactInfo = () => {
 };
 
 export default AdminOpensourceClubContactInfo;
+

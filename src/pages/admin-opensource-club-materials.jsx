@@ -19,48 +19,7 @@ const AdminOpensourceClubMaterials = () => {
                 // Add more references as needed
             ],
         },
-        {
-            title: 'AI Symposium',
-            references: [
-                {
-                    title: 'Reference A',
-                    link: 'https://example.com/referenceA',
-                },
-                {
-                    title: 'Reference B',
-                    link: 'https://example.com/referenceB',
-                },
-                // Add more references as needed
-            ],
-        },
-        {
-            title: 'Opensource Seminar',
-            references: [
-                {
-                    title: 'Resource 1',
-                    link: 'https://example.com/resource1',
-                },
-                {
-                    title: 'Resource 2',
-                    link: 'https://example.com/resource2',
-                },
-                // Add more references as needed
-            ],
-        },
-        {
-            title: 'Cybersecurity Lecture',
-            references: [
-                {
-                    title: 'Link 1',
-                    link: 'https://example.com/link1',
-                },
-                {
-                    title: 'Link 2',
-                    link: 'https://example.com/link2',
-                },
-                // Add more references as needed
-            ],
-        },
+        // Add more events as needed
     ]);
 
     // State to manage the form data for adding new events and links
@@ -133,29 +92,29 @@ const AdminOpensourceClubMaterials = () => {
     };
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col lg:flex-row">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full">
+            <div className="w-full lg:w-1/5">
                 <AdminNavbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
+            <div className="flex-1 p-4 lg:ml-8 mt-10 bg-gray-100">
                 {/* Header component */}
                 <Header />
 
                 {/* Content area */}
-                <div className="flex flex-col gap-6 mt-6">
+                <div className="flex flex-col mt-6">
                     {events.map((event, eventIndex) => (
-                        <div key={eventIndex} className="bg-white p-4 rounded-lg shadow-md">
+                        <div key={eventIndex} className="bg-white p-4 rounded-lg shadow-md mb-4">
                             {/* Event title */}
                             <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
 
                             {/* References and links */}
                             <ul className="space-y-2">
                                 {event.references.map((reference, referenceIndex) => (
-                                    <li key={referenceIndex}>
-                                        <a href={reference.link} className="text-blue-500 hover:underline">
+                                    <li key={referenceIndex} className="flex items-center">
+                                        <a href={reference.link} className="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">
                                             {reference.title}
                                         </a>
                                         {/* Button to remove reference */}
@@ -198,7 +157,6 @@ const AdminOpensourceClubMaterials = () => {
                             </div>
 
                             {/* Form for adding new references */}
-                            <h4 className="text-xl font-bold mb-2">Add References</h4>
                             <div className="mb-2">
                                 <label htmlFor="newReferenceTitle" className="block text-gray-700 mb-1">Reference Title:</label>
                                 <input
