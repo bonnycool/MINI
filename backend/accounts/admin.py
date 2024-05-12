@@ -1,29 +1,32 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
-from .models import CustomUser, Role, Profile, AdminCredentials
+from .models import CustomUser, AdminCredentials
+from .choices import Role
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'roll_no', 'semester', 'branch', 'get_role_display', 'is_staff', 'is_active',)
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    search_fields = ('username', 'email', 'roll_no', 'first_name', 'last_name')
+    ordering = ('-date_joined',)
 
-class CustomUserAdmin(UserAdmin):
-    list_display = ('username', 'email', 'first_name', 'last_name', 'is_staff', 'is_active', 'get_role')
-    list_filter = ('role',)
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password')}),
+        (('Personal info'), {'fields': ('roll_no', 'semester', 'branch', 'phone_number')}),
+        (('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
 
-    def get_role(self, obj):
-        return obj.role
-    get_role.short_description = 'Role'
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'roll_no', 'semester', 'branch', 'phone_number', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}
+         ),
+    )
 
-# Re-register UserAdmin
-admin.site.register(CustomUser, CustomUserAdmin)
+class RoleAdmin(admin.ModelAdmin):
+    list_display = ('name',)
 
-class RoleViewAdmin(admin.ModelAdmin):
-    list_display = ('role_name',)
+admin.site.register(Role, RoleAdmin)
 
-admin.site.register(Role, RoleViewAdmin)
-
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ('user',)
-
-admin.site.register(Profile, ProfileAdmin)
-
+@admin.register(AdminCredentials)
 class AdminCredentialsAdmin(admin.ModelAdmin):
-    list_display = ('admin_user', 'admin_password')
-
-admin.site.register(AdminCredentials, AdminCredentialsAdmin)
+    list_display = ('username', 'password')

@@ -1,40 +1,55 @@
-from django.contrib.auth.models import AbstractUser, UserManager
-from django.db import models
-from django.core.validators import RegexValidator
+from django.shortcuts import render, redirect
+from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django import forms
+from .models import CustomUser, Role, Profile
+from .forms import AdminLoginForm, ProfileForm
 
-class CustomUserGroupsManager(UserManager):
-    pass
+def admin_login(request):
+    # ...
 
-class CustomUserGroups(AbstractUser):
-    roll_no = models.CharField(max_length=20, blank=True, null=True)  # Roll number
-    semester = models.IntegerField(blank=True, null=True)  # Semester number
-    branch = models.CharField(max_length=100, blank=True, null=True)  # Branch name
-    phone_number = models.CharField(
-        max_length=15,
-        blank=True,
-        null=True,
-        validators=[RegexValidator(regex=r'^\+?1?\d{9,15}$', message='Enter a valid phone number')]
-    )
+@login_required(login_url='/admin_login/')
+def get_users(request):
+    users = CustomUser.objects.all()
+    return render(request, 'accounts/get_users.html', {'users': users})
 
-    objects = CustomUserGroupsManager()
+@login_required(login_url='/admin_login/')
+def get_profile(request, pk):
+    user = CustomUser.objects.get(pk=pk)
+    profile = user.profile  # Assuming you have a Profile model with a OneToOneField to CustomUser
+    return render(request, 'accounts/get_profile.html', {'user': user, 'profile': profile})
 
-    def __str__(self):
-        return f"Profile of {self.username}"
+@login_required(login_url='/admin_login/')
+def create_user(request):
+    # ...
 
-class RoleView(models.Model):
-    role_name = models.CharField(max_length=50, unique=True)  # Role names like 'admin', 'user', etc.
+@login_required(login_url='/admin_login/')
+def delete_user(request, pk):
+    user = CustomUser.objects.get(pk=pk)
+    user.delete()
+    return redirect('get_users')
 
-    def __str__(self):
-        return self.role_name
+@login_required(login_url='/admin_login/')
+def admin_logout(request):
+    logout(request)
+    return redirect('admin_login')
 
 class Profile(models.Model):
-    user = models.OneToOneField(CustomUserGroups, on_delete=models.CASCADE)
-    role = models.ForeignKey(RoleView, on_delete=models.CASCADE)  # Each user can have only one role
-    # Add any additional fields you want to store in the profile
-
-class AdminCredentials(models.Model):
-    admin_user = models.ForeignKey(CustomUserGroups, on_delete=models.CASCADE, related_name='admin_credentials')  # Unique admin identifier
-    admin_password = models.CharField(max_length=100)  # Admin's password
+    user = models.OneToOneField(CustomUser, on_delete=models.CASCADE)
+    role = models.CharField(max_length=10, choices=Role.choices)
 
     def __str__(self):
-        return self.admin_user
+        return f'{self.user.username} Profile'
+
+@receiver(post_save, sender=CustomUser)
+def create_profile(sender, instance, created, **kwargs):
+    if created:
+        Profile.objects.create(user=instance)
+
+@receiver(post_save, sender=CustomUser)
+def save_profile(sender, instance, **kwargs):
+    instance.profile.save()
+
+@login_required(login_url='/admin_login/')
+def create_profile(request):
