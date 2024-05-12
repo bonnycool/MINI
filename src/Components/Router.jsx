@@ -71,12 +71,12 @@ export function RouterPaths() {
             <Route
                 path="/home"
                 element={
-                    <ProtectedRoute>
+                
                     <>
                         <Homenavbar />
                         <Home />
                     </>
-                    </ProtectedRoute>
+                    
                 }
             />
             <Route

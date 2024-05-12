@@ -18,38 +18,29 @@ const firebaseConfig = {
     appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
     measurementId: "G-JQHTHQTJ76"
 };
-
+ 
 const firebaseApp =initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp); // Initialize Firestore
-
+ 
 const Credentials = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
+ 
   const handleLogin = async () => {
     try {
       // Retrieve the user document based on the entered username
-      const userDocRef = doc(db, 'usercredentials', username);
-      const userDoc = await getDoc(userDocRef);
-  
-      console.log('userDoc:', userDoc);
-      // Check if the document exists
-      if (!userDoc.exists()) {
-        setError('Invalid username or password');
-        return;
-      }
-  
-      // Get the data from the user document
-      const userData = userDoc.data();
-      console.log('userData:', userData);
-  
-      // Retrieve the password from the user document
-      const storedPassword = userData.password;
-  
-      // Compare the entered password with the stored password
+      const tableRef = collection(db, 'usercredentials')
+      const q = query(tableRef, where("username", "==", username));
+      const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs[0].data());
+      const storedPassword = querySnapshot.docs[0].data().password;
+ 
+ 
       if (password === storedPassword) {
+        console.log('Logged in successfully');
         navigate('/home');
       } else {
         setError('Invalid username or password');
@@ -63,17 +54,17 @@ const Credentials = () => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
-
+ 
     window.addEventListener('resize', handleResize);
     handleResize();
-
+ 
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
-
+ 
   const backgroundImage = isMobile ? mobileBackground : desktopBackground;
-
+ 
   return (
     <div
       className={`flex flex-col items-center justify-center h-screen bg-cover bg-center`}
@@ -95,7 +86,7 @@ const Credentials = () => {
             className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
         </div>
-
+ 
         <div className="mb-4 w-full sm:w-3/4 md:w-1/2 input-box">
           <label htmlFor="password" className="block text-white mb-1">Password:</label>
           <input
@@ -106,7 +97,7 @@ const Credentials = () => {
             className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
         </div>
-
+ 
         <div className="text-center w-1/3 button">
           <button
             className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600 button"
@@ -120,5 +111,5 @@ const Credentials = () => {
     </div>
   );
 };
-
+ 
 export default Credentials;
