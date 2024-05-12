@@ -1,54 +1,54 @@
 import React, { useEffect, useState } from 'react';
-import axios from 'axios';
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
 
-// Function to get the stored token (if using token-based authentication)
-const getAuthToken = () => {
-  return localStorage.getItem('authToken'); // Adjust as needed
+const firebaseConfig = {  
+apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+projectId: "gitsconnect-aa3f5",
+storageBucket: "gitsconnect-aa3f5.appspot.com",
+messagingSenderId: "229347354180",
+appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+measurementId: "G-JQHTHQTJ76"
+
 };
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({});
   const [message, setMessage] = useState('');
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setMessage('Logged out successfully');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      setMessage('Error logging out');
+    }
+  };
+
   useEffect(() => {
-    const fetchProfile = async () => {
-      try {
-        const authToken = getAuthToken();  // Get the stored token
-        if (!authToken) {
-          throw new Error('Authentication token not found');
-        }
-        const response = await axios.get('http://127.0.0.1:8000/api/get-profile/', {
-          headers: {
-            Authorization: `Bearer ${authToken}`,  // Include token in header
-          },
-        });
-        setProfileData(response.data);  // Set the profile data from the response
-      } catch (error) {
-        console.error('Error fetching profile:', error);
-        setMessage('Error fetching profile');  // Display a friendly error message
-      }
-    };
+    const fetchProfile = async () => { /* your fetchProfile code */ };
+    fetchProfile();
+  }, []);
 
-    fetchProfile();  // Fetch the profile on component mount
-  }, []);  // Run only on initial render
-
-  // Destructure the profile data
   const { email, name, semester, roll_number, phone_number } = profileData;
 
   return (
-    <div>
-      <h1>Your Profile</h1>
-      {message && <p>{message}</p>}  {/* Display message if there's an error */}
-      <div>
-        <p>Email: {email}</p>  {/* Display the email ID used for login */}
-        <p>Name: {name || ''}</p> 
-        <p>Semester: {semester || ''}</p> 
-        <p>Roll Number: {roll_number || ''}</p> 
-        <p>Phone Number: {phone_number || ''}</p> 
+    <div className="profile-container">
+      <h1 className="profile-title">Your Profile</h1>
+      {message && <p className="error-message">{message}</p>}
+      <div className="profile-content">
+        {/* your JSX code */}
+        <button className="logout-button" onClick={handleLogout}>Logout</button>
       </div>
     </div>
   );
 };
-
 
 export default Profile;
