@@ -1,15 +1,24 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-
-const isAuthenticated = () => {
-  // Implement your custom authentication check here
-  // For example, check if a token is present in localStorage or sessionStorage
-  const authToken = localStorage.getItem('authToken');
-  return authToken ? true : false;
-};
+import React, { useEffect, useState } from "react";
+import { Navigate } from "react-router-dom";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const ProtectedRoute = ({ children }) => {
-  const isLoggedIn = isAuthenticated();
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const auth = getAuth();
+
+  useEffect(() => {
+    const unsubscribe = onAuthStateChanged(auth, (user) => {
+      if (user) {
+        // User is authenticated
+        setIsLoggedIn(true);
+      } else {
+        // User is not authenticated
+        setIsLoggedIn(false);
+      }
+      unsubscribe();
+    });
+  }, [auth]);
+
   return isLoggedIn ? children : <Navigate to="/credentials" />;
 };
 

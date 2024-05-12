@@ -5,7 +5,9 @@ import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg';
 import mobileBackground from '../Assests/imagesroni/Login.jpg';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/headerlogin';
-
+import {  collection, query, where, getDocs } from 'firebase/firestore';
+import { getDoc } from "firebase/firestore";
+import { doc } from "firebase/firestore";
 // Initialize Firebase app
 const firebaseConfig = {
     apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
@@ -17,7 +19,7 @@ const firebaseConfig = {
     measurementId: "G-JQHTHQTJ76"
 };
 
-const firebaseApp = initializeApp(firebaseConfig);
+const firebaseApp =initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp); // Initialize Firestore
 
 const Credentials = () => {
@@ -26,24 +28,26 @@ const Credentials = () => {
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
-
   const handleLogin = async () => {
     try {
-      // Query Firestore for the user document based on the username
-      const userSnapshot = await db.collection('usercredentials').doc('login').where('username', '==', username).get();
-    
+      // Retrieve the user document based on the entered username
+      const userDocRef = doc(db, 'usercredentials', username);
+      const userDoc = await getDoc(userDocRef);
+  
+      console.log('userDoc:', userDoc);
       // Check if the document exists
-      if (userSnapshot.empty) {
+      if (!userDoc.exists()) {
         setError('Invalid username or password');
         return;
       }
-    
-      // Get the first document (assuming there's only one user per username)
-      const userData = userSnapshot.docs[0].data();
-    
+  
+      // Get the data from the user document
+      const userData = userDoc.data();
+      console.log('userData:', userData);
+  
       // Retrieve the password from the user document
       const storedPassword = userData.password;
-    
+  
       // Compare the entered password with the stored password
       if (password === storedPassword) {
         navigate('/home');
@@ -55,7 +59,6 @@ const Credentials = () => {
       setError('An unexpected error occurred.');
     }
   };
-
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
