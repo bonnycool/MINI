@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+<<<<<<< HEAD
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 
@@ -26,14 +27,44 @@ const handleErrorResponse = (error, navigate) => {
   } else {
     setErrorMessage("Error fetching profile.");
   }
+=======
+import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
+import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import firebase from 'firebase/compat/app';
+
+const firebaseConfig = {  
+apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+projectId: "gitsconnect-aa3f5",
+storageBucket: "gitsconnect-aa3f5.appspot.com",
+messagingSenderId: "229347354180",
+appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+measurementId: "G-JQHTHQTJ76"
+
+>>>>>>> 6eaf2ada4c6db4a234bd98abe5d57d5b2cc1e485
 };
+
+const firebaseApp = firebase.initializeApp(firebaseConfig);
+const auth = getAuth(firebaseApp);
+const db = getFirestore(firebaseApp);
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({});
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
 
+  const handleLogout = async () => {
+    try {
+      await signOut(auth);
+      setMessage('Logged out successfully');
+    } catch (error) {
+      console.error('Error logging out:', error);
+      setMessage('Error logging out');
+    }
+  };
+
   useEffect(() => {
+<<<<<<< HEAD
     const fetchProfile = async () => {
       try {
         const authToken = getAuthToken();
@@ -61,6 +92,21 @@ const Profile = () => {
         <p>Semester: {profileData.semester || ''}</p>
         <p>Roll Number: {profileData.roll_no || ''}</p>
         <p>Phone Number: {profileData.phone_number || ''}</p>
+=======
+    const fetchProfile = async () => { /* your fetchProfile code */ };
+    fetchProfile();
+  }, []);
+
+  const { email, name, semester, roll_number, phone_number } = profileData;
+
+  return (
+    <div className="profile-container">
+      <h1 className="profile-title">Your Profile</h1>
+      {message && <p className="error-message">{message}</p>}
+      <div className="profile-content">
+        {/* your JSX code */}
+        <button className="logout-button" onClick={handleLogout}>Logout</button>
+>>>>>>> 6eaf2ada4c6db4a234bd98abe5d57d5b2cc1e485
       </div>
     </div>
   );

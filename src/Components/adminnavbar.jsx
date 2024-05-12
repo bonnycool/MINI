@@ -12,9 +12,6 @@ const AdminNavbar = ({ isOpen = false }) => {
             {/* Navigation links */}
             <ul className="space-y-4">
                 <li>
-                    <a href="/admin-home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
-                </li>
-                <li>
                     <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                 </li>
 
