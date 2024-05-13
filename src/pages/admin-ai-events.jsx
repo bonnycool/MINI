@@ -1,27 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component'
-import {db} from "../../backend/firebase"
-import { addDoc,collection } from 'firebase/firestore';
+import { db } from "../../backend/firebase";
+import { addDoc, collection, getDocs,deleteDoc,doc } from 'firebase/firestore';
+
 const AdminAIEvents = () => {
     // State to manage events data
-    const [events, setEvents] = useState([
-        {
-            title: 'AI Workshop',
-            date: 'April 10, 2024',
-            time: '2:00 PM',
-            location: 'Room 101',
-            description: 'A workshop on blockchain technology and its applications.',
-        },
-        {
-            title: 'AI Symposium',
-            date: 'April 15, 2024',
-            time: '10:00 AM',
-            location: 'Auditorium',
-            description: 'A symposium on the latest trends in AI and machine learning.',
-        },
-        // Add more events as needed
-    ]);
+    const [events, setEvents] = useState([]);
 
     // State to manage the form data
     const [formData, setFormData] = useState({
@@ -41,18 +26,19 @@ const AdminAIEvents = () => {
         }));
     };
 
+    
     // Function to handle form submission
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
             // Add the new event to the Firestore collection
-            const docRef = await addDoc(collection(db, 'events'), {formData});
+            const docRef = await addDoc(collection(db, 'events'), formData);
             console.log('Document written with ID: ', docRef.id);
-    
+
             // Update the events state with the new event
-            setEvents((prevEvents) => [...prevEvents, {formData}]);
-    
+            setEvents((prevEvents) => [...prevEvents, formData]);
+
             // Clear the form data
             setFormData({
                 title: '',
@@ -61,7 +47,7 @@ const AdminAIEvents = () => {
                 location: '',
                 description: '',
             });
-    
+
             // Display success message
             alert('Event added successfully!');
         } catch (error) {
@@ -70,13 +56,42 @@ const AdminAIEvents = () => {
             alert('Error adding event. Please try again later.');
         }
     };
+    const handleRemoveEvent = async (id) => {
+        console.log('Event ID:', id); // Add this line for debugging
+        try {
+            // Remove the event from Firestore
+            await deleteDoc(doc(db, 'events', id));
+            // Update the state to reflect the removal
+            setEvents((prevEvents) => prevEvents.filter(event => event.id !== id));
+            alert('Event removed successfully!');
+        } catch (error) {
+            console.error('Error removing event: ', error);
+            alert('Error removing event. Please try again later.');
+        }
+    };
     
 
-    // Function to handle removing an event
-    const handleRemoveEvent = (index) => {
-        setEvents((prevEvents) => prevEvents.filter((_, i) => i !== index));
-    };
-
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'events'));
+                const fetchedEvents = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    // Check if 'date' field exists and is a valid Firestore timestamp
+                    const date = data.date && data.date.toDate ? data.date.toDate() : null;
+                    // Format the date if it's valid, otherwise use an empty string
+                    const formattedDate = date ? date.toLocaleDateString() : '';
+                    return { ...data, date: formattedDate };
+                });
+                setEvents(fetchedEvents);
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+    
+        fetchEvents();
+    }, []);
+    
     return (
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
@@ -94,30 +109,27 @@ const AdminAIEvents = () => {
 
                 {/* Event list */}
                 <div className="grid gap-6">
-                    {events.map((event, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                            {/* Event title */}
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
-
-                            {/* Event details */}
-                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
-                            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
-                            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
-
-                            {/* Event description */}
-                            <p className="text-gray-600 mb-4">{event.description}</p>
-
-                            {/* Action buttons */}
-                            <div>
-                                <button
-                                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
-                                    onClick={() => handleRemoveEvent(index)}
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
-                    ))}
+                {events.map((event,index) => (
+    <div key={index} className="p-4 bg-white rounded-lg shadow-md">
+        {/* Event title */}
+        <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
+        {/* Event details */}
+        <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
+        <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
+        <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
+        {/* Event description */}
+        <p className="text-gray-600 mb-4">{event.description}</p>
+        {/* Action buttons */}
+        <div>
+            <button
+                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
+                onClick={() =>{    console.log('Event ID:', event.id); handleRemoveEvent(event.id)}} // Pass the event id to handleRemoveEvent
+            >
+                Remove
+            </button>
+        </div>
+    </div>
+))}
                 </div>
 
                 {/* Form for adding new events */}
