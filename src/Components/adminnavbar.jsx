@@ -1,4 +1,5 @@
 import React from 'react';
+//import {db} from "../../backend/firebase"
 
 const AdminNavbar = ({ isOpen = false }) => {
     return (

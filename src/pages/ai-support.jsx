@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../Components/navbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import UserHeader from '../Components/userheader'; // Import the Header component
 
 const AIClubContact = () => {
     return (
@@ -13,7 +13,7 @@ const AIClubContact = () => {
             {/* Section B: Main content area */}
             <div className="flex-1 h-full p-8 bg-gray-100">
                 {/* Add Header component at the top */}
-                <Header />
+                <UserHeader />
 
                 {/* Content area */}
                 <div className="mt-6">

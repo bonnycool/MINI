@@ -1,7 +1,7 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom';
 import Navbar from '../Components/navbar';
-import Header from '../Components/header';
+import UserHeader from '../Components/userheader';
 import Box1Image from '../Assests/imagesroni/ai1.jpg';
 import Box2Image from '../Assests/imagesroni/dl3.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
@@ -19,7 +19,7 @@ const AI = () => {
             </div>
 
             <div className="flex-1 h-full">
-                <Header />
+                <UserHeader />
 
                 <div className="flex h-full">
                     <div className="flex flex-col w-1/2 space-y-6 p-4">

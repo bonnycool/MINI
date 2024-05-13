@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import axios from 'axios'; // Import Axios
 import { useNavigate } from 'react-router-dom'; // For navigation
-import Header from '../Components/header'; // Import the header file
+import UserHeader from '../Components/userheader'; // Import the header file
 import backgroundImage from '../Assests/IMAGES/saintgitsbg.jpeg'; // Background image
 
 const Admincredentials = () => {
@@ -61,7 +61,7 @@ const Admincredentials = () => {
             className="flex flex-col items-center justify-center h-screen bg-cover bg-center"
             style={{ backgroundImage: `url(${backgroundImage})` }}
         >
-            <Header />
+            <UserHeader />
 
             <div className="flex flex-col items-center justify-center w-1/2">
                 {/* Username input box */}
