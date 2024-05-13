@@ -31,35 +31,28 @@ const Admincredentials = () => {
         setPasswordError('');
         setLoginError('');
 
-        if (!isValidEmail(username)) {
-            setUsernameError('Please use a Saintgits email.');
-            return;
-        }
+        // Hardcoded login details
+        const users = [
+            { username: 'blockhead@saintgits.org', password: 'saintgits@', page: '/admin-blockchain' },
+            { username: 'aihead@saintgits.org', password: 'saintgits@', page: '/admin-ai' },
+            { username: 'cyberhead@saintgits.org', password: 'saintgits@', page: '/admin-cyber' },
+            { username: 'openhead@saintgits.org', password: 'saintgits@', page: '/admin-opensource' },
+            { username: 'superuser@saintgits.org', password: 'saintgits@', page: '/admin-home' },
+        ];
 
-        if (password.length < 8) {
-            setPasswordError('Password must be at least 8 characters long.');
+        const user = users.find(user => user.username === username && user.password === password);
+
+        if (!user) {
+            setLoginError('Invalid login credentials.');
             return;
         }
 
         try {
-            // Make a POST request to your backend login endpoint
-            const response = await axios.post(
-                'http://127.0.0.1:8000/api/admin-login/',
-                {
-                    admin_username: username,
-                    admin_password: password,
-                }
-            );
-
-            if (response.status === 200) {
-                navigate('/admin-home'); // Navigate to admin home page
-            }
+            // Simulating a successful login with hardcoded credentials
+            navigate(user.page); // Navigate to the corresponding page
         } catch (error) {
-            if (error.response && error.response.status === 401) {
-                setLoginError('Invalid login credentials.');
-            } else {
-                setLoginError('An unexpected error occurred.');
-            }
+            console.error('An unexpected error occurred:', error);
+            setLoginError('An unexpected error occurred.');
         }
     };
 
@@ -88,7 +81,7 @@ const Admincredentials = () => {
                 </div>
 
                 {/* Password input box */}
-                <div class="mb-4 w-1/2">
+                <div className="mb-4 w-1/2">
                     <label htmlFor="password" className="block text-white mb-1">
                         Password:
                     </label>
