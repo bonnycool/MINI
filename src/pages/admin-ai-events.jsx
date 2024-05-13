@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
-
+import Header from '../Components/header'; // Import the Header component'
+import {db} from "../../backend/firebase"
+import { addDoc,collection } from 'firebase/firestore';
 const AdminAIEvents = () => {
     // State to manage events data
     const [events, setEvents] = useState([
@@ -41,19 +42,35 @@ const AdminAIEvents = () => {
     };
 
     // Function to handle form submission
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Add the new event to the events list
-        setEvents((prevEvents) => [...prevEvents, formData]);
-        // Clear the form data
-        setFormData({
-            title: '',
-            date: '',
-            time: '',
-            location: '',
-            description: '',
-        });
+    
+        try {
+            // Add the new event to the Firestore collection
+            const docRef = await addDoc(collection(db, 'events'), {formData});
+            console.log('Document written with ID: ', docRef.id);
+    
+            // Update the events state with the new event
+            setEvents((prevEvents) => [...prevEvents, {formData}]);
+    
+            // Clear the form data
+            setFormData({
+                title: '',
+                date: '',
+                time: '',
+                location: '',
+                description: '',
+            });
+    
+            // Display success message
+            alert('Event added successfully!');
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            // Display error message
+            alert('Error adding event. Please try again later.');
+        }
     };
+    
 
     // Function to handle removing an event
     const handleRemoveEvent = (index) => {
