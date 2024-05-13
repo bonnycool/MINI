@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from 'react';
-import { getAuth, onAuthStateChanged, signOut } from 'firebase/auth';
-import { useNavigate } from 'react-router-dom'; // Import useNavigate hook
-import { getFirestore, collection, getDocs, query, where } from 'firebase/firestore';
+import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
+import { getAuth, signOut } from 'firebase/auth';
+import { getFirestore, collection, getDoc, doc } from 'firebase/firestore';
 
-const firebaseConfig = {  
+const firebaseConfig = {
   apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
   authDomain: "gitsconnect-aa3f5.firebaseapp.com",
   projectId: "gitsconnect-aa3f5",
@@ -19,43 +18,111 @@ const auth = getAuth(firebaseApp);
 const db = getFirestore(firebaseApp);
 
 const Profile = () => {
-  const [profileData, setProfileData] = useState({});
-  const [errorMessage, setErrorMessage] = useState('');
+  const [profileData, setProfileData] = useState({
+    email: '',
+    name: '',
+    semester: '',
+    roll_number: '',
+    phone_number: '',
+  });
+  const [message, setMessage] = useState('');
 
   const handleLogout = async () => {
     try {
       await signOut(auth);
-      const message = 'Logged out successfully';
-      console.log(message);
+      setMessage('Saved successfully');
     } catch (error) {
       console.error('Error logging out:', error);
-      const message = 'Error logging out';
-      console.log(message);
+      setMessage('Error logging out');
+    }
+  };
+
+  const getUsername = async (userId) => {
+    const userRef = doc(collection(db, 'usercredentials'), userId);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      setProfileData((prevData) => ({
+        ...prevData,
+        name: userData.username || '',
+      }));
     }
   };
 
   useEffect(() => {
-    const fetchProfile = async () => {
-      /* your fetchProfile code */
-    };
-    fetchProfile();
+    const user = auth.currentUser;
+    if (user) {
+      const userId = user.uid;
+
+      getUsername(userId);
+
+      setProfileData((prevData) => ({
+        ...prevData,
+        email: user.email || '',
+      }));
+    }
   }, []);
 
-  const { email, name, semester, roll_number, phone_number } = profileData;
-
+  const handleInputChange = (e) => {
+    const { name, value } = e.target;
+    setProfileData((prevData) => ({
+      ...prevData,
+      [name]: value,
+    }));
+  };
   return (
-    <div className="profile-container p-6 bg-white rounded-lg shadow-md">
-      <h1 className="profile-title text-2xl font-bold mb-4">Your Profile</h1>
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      <div className="profile-content">
-        <div className="border p-4 mb-4">
-          <p><strong>Email:</strong> {email}</p>
-          <p><strong>Name:</strong> {name}</p>
-          <p><strong>Semester:</strong> {semester}</p>
-          <p><strong>Phone Number:</strong> {phone_number}</p>
-          <p><strong>Roll Number:</strong> {roll_number}</p>
+    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
+      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
+        <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
+        {message && <p className="text-red-500 text-center mb-4">{message}</p>}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <p className="text-gray-600">Email:</p>
+            <p className="font-bold text-xl">{profileData.email || 'loading'}</p>
+          </div>
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <p className="text-gray-600">Name:</p>
+            <input
+              type="text"
+              name="name"
+              value={profileData.name || ''}
+              onChange={handleInputChange}
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
+          </div>
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <p className="text-gray-600">Semester:</p>
+            <input
+              type="text"
+              name="semester"
+              value={profileData.semester || ''}
+              onChange={handleInputChange}
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
+          </div>
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <p className="text-gray-600">Roll Number:</p>
+            <input
+              type="text"
+              name="roll_number"
+              value={profileData.roll_number || ''}
+              onChange={handleInputChange}
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
+          </div>
+          <div className="bg-gray-200 p-4 rounded-lg">
+            <p className="text-gray-600">Phone Number:</p>
+            <input
+              type="text"
+              name="phone_number"
+              value={profileData.phone_number || ''}
+              onChange={handleInputChange}
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
+          </div>
         </div>
-        <button className="logout-button bg-red-500 text-white px-4 py-2 rounded-md" onClick={handleLogout}>Logout</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleLogout}>Save</button>
       </div>
     </div>
   );
