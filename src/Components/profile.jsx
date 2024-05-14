@@ -1,23 +1,14 @@
 import React, { useState, useEffect } from 'react';
-import firebase from 'firebase/compat/app';
-import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore, collection, getDoc, doc, getDocs, addDoc } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth'; // Import getAuth function
+import { getFirestore, collection, doc, getDocs, addDoc, getDoc } from 'firebase/firestore';
+import firebaseConfig from '../../backend/firebaseConfig';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
-  authDomain: "gitsconnect-aa3f5.firebaseapp.com",
-  projectId: "gitsconnect-aa3f5",
-  storageBucket: "gitsconnect-aa3f5.appspot.com",
-  messagingSenderId: "229347354180",
-  appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
-  measurementId: "G-JQHTHQTJ76"
-};
+const auth = getAuth(); // Initialize auth object
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(); // Initialize Firestore object
 
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
-
-const Profile = () => {
+const Profile = ({ username }) => {
   const [profileData, setProfileData] = useState({
     username: '',
     email: '',
@@ -27,53 +18,39 @@ const Profile = () => {
   });
 
   useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      const userId = user.uid;
-
-      getUsername(userId);
-
-      setProfileData((prevData) => ({
-        ...prevData,
-        email: user.email || '',
-      }));
-
-      // Fetch usernames
-      const fetchUsernames = async () => {
-        try {
-          const usernamesQuerySnapshot = await getDocs(collection(db, 'usercredentials'));
-          const fetchedUsernames = usernamesQuerySnapshot.docs.reduce((acc, doc) => {
-            const userData = doc.data();
-            acc[doc.id] = userData.username; // Assuming username is a field in the usercredentials document
-            return acc;
-          }, {});
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
           setProfileData((prevData) => ({
             ...prevData,
-            email: fetchedUsernames[user.uid] || user.email || '',
+            email: user.email || '',
           }));
-        } catch (error) {
-          console.error('Error fetching usernames: ', error);
+  
+          const querySnapshot = await getDocs(collection(db, 'usercredentials'));
+          querySnapshot.forEach((doc) => {
+            const userData = doc.data();
+            if (userData.username === user.username) {
+              setProfileData((prevData) => ({
+                ...prevData,
+                email: userData.email || '',
+                name: userData.name || '', // Set username here
+                semester: userData.semester || '',
+                roll_number: userData.roll_number || '',
+                phone_number: userData.phone_number || '',
+              }));
+            }
+          });
+        } else {
+          console.log('User is not signed in.');
         }
-      };
-
-      fetchUsernames();
-    }
+      } catch (error) {
+        console.error('Error fetching user data: ', error);
+      }
+    };
+  
+    fetchUserData();
   }, []);
-
-  const getUsername = async (userId) => {
-    console.log(userId);
-    const userRef = doc(collection(db, 'usercredentials'), userId);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      setProfileData((prevData) => ({
-        ...prevData,
-        name: userData.username || '',
-      }));
-      console.log("Profile ", prevData);
-    }
-  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -108,7 +85,7 @@ const Profile = () => {
               type="text"
               name="email"
               value={profileData.email || ''}
-              onChange={handleInputChange}
+              readOnly
               className="w-full bg-gray-200 p-2 rounded-lg"
             />
           </div>
@@ -116,7 +93,7 @@ const Profile = () => {
             <p className="text-gray-600">Name:</p>
             <input
               type="text"
-              name="name"
+              name="username"
               value={profileData.name || ''}
               onChange={handleInputChange}
               className="w-full bg-gray-200 p-2 rounded-lg"
