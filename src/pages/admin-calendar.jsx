@@ -63,7 +63,7 @@ const AdminClubCalendar = () => {
         };
 
         const currentClubEvents = clubEventsMap[currentClub];
-        const event = currentClubEvents.find(event => event.date.toDateString() === date.toDateString());
+        const event = currentClubEvents.find(event => event.date && event.date.toDateString() === date.toDateString());
         setSelectedEvent(event || null);
     };
 
@@ -77,16 +77,20 @@ const AdminClubCalendar = () => {
             };
 
             const currentClubEvents = clubEventsMap[currentClub];
-            const dayEvents = currentClubEvents.filter(event => event.date.toDateString() === date.toDateString());
+            
+            // Check if currentClubEvents is defined and not null
+            if (currentClubEvents) {
+                const dayEvents = currentClubEvents.filter(event => event.date && event.date.toDateString() === date.toDateString());
 
-            if (dayEvents.length > 0) {
-                return (
-                    <ul>
-                        {dayEvents.map((event, index) => (
-                            <li key={index}>{event.title}</li>
-                        ))}
-                    </ul>
-                );
+                if (dayEvents.length > 0) {
+                    return (
+                        <ul>
+                            {dayEvents.map((event, index) => (
+                                <li key={index}>{event.title}</li>
+                            ))}
+                        </ul>
+                    );
+                }
             }
         }
         return null;

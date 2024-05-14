@@ -19,8 +19,8 @@ const db = getFirestore(firebaseApp);
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
+    username: '',
     email: '',
-    name: '',
     semester: '',
     roll_number: '',
     phone_number: '',
@@ -37,15 +37,23 @@ const Profile = () => {
     }
   };
 
-  const getUsername = async (userId) => {
-    const userRef = doc(collection(db, 'usercredentials'), userId);
-    const userDoc = await getDoc(userRef);
+  const fetchUserProfile = async (userId) => {
+    const tableRef = collection(db, 'usercredentials');
+    const q = query(tableRef, where("username", "==", username));
+    const querySnapshot = await getDocs(q);
+    if (querySnapshot.empty) {
+      setError('Couldnt get');
+      return;
+  }
 
     if (userDoc.exists) {
       const userData = userDoc.data();
       setProfileData((prevData) => ({
         ...prevData,
-        name: userData.username || '',
+        email: userData.email || '',
+        semester: userData.semester || '',
+        roll_number: userData.roll_number || '',
+        phone_number: userData.phone_number || '',
       }));
     }
   };
@@ -54,13 +62,7 @@ const Profile = () => {
     const user = auth.currentUser;
     if (user) {
       const userId = user.uid;
-
-      getUsername(userId);
-
-      setProfileData((prevData) => ({
-        ...prevData,
-        email: user.email || '',
-      }));
+      fetchUserProfile(userId);
     }
   }, []);
 
@@ -71,6 +73,7 @@ const Profile = () => {
       [name]: value,
     }));
   };
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
@@ -79,7 +82,7 @@ const Profile = () => {
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Email:</p>
-            <p className="font-bold text-xl">{profileData.email || 'loading'}</p>
+            <p className="font-bold text-xl">{profileData.email || ''}</p>
           </div>
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Name:</p>
