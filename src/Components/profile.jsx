@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore, collection, getDoc, doc } from 'firebase/firestore';
+import { getFirestore, collection, getDoc, doc, getDocs, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
@@ -25,30 +25,6 @@ const Profile = () => {
     roll_number: '',
     phone_number: '',
   });
-  const [message, setMessage] = useState('');
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setMessage('Saved successfully');
-    } catch (error) {
-      console.error('Error logging out:', error);
-      setMessage('Error logging out');
-    }
-  };
-
-  const getUsername = async (userId) => {
-    const userRef = doc(collection(db, 'usercredentials'), userId);
-    const userDoc = await getDoc(userRef);
-
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      setProfileData((prevData) => ({
-        ...prevData,
-        name: userData.username || '',
-      }));
-    }
-  };
 
   useEffect(() => {
     const user = auth.currentUser;
@@ -61,8 +37,43 @@ const Profile = () => {
         ...prevData,
         email: user.email || '',
       }));
+
+      // Fetch usernames
+      const fetchUsernames = async () => {
+        try {
+          const usernamesQuerySnapshot = await getDocs(collection(db, 'usercredentials'));
+          const fetchedUsernames = usernamesQuerySnapshot.docs.reduce((acc, doc) => {
+            const userData = doc.data();
+            acc[doc.id] = userData.username; // Assuming username is a field in the usercredentials document
+            return acc;
+          }, {});
+          setProfileData((prevData) => ({
+            ...prevData,
+            email: fetchedUsernames[user.uid] || user.email || '',
+          }));
+        } catch (error) {
+          console.error('Error fetching usernames: ', error);
+        }
+      };
+
+      fetchUsernames();
     }
   }, []);
+
+  const getUsername = async (userId) => {
+    console.log(userId);
+    const userRef = doc(collection(db, 'usercredentials'), userId);
+    const userDoc = await getDoc(userRef);
+
+    if (userDoc.exists) {
+      const userData = userDoc.data();
+      setProfileData((prevData) => ({
+        ...prevData,
+        name: userData.username || '',
+      }));
+      console.log("Profile ", prevData);
+    }
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -71,15 +82,35 @@ const Profile = () => {
       [name]: value,
     }));
   };
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+
+    try {
+      const docRef = await addDoc(collection(db, 'usercredentials'), profileData);
+      console.log('Document written with ID: ', docRef.id);
+
+      alert('Profile Updated successfully!');
+    } catch (error) {
+      console.error('Error : ', error);
+      alert('Error . Please try again later.');
+    }
+  };
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
-        {message && <p className="text-red-500 text-center mb-4">{message}</p>}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Email:</p>
-            <p className="font-bold text-xl">{profileData.email || 'loading'}</p>
+            <input
+              type="text"
+              name="email"
+              value={profileData.email || ''}
+              onChange={handleInputChange}
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
           </div>
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Name:</p>
@@ -122,7 +153,7 @@ const Profile = () => {
             />
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleLogout}>Save</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleFormSubmit}>Save</button>
       </div>
     </div>
   );

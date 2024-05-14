@@ -41,7 +41,7 @@ const Credentials = () => {
  
       if (password === storedPassword) {
         console.log('Logged in successfully');
-        navigate('/home');
+        navigate('/home',{email: username });
       } else {
         setError('Invalid username or password');
       }
