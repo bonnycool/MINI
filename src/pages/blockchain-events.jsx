@@ -1,6 +1,6 @@
 import React from 'react';
 import Navbar from '../Components/navbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import UserHeader from '../Components/userheader'; // Import the Header component
 
 const BlockchainEvents = () => {
     // Sample events data
@@ -32,7 +32,7 @@ const BlockchainEvents = () => {
             {/* Section B: Main content area */}
             <div className="flex-1 p-8 bg-gray-100">
                 {/* Header component */}
-                <Header />
+                <UserHeader />
 
                 {/* Page header */}
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
@@ -58,7 +58,13 @@ const BlockchainEvents = () => {
                                     Register
                                 </button>
                                 <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
-                                    Add to Calendar
+                                <a href="/club-calendar">
+                                  <button className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
+                                   Show in Calendar
+                                   </button>
+                                   </a>
+
+                            
                                 </button>
                             </div>
                         </div>

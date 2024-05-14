@@ -1,6 +1,11 @@
 import React, { useState, useEffect } from 'react';
 import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
+import Box1Image from '../Assests/IMAGES/alan.jpeg';
+import Box2Image from '../Assests/IMAGES/bonny.jpg';
+import Box3Image from '../Assests/IMAGES/christopher.jpg';
+import Box4Image from '../Assests/IMAGES/alon.jpg';
+
 
 const AdminAboutUs = () => {
     const [isLoaded, setIsLoaded] = useState(false);
