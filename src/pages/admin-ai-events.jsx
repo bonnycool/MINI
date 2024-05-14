@@ -1,29 +1,11 @@
-import React, { useState } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component'
-import {db} from "../../backend/firebase"
-import { addDoc,collection } from 'firebase/firestore';
-const AdminAIEvents = () => {
-    // State to manage events data
-    const [events, setEvents] = useState([
-        {
-            title: 'AI Workshop',
-            date: 'April 10, 2024',
-            time: '2:00 PM',
-            location: 'Room 101',
-            description: 'A workshop on blockchain technology and its applications.',
-        },
-        {
-            title: 'AI Symposium',
-            date: 'April 15, 2024',
-            time: '10:00 AM',
-            location: 'Auditorium',
-            description: 'A symposium on the latest trends in AI and machine learning.',
-        },
-        // Add more events as needed
-    ]);
+import React, { useState, useEffect } from 'react';
+import { db } from "../../backend/firebase";
+import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 
-    // State to manage the form data
+const AdminCybersecurity = () => {
+    const [events, setEvents] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         date: '',
@@ -32,7 +14,6 @@ const AdminAIEvents = () => {
         description: '',
     });
 
-    // Function to handle changes in the form inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -41,19 +22,14 @@ const AdminAIEvents = () => {
         }));
     };
 
-    // Function to handle form submission
     const handleFormSubmit = async (e) => {
         e.preventDefault();
-    
+
         try {
-            // Add the new event to the Firestore collection
-            const docRef = await addDoc(collection(db, 'events'), {formData});
+            const docRef = await addDoc(collection(db, 'cyberevents'), formData);
             console.log('Document written with ID: ', docRef.id);
-    
-            // Update the events state with the new event
-            setEvents((prevEvents) => [...prevEvents, {formData}]);
-    
-            // Clear the form data
+
+            setEvents((prevEvents) => [...prevEvents, { ...formData, id: docRef.id }]);
             setFormData({
                 title: '',
                 date: '',
@@ -61,57 +37,67 @@ const AdminAIEvents = () => {
                 location: '',
                 description: '',
             });
-    
-            // Display success message
+
             alert('Event added successfully!');
         } catch (error) {
             console.error('Error adding document: ', error);
-            // Display error message
             alert('Error adding event. Please try again later.');
         }
     };
-    
 
-    // Function to handle removing an event
-    const handleRemoveEvent = (index) => {
-        setEvents((prevEvents) => prevEvents.filter((_, i) => i !== index));
+    const handleRemoveEvent = async (eventId) => {
+        console.log('Attempting to remove event with ID:', eventId);
+        try {
+            const eventDocRef = doc(db, 'cyberevents', eventId);
+            console.log('Document reference:', eventDocRef);
+            await deleteDoc(eventDocRef);
+            setEvents((prevEvents) => prevEvents.filter((e) => e.id !== eventId));
+            alert('Event removed successfully!');
+        } catch (error) {
+            console.error('Error removing event: ', error);
+            alert('Error removing event. Please try again later.');
+        }
     };
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'cyberevents'));
+                const fetchedEvents = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, id: doc.id };
+                });
+                setEvents(fetchedEvents);
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
 
     return (
         <div className="flex h-screen">
-            {/* Section A: Navbar on the left side */}
             <div className="w-1/5 h-full">
                 <AdminNavbar />
             </div>
 
-            {/* Section B: Main content area */}
             <div className="flex-1 p-8 bg-gray-100">
-                {/* Header component */}
                 <Header />
-
-                {/* Page header */}
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
 
-                {/* Event list */}
                 <div className="grid gap-6">
-                    {events.map((event, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                            {/* Event title */}
+                    {events.map((event) => (
+                        <div key={event.id} className="p-4 bg-white rounded-lg shadow-md">
                             <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
-
-                            {/* Event details */}
                             <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
                             <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
                             <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
-
-                            {/* Event description */}
                             <p className="text-gray-600 mb-4">{event.description}</p>
-
-                            {/* Action buttons */}
                             <div>
                                 <button
                                     className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
-                                    onClick={() => handleRemoveEvent(index)}
+                                    onClick={() => handleRemoveEvent(event.id)}
                                 >
                                     Remove
                                 </button>
@@ -120,7 +106,6 @@ const AdminAIEvents = () => {
                     ))}
                 </div>
 
-                {/* Form for adding new events */}
                 <div className="mt-8">
                     <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
                     <form onSubmit={handleFormSubmit}>
@@ -196,4 +181,4 @@ const AdminAIEvents = () => {
     );
 };
 
-export default AdminAIEvents;
+export default AdminCybersecurity;
