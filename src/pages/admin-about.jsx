@@ -82,7 +82,7 @@ const AdminAboutUs = () => {
                         <div>
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Alon John</h2>
                             <p className="text-base text-gray-700">
-                                Back-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
+                                Front-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
                             </p>
                         </div>
                     </div>

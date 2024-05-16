@@ -1,16 +1,15 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; // Import getAuth function
-import { getFirestore, collection, doc, getDocs, addDoc, getDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
 
 const auth = getAuth(); // Initialize auth object
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(); // Initialize Firestore object
 
-const Profile = ({ username }) => {
+const Profile = () => {
   const [profileData, setProfileData] = useState({
-    username: '',
     email: '',
     semester: '',
     roll_number: '',
@@ -26,21 +25,19 @@ const Profile = ({ username }) => {
             ...prevData,
             email: user.email || '',
           }));
-  
-          const querySnapshot = await getDocs(collection(db, 'usercredentials'));
-          querySnapshot.forEach((doc) => {
-            const userData = doc.data();
-            if (userData.username === user.username) {
-              setProfileData((prevData) => ({
-                ...prevData,
-                email: userData.email || '',
-                name: userData.name || '', // Set username here
-                semester: userData.semester || '',
-                roll_number: userData.roll_number || '',
-                phone_number: userData.phone_number || '',
-              }));
-            }
-          });
+
+          const docRef = doc(db, 'userprofiles', user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setProfileData((prevData) => ({
+              ...prevData,
+              semester: userData.semester || '',
+              roll_number: userData.roll_number || '',
+              phone_number: userData.phone_number || '',
+            }));
+          }
         } else {
           console.log('User is not signed in.');
         }
@@ -48,7 +45,7 @@ const Profile = ({ username }) => {
         console.error('Error fetching user data: ', error);
       }
     };
-  
+
     fetchUserData();
   }, []);
 
@@ -62,14 +59,22 @@ const Profile = ({ username }) => {
 
   const handleFormSubmit = async (e) => {
     e.preventDefault();
-
     try {
-      const docRef = await addDoc(collection(db, 'usercredentials'), profileData);
-      console.log('Document written with ID: ', docRef.id);
+      const user = auth.currentUser;
+      if (!user) {
+        console.log('User not authenticated');
+        return;
+      }
 
-      alert('Profile Updated successfully!');
+      const docRef = doc(db, 'userprofiles', user.uid);
+      await updateDoc(docRef, profileData);
+      console.log('Profile updated successfully!');
+      alert('Profile updated successfully!');
+
+      // Navigate to home page
+      window.location.href = '/home';
     } catch (error) {
-      console.error('Error : ', error);
+      console.error('Error: ', error);
       alert('Error . Please try again later.');
     }
   };
@@ -93,7 +98,7 @@ const Profile = ({ username }) => {
             <p className="text-gray-600">Name:</p>
             <input
               type="text"
-              name="username"
+              name="name"
               value={profileData.name || ''}
               onChange={handleInputChange}
               className="w-full bg-gray-200 p-2 rounded-lg"
