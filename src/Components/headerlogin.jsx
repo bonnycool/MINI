@@ -65,18 +65,17 @@ const HeaderLogin = () => {
                         marginRight: "10px",
                     }}
                 />
-                <h1
-                    className={`text-lg font-bold ${
-                        isMobileScreen ? "text-2xl text-center flex-1" : ""
-                    }`}
-                    style={{
-                        color: "#d1d5db",
-                        textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
-                        fontSize: isTabletScreen ? "3.5vw" : "3.5vw",
-                    }}
-                >
-                    GITSCONNECT
-                </h1>
+               <h1
+                className={`text-black font-bold ${
+                isMobileScreen ? "text-2xl text-center flex-1" : ""
+                }`}
+                style={{
+                textShadow: "1px 1px 2px rgba(0,0,0,0.2)",
+                fontSize: isTabletScreen ? "3.5vw" : "3.5vw",
+  }}
+>
+  GITSCONNECT
+</h1>
             </div>
               {/* Render SaintGits logo only for desktop and tablet */}
               {!isMobileScreen && (

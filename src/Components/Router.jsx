@@ -88,7 +88,7 @@ export function RouterPaths() {
                     </>
                 }
             />
-             <Route path="/edit-profile" element={<Profile/>} />
+             <Route path="/profile" element={<Profile/>} />
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
 
@@ -143,6 +143,7 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
+            
 
 
 

@@ -1,69 +1,54 @@
 import React, { useState, useEffect } from 'react';
-import firebase from 'firebase/compat/app';
-import { getAuth, signOut } from 'firebase/auth';
-import { getFirestore, collection, getDoc, doc } from 'firebase/firestore';
+import { initializeApp } from "firebase/app";
+import { getAuth } from 'firebase/auth'; // Import getAuth function
+import { getFirestore, collection, doc, getDoc, addDoc, updateDoc,setDoc } from 'firebase/firestore';
+import firebaseConfig from '../../backend/firebaseConfig';
 
-const firebaseConfig = {
-  apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
-  authDomain: "gitsconnect-aa3f5.firebaseapp.com",
-  projectId: "gitsconnect-aa3f5",
-  storageBucket: "gitsconnect-aa3f5.appspot.com",
-  messagingSenderId: "229347354180",
-  appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
-  measurementId: "G-JQHTHQTJ76"
-};
-
-const firebaseApp = firebase.initializeApp(firebaseConfig);
-const auth = getAuth(firebaseApp);
-const db = getFirestore(firebaseApp);
+const auth = getAuth(); // Initialize auth object
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(); // Initialize Firestore object
 
 const Profile = () => {
   const [profileData, setProfileData] = useState({
-    username: '',
     email: '',
     semester: '',
+    name:"",
     roll_number: '',
     phone_number: '',
   });
-  const [message, setMessage] = useState('');
-
-  const handleLogout = async () => {
-    try {
-      await signOut(auth);
-      setMessage('Saved successfully');
-    } catch (error) {
-      console.error('Error logging out:', error);
-      setMessage('Error logging out');
-    }
-  };
-
-  const fetchUserProfile = async (userId) => {
-    const tableRef = collection(db, 'usercredentials');
-    const q = query(tableRef, where("username", "==", username));
-    const querySnapshot = await getDocs(q);
-    if (querySnapshot.empty) {
-      setError('Couldnt get');
-      return;
-  }
-
-    if (userDoc.exists) {
-      const userData = userDoc.data();
-      setProfileData((prevData) => ({
-        ...prevData,
-        email: userData.email || '',
-        semester: userData.semester || '',
-        roll_number: userData.roll_number || '',
-        phone_number: userData.phone_number || '',
-      }));
-    }
-  };
 
   useEffect(() => {
-    const user = auth.currentUser;
-    if (user) {
-      const userId = user.uid;
-      fetchUserProfile(userId);
-    }
+    const fetchUserData = async () => {
+      try {
+        const user = auth.currentUser;
+        if (user) {
+          setProfileData((prevData) => ({
+            ...prevData,
+            email: user.email || '',
+          }));
+
+          const docRef = doc(db, 'userprofiles', user.uid);
+          const docSnap = await getDoc(docRef);
+
+          if (docSnap.exists()) {
+            const userData = docSnap.data();
+            setProfileData((prevData) => ({
+              ...prevData,
+              semester: userData.semester || '',
+              roll_number: userData.roll_number || '',
+              phone_number: userData.phone_number || '',
+              name:userData.name || ""
+            }));
+          }
+        } else {
+          console.log('User is not signed in.');
+        }
+      } catch (error) {
+        console.error('Error fetching user data: ', error);
+      }
+    };
+
+    fetchUserData();
   }, []);
 
   const handleInputChange = (e) => {
@@ -74,15 +59,47 @@ const Profile = () => {
     }));
   };
 
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    try {
+      const user = auth.currentUser;
+      if (!user) {
+        console.log('User not authenticated');
+        return;
+      }
+  
+      const userId = user.uid;
+  
+      // Assuming profileData is an object containing the profile details
+      const profileRef = doc(db, 'userprofiles', userId);
+      await setDoc(profileRef, profileData);
+  
+      console.log('Profile updated successfully!');
+      alert('Profile updated successfully!');
+  
+      // Navigate to home page
+      window.location.href = '/home';
+    } catch (error) {
+      console.error('Error updating profile:', error);
+      alert('Error updating profile. Please try again.');
+    }
+  };
+  
+
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
       <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
         <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
-        {message && <p className="text-red-500 text-center mb-4">{message}</p>}
         <div className="grid grid-cols-2 gap-4">
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Email:</p>
-            <p className="font-bold text-xl">{profileData.email || ''}</p>
+            <input
+              type="text"
+              name="email"
+              value={profileData.email || ''}
+              readOnly
+              className="w-full bg-gray-200 p-2 rounded-lg"
+            />
           </div>
           <div className="bg-gray-200 p-4 rounded-lg">
             <p className="text-gray-600">Name:</p>
@@ -125,7 +142,7 @@ const Profile = () => {
             />
           </div>
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleLogout}>Save</button>
+        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleFormSubmit}>Save</button>
       </div>
     </div>
   );

@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Homenavbar from '../Components/homenavabr';
 import Header from '../Components/header';
 import Box1Image from '../Assests/IMAGES/alan.jpeg';
-import Box2Image from '../Assests/IMAGES/bonny.jpg';
+import Box2Image from '../Assests/IMAGES/bonny.JPG';
 import Box3Image from '../Assests/IMAGES/christopher.jpg';
 import Box4Image from '../Assests/IMAGES/alon.jpg';
 
@@ -81,7 +81,7 @@ const AboutUs = () => {
                         <div>
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Alon John</h2>
                             <p className="text-base text-gray-700">
-                                Back-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
+                                Front-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
                             </p>
                         </div>
                     </div>
