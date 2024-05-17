@@ -1,11 +1,13 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase"; // Adjust the path to your Firebase configuration
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth'; // Import Firebase Auth
 import Navbar from '../Components/navbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import UserHeader from '../Components/userheader'; // Import the Header component
 
 const CyberEvents = () => {
     const [events, setEvents] = useState([]);
+    const auth = getAuth(); // Initialize Firebase Auth
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -24,6 +26,46 @@ const CyberEvents = () => {
         fetchEvents();
     }, []);
 
+    const handleRegister = async (eventId) => {
+        const user = auth.currentUser; // Get the current user
+
+        if (user) {
+            const { uid, email } = user; // Get basic user details
+
+            try {
+                // Fetch additional user details from the Firestore `users` collection
+                const userDoc = await getDoc(doc(db, 'userprofiles', uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const { name,semester, phone_number } = userData; // Extract additional user details
+
+                    // Create a document in Firestore for the registration in `blockeventreg` collection
+                    await setDoc(doc(db, 'cybereventreg', `${eventId}_${uid}`), {
+                        eventId,
+                        uid,
+                        name,
+                        email,
+                        semester,
+                        phone_number,
+                        registeredAt: new Date(),
+                    });
+
+                    alert('Successfully registered for the event!');
+                } else {
+                    alert('User details not found. Please complete your profile.');
+                }
+            } catch (error) {
+                console.error('Error registering for event: ', error);
+                alert('Failed to register for the event.');
+            }
+        } else {
+            alert('You need to be logged in to register for an event.');
+        }
+    };
+
+
+
+
     return (
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
@@ -34,7 +76,7 @@ const CyberEvents = () => {
             {/* Section B: Main content area */}
             <div className="flex-1 p-8 bg-gray-100">
                 {/* Header component */}
-                <Header />
+                <UserHeader />
 
                 {/* Page header */}
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
@@ -54,7 +96,10 @@ const CyberEvents = () => {
 
                             {/* Action button */}
                             <div className="flex justify-end">
-                                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600">
+                            <button
+                                    className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600"
+                                    onClick={() => handleRegister(event.id)}
+                                >
                                     Register
                                 </button>
                                 <a href="/club-calendar" className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
