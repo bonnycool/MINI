@@ -41,7 +41,7 @@ const Header = () => {
             {/* Render SaintGits logo only for desktop view */}
             {!isMobileScreen && (
                 <div className="flex items-center">
-                    <img src="../src/Assests/IMAGES/saintgitslogo.png" alt="SaintGits Logo" className="mr-2" style={{ height: "auto", maxWidth: `${maxSaintGitsLogoWidthVh}vh`, maxHeight: "100%" }} />
+                   
                 </div>
             )}
             {/* Conditionally render GitsConnect text in the middle for mobile view */}

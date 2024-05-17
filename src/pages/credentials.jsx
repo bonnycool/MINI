@@ -1,69 +1,68 @@
 import React, { useState, useEffect } from 'react';
-import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg'; // Path to the desktop image
-import mobileBackground from '../Assests/imagesroni/Login.jpg'; // Path to the mobile image
-
+import { initializeApp } from 'firebase/app';
+import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg';
+import mobileBackground from '../Assests/imagesroni/Login.jpg';
 import { useNavigate } from 'react-router-dom';
-import Header from '../Components/header';
-import axios from 'axios';
+import Header from '../Components/headerlogin';
 
+// Initialize Firebase app
+const firebaseConfig = {
+    apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+    authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+    projectId: "gitsconnect-aa3f5",
+    storageBucket: "gitsconnect-aa3f5.appspot.com",
+    messagingSenderId: "229347354180",
+    appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+    measurementId: "G-JQHTHQTJ76"
+};
+
+const firebaseApp = initializeApp(firebaseConfig);
+const db = getFirestore(firebaseApp); // Initialize Firestore
 
 const Credentials = () => {
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [usernameError, setUsernameError] = useState('');
-  const [passwordError, setPasswordError] = useState('');
-  const [loginError, setLoginError] = useState('');
+  const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
-
-  const navigate = useNavigate(); // Navigation hook
-
+  const navigate = useNavigate();
+ 
+  const handleLogin = async () => {
+    try {
+      // Retrieve the user document based on the entered username
+      const tableRef = collection(db, 'usercredentials')
+      const q = query(tableRef, where("username", "==", username));
+      const querySnapshot = await getDocs(q);
+      console.log(querySnapshot.docs[0].data());
+      const storedPassword = querySnapshot.docs[0].data().password;
+ 
+ 
+      if (password === storedPassword) {
+        console.log('Logged in successfully');
+        navigate('/home',{email: username });
+      } else {
+        setError('Invalid username or password');
+      }
+    } catch (error) {
+      console.error('Error logging in:', error);
+      setError('An unexpected error occurred.');
+    }
+  };
   useEffect(() => {
     const handleResize = () => {
-      setIsMobile(window.innerWidth <= 768); // Define mobile breakpoint
+      setIsMobile(window.innerWidth <= 768);
     };
-
-    window.addEventListener('resize', handleResize); // Add resize listener
-    handleResize(); // Initial check for screen size
-
+ 
+    window.addEventListener('resize', handleResize);
+    handleResize();
+ 
     return () => {
-      window.removeEventListener('resize', handleResize); // Cleanup on component unmount
+      window.removeEventListener('resize', handleResize);
     };
-  }, []); // Run only on initial render
-
-  const handleLogin = () => {
-    setUsernameError('');
-    setPasswordError('');
-    setLoginError(''); // Clear existing error messages
-
-    if (!isValidUsername(username)) {
-      setUsernameError('Use a valid saintgits email'); // Set error for invalid username
-      return;
-    }
-
-    axios.post('http://127.0.0.1:8000/api/login/', { username, password })
-      .then((response) => {
-        if (response.status === 200) {
-        const token = response.data.token; // Assuming the token is returned in 'data.token'
-        localStorage.setItem('authToken', token); // Store the token in localStorage
-          navigate('/home'); // Successful login, navigate to home page
-        }
-      })
-      .catch((error) => {
-        if (error.response && error.response.status === 401) {
-          setLoginError('Invalid login credentials'); // Show "Invalid credentials" message
-        } else {
-          setLoginError('An unexpected error occurred.'); // General error handling
-        }
-      });
-  };
-
-  const isValidUsername = (username) => {
-    const emailRegex = /^[^\s@]+@saintgits\.org$/;
-    return emailRegex.test(username);
-  };
-
-  const backgroundImage = isMobile ? mobileBackground : desktopBackground; // Determine background
-
+  }, []);
+ 
+  const backgroundImage = isMobile ? mobileBackground : desktopBackground;
+ 
   return (
     <div
       className={`flex flex-col items-center justify-center h-screen bg-cover bg-center`}
@@ -73,47 +72,38 @@ const Credentials = () => {
         backgroundPosition: 'center',
       }}
     >
-      <Header /> {/* Render the header */}
+      <Header />
       <div className="flex flex-col items-center justify-center w-full sm:w-3/4 md:w-1/2">
-        {/* Apply 'input-box' class to input elements */}
         <div className="mb-4 w-full sm:w-3/4 md:w-1/2 input-box">
           <label htmlFor="username" className="block text-white mb-1">Username:</label>
           <input
             type="text"
-            placeholder="Student Login"
+            placeholder="Username"
             value={username}
-            onChange={(e) => {
-              setUsername(e.target.value);
-              setUsernameError('');
-            }}
-            className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`} // Add class
+            onChange={(e) => setUsername(e.target.value)}
+            className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
-          {usernameError && <p className="text-red-500 text-sm">{usernameError}</p>}
         </div>
-
+ 
         <div className="mb-4 w-full sm:w-3/4 md:w-1/2 input-box">
           <label htmlFor="password" className="block text-white mb-1">Password:</label>
           <input
             type="password"
             placeholder="Password"
             value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              setPasswordError('');
-            }}
-            className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`} // Add class
+            onChange={(e) => setPassword(e.target.value)}
+            className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
-          {passwordError && <p className="text-red-500 text-sm">{passwordError}</p>}  
         </div>
-
+ 
         <div className="text-center w-1/3 button">
           <button
-            className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600 button" // Apply class
+            className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600 button"
             onClick={handleLogin}
           >
             Login
           </button>
-          {loginError && <p className="text-red-500 text-sm">{loginError}</p>}  
+          {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
       </div>
     </div>

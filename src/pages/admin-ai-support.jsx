@@ -94,139 +94,147 @@ const AdminAIClubContactInfo = () => {
 
                 {/* Content area */}
                 <div className="mt-6">
-                    <h2 className="text-2xl font-bold mb-6 text-gray-800">AI Club Contact Information</h2>
+                    <h2 className="text-3xl font-semibold mb-6 text-gray-800">AI Club Contact Information</h2>
 
                     {/* Club Head */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2">Club Head</h3>
-                    <form>
-                        <label>
-                            Email:
-                            <input
-                                type="text"
-                                name="email"
-                                value={contactInfo.head.email}
-                                onChange={(e) => handleInputChange(e, 'head')}
-                                className="block mb-2 border p-1 rounded"
-                            />
-                        </label>
-                        <label>
-                            Phone:
-                            <input
-                                type="text"
-                                name="phone"
-                                value={contactInfo.head.phone}
-                                onChange={(e) => handleInputChange(e, 'head')}
-                                className="block mb-2 border p-1 rounded"
-                            />
-                        </label>
-                    </form>
+                    <div className="mb-8 border-black border-2 rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Club Head</h3>
+                        <form className="flex flex-col">
+                            <label className="mb-4">
+                                Email:
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={contactInfo.head.email}
+                                    onChange={(e) => handleInputChange(e, 'head')}
+                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                />
+                            </label>
+                            <label className="mb-4">
+                                Phone:
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={contactInfo.head.phone}
+                                    onChange={(e) => handleInputChange(e, 'head')}
+                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                />
+                            </label>
+                        </form>
+                    </div>
 
                     {/* Secretary */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Secretary</h3>
-                    <form>
-                        <label>
-                            Email:
-                            <input
-                                type="text"
-                                name="email"
-                                value={contactInfo.secretary.email}
-                                onChange={(e) => handleInputChange(e, 'secretary')}
-                                className="block mb-2 border p-1 rounded"
-                            />
-                        </label>
-                        <label>
-                            Phone:
-                            <input
-                                type="text"
-                                name="phone"
-                                value={contactInfo.secretary.phone}
-                                onChange={(e) => handleInputChange(e, 'secretary')}
-                                className="block mb-2 border p-1 rounded"
-                            />
-                        </label>
-                    </form>
+                    <div className="mb-8 border-black border-2 rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Secretary</h3>
+                        <form className="flex flex-col">
+                            <label className="mb-4">
+                                Email:
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={contactInfo.secretary.email}
+                                    onChange={(e) => handleInputChange(e, 'secretary')}
+                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                />
+                            </label>
+                            <label className="mb-4">
+                                Phone:
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={contactInfo.secretary.phone}
+                                    onChange={(e) => handleInputChange(e, 'secretary')}
+                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                />
+                            </label>
+                        </form>
+                    </div>
 
                     {/* Faculty Members */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Faculty Members</h3>
-                    {contactInfo.faculty.map((faculty, index) => (
-                        <div key={index} className="mb-4">
-                            <form>
-                                <label>
-                                    Email:
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        value={faculty.email}
-                                        onChange={(e) => handleInputChange(e, 'faculty', index)}
-                                        className="block mb-2 border p-1 rounded"
-                                    />
-                                </label>
-                                <label>
-                                    Phone:
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={faculty.phone}
-                                        onChange={(e) => handleInputChange(e, 'faculty', index)}
-                                        className="block mb-2 border p-1 rounded"
-                                    />
-                                </label>
-                            </form>
-                            <button
-                                className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
-                                onClick={() => handleRemoveContact('faculty', index)}
-                            >
-                                Remove Faculty Member
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="bg-green-500 text-white py-1 px-2 rounded mt-2 hover:bg-green-600"
-                        onClick={() => handleAddContact('faculty')}
-                    >
-                        Add Faculty Member
-                    </button>
+                    <div className="mb-8 border-black border-2 rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Faculty Members</h3>
+                        {contactInfo.faculty.map((faculty, index) => (
+                            <div key={index} className="mb-4">
+                                <form className="flex flex-col">
+                                    <label className="mb-4">
+                                        Email:
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            value={faculty.email}
+                                            onChange={(e) => handleInputChange(e, 'faculty', index)}
+                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                        />
+                                    </label>
+                                    <label className="mb-4">
+                                        Phone:
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            value={faculty.phone}
+                                            onChange={(e) => handleInputChange(e, 'faculty', index)}
+                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                        />
+                                    </label>
+                                </form>
+                                <button
+                                    className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                                    onClick={() => handleRemoveContact('faculty', index)}
+                                >
+                                    Remove Faculty Member
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            className="bg-green-500 text-white py-2 px-4 rounded mt-2 hover:bg-green-600"
+                            onClick={() => handleAddContact('faculty')}
+                        >
+                            Add Faculty Member
+                        </button>
+                    </div>
 
                     {/* Other Members */}
-                    <h3 className="text-xl font-bold text-blue-600 mb-2 mt-4">Other Members</h3>
-                    {contactInfo.members.map((member, index) => (
-                        <div key={index} className="mb-4">
-                            <form>
-                                <label>
-                                    Email:
-                                    <input
-                                        type="text"
-                                        name="email"
-                                        value={member.email}
-                                        onChange={(e) => handleInputChange(e, 'members', index)}
-                                        className="block mb-2 border p-1 rounded"
-                                    />
-                                </label>
-                                <label>
-                                    Phone:
-                                    <input
-                                        type="text"
-                                        name="phone"
-                                        value={member.phone}
-                                        onChange={(e) => handleInputChange(e, 'members', index)}
-                                        className="block mb-2 border p-1 rounded"
-                                    />
-                                </label>
-                            </form>
-                            <button
-                                className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600"
-                                onClick={() => handleRemoveContact('members', index)}
-                            >
-                                Remove Member
-                            </button>
-                        </div>
-                    ))}
-                    <button
-                        className="bg-green-500 text-white py-1 px-2 rounded mt-2 hover:bg-green-600"
-                        onClick={() => handleAddContact('members')}
-                    >
-                        Add Member
-                    </button>
+                    <div className="border-black border-2 rounded-lg p-6">
+                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Other Members</h3>
+                        {contactInfo.members.map((member, index) => (
+                            <div key={index} className="mb-4">
+                                <form className="flex flex-col">
+                                    <label className="mb-4">
+                                        Email:
+                                        <input
+                                            type="text"
+                                            name="email"
+                                            value={member.email}
+                                            onChange={(e) => handleInputChange(e, 'members', index)}
+                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                        />
+                                    </label>
+                                    <label className="mb-4">
+                                        Phone:
+                                        <input
+                                            type="text"
+                                            name="phone"
+                                            value={member.phone}
+                                            onChange={(e) => handleInputChange(e, 'members', index)}
+                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
+                                        />
+                                    </label>
+                                </form>
+                                <button
+                                    className="bg-red-500 text-white py-2 px-4 rounded hover:bg-red-600"
+                                    onClick={() => handleRemoveContact('members', index)}
+                                >
+                                    Remove Member
+                                </button>
+                            </div>
+                        ))}
+                        <button
+                            className="bg-green-500 text-white py-2 px-4 rounded mt-2 hover:bg-green-600"
+                            onClick={() => handleAddContact('members')}
+                        >
+                            Add Member
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>

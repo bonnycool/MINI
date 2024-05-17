@@ -23,20 +23,22 @@ const Home = () => {
                     <div className="flex flex-col mt-5 ml-60 items-center w-1/3">
                         {/* Button 1: Blockchain Club */}
                         <button
-                            className="w-full h-60 ml-10 mb-10 bg-cover bg-center rounded-lg hover:opacity-80"
+                            className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box1Image})` }}
                             onClick={() => window.location.href = '/blockchain'}
                         >
-                            <span className="text-white font-bold text-2xl">Blockchain Club</span>
+                            <div className="absolute inset-0 bg-black opacity-40"></div>
+                            <span className="text-white font-bold text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">Blockchain Club</span>
                         </button>
 
                         {/* Button 2: Cyber Security Club */}
                         <button
-                            className="w-full h-60 ml-10 bg-cover bg-center rounded-lg hover:opacity-80"
+                            className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box2Image})` }}
                             onClick={() => window.location.href = '/cybersecurity'}
                         >
-                            <span className="text-white font-bold text-2xl">Cyber Security Club</span>
+                            <div className="absolute inset-0 bg-black opacity-40"></div>
+                            <span className="text-white font-bold text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">Cyber Security Club</span>
                         </button>
                     </div>
 
@@ -44,20 +46,22 @@ const Home = () => {
                     <div className="flex flex-col mt-5 items-center w-1/3 ml-8">
                         {/* Button 3: Open Source Club */}
                         <button
-                            className="w-full h-60 mb-10 ml-20 bg-cover bg-center rounded-lg hover:opacity-80"
+                            className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box3Image})` }}
                             onClick={() => window.location.href = '/opensource'}
                         >
-                            <span className="text-white font-bold text-2xl">Open Source Club</span>
+                            <div className="absolute inset-0 bg-black opacity-40"></div>
+                            <span className="text-white font-bold text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">Open Source Club</span>
                         </button>
 
                         {/* Button 4: AI Club */}
                         <button
-                            className="w-full h-60 bg-cover bg-center ml-20 rounded-lg hover:opacity-80"
+                            className="w-full h-72 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})` }}
                             onClick={() => window.location.href = '/aiclub'}
                         >
-                            <span className="text-white font-bold text-2xl">AI Club</span>
+                            <div className="absolute inset-0 bg-black opacity-40"></div>
+                            <span className="text-white font-bold text-2xl absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-10">AI Club</span>
                         </button>
                     </div>
                 </div>
