@@ -106,7 +106,7 @@ const Userheader = ({ username }) => {
               <span>{username}</span> {/* Display the username */}
             </div>
             <div>
-              <Link to="/profile" style={{ cursor: 'pointer' }}>Edit Profile</Link> {/* Link to edit profile */}
+              <Link to="/profile" style={{ cursor: 'pointer' }}>Your Profile</Link> {/* Link to edit profile */}
             </div>
             <div onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</div> {/* Trigger logout */}
           </div>
