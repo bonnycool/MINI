@@ -143,6 +143,7 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
+            
 
 
 
