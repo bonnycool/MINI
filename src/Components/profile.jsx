@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth'; // Import getAuth function
+import { getAuth,onAuthStateChanged } from 'firebase/auth'; // Import getAuth function
 import { getFirestore, collection, doc, getDoc, addDoc, updateDoc,setDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
 
 const auth = getAuth(); // Initialize auth object
 const firebaseApp = initializeApp(firebaseConfig);
+
 const db = getFirestore(); // Initialize Firestore object
 
 const Profile = () => {
@@ -20,8 +21,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = auth.currentUser;
-        if (user) {
+        auth.onAuthStateChanged(async(user)=> {
           setProfileData((prevData) => ({
             ...prevData,
             email: user.email || '',
@@ -40,9 +40,7 @@ const Profile = () => {
               name:userData.name || ""
             }));
           }
-        } else {
-          console.log('User is not signed in.');
-        }
+        })
       } catch (error) {
         console.error('Error fetching user data: ', error);
       }

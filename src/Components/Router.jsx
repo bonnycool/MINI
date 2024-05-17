@@ -89,6 +89,7 @@ export function RouterPaths() {
                 }
             />
              <Route path="/profile" element={<Profile/>} />
+
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
 
