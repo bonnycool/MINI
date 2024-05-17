@@ -1,10 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState,useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
 import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
 import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg';
 import mobileBackground from '../Assests/imagesroni/Login.jpg';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/headerlogin';
+import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
 
 // Initialize Firebase app
 const firebaseConfig = {
@@ -19,6 +20,7 @@ const firebaseConfig = {
 
 const firebaseApp = initializeApp(firebaseConfig);
 const db = getFirestore(firebaseApp); // Initialize Firestore
+const auth = getAuth(); // Initialize Authentication
 
 const Credentials = () => {
   const [username, setUsername] = useState('');
@@ -29,23 +31,19 @@ const Credentials = () => {
  
   const handleLogin = async () => {
     try {
-      // Retrieve the user document based on the entered username
-      const tableRef = collection(db, 'usercredentials')
-      const q = query(tableRef, where("username", "==", username));
-      const querySnapshot = await getDocs(q);
-      console.log(querySnapshot.docs[0].data());
-      const storedPassword = querySnapshot.docs[0].data().password;
- 
- 
-      if (password === storedPassword) {
-        console.log('Logged in successfully');
-        navigate('/home',{email: username });
-      } else {
-        setError('Invalid username or password');
+      // Validate email format
+      if (!username.endsWith('@saintgits.org')) {
+        setError('Please use an email ending with @saintgits.org');
+        return;
       }
+  
+      // Sign in with email and password
+      const userCredentials = await signInWithEmailAndPassword(auth, username, password);
+      console.log('Logged in successfully:', userCredentials.user);
+      navigate('/home',{ email: username });
     } catch (error) {
       console.error('Error logging in:', error);
-      setError('An unexpected error occurred.');
+      setError('Invalid username or password');
     }
   };
   useEffect(() => {
