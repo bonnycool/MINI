@@ -9,7 +9,7 @@ const AdminAIClubMaterials = () => {
     const [formData, setFormData] = useState({
         session: '',
         date: '',
-        references: [],
+        references: [],   
     });
     const [newReference, setNewReference] = useState('');
 
