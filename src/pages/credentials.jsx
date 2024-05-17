@@ -1,21 +1,21 @@
-import React, { useState,useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import { initializeApp } from 'firebase/app';
-import { getFirestore, collection, query, where, getDocs } from 'firebase/firestore';
+import { getFirestore } from 'firebase/firestore';
 import desktopBackground from '../Assests/IMAGES/saintgitsbg.jpeg';
 import mobileBackground from '../Assests/imagesroni/Login.jpg';
 import { useNavigate } from 'react-router-dom';
 import Header from '../Components/headerlogin';
-import { getAuth, signInWithEmailAndPassword } from 'firebase/auth';
+import { getAuth, signInWithEmailAndPassword, sendPasswordResetEmail } from 'firebase/auth';
 
 // Initialize Firebase app
 const firebaseConfig = {
-    apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
-    authDomain: "gitsconnect-aa3f5.firebaseapp.com",
-    projectId: "gitsconnect-aa3f5",
-    storageBucket: "gitsconnect-aa3f5.appspot.com",
-    messagingSenderId: "229347354180",
-    appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
-    measurementId: "G-JQHTHQTJ76"
+  apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+  authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+  projectId: "gitsconnect-aa3f5",
+  storageBucket: "gitsconnect-aa3f5.appspot.com",
+  messagingSenderId: "229347354180",
+  appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+  measurementId: "G-JQHTHQTJ76"
 };
 
 const firebaseApp = initializeApp(firebaseConfig);
@@ -28,7 +28,7 @@ const Credentials = () => {
   const [error, setError] = useState('');
   const [isMobile, setIsMobile] = useState(false);
   const navigate = useNavigate();
- 
+
   const handleLogin = async () => {
     try {
       // Validate email format
@@ -36,31 +36,50 @@ const Credentials = () => {
         setError('Please use an email ending with @saintgits.org');
         return;
       }
-  
+
       // Sign in with email and password
       const userCredentials = await signInWithEmailAndPassword(auth, username, password);
       console.log('Logged in successfully:', userCredentials.user);
-      navigate('/home',{ email: username });
+      navigate('/home', { email: username });
     } catch (error) {
       console.error('Error logging in:', error);
       setError('Invalid username or password');
     }
   };
+
+  const handleResetPassword = async () => {
+    try {
+      // Validate email format
+      if (!username.endsWith('@saintgits.org')) {
+        setError('Please use an email ending with @saintgits.org to reset password');
+        return;
+      }
+
+      // Send password reset email
+      await sendPasswordResetEmail(auth, username);
+      console.log('Password reset email sent successfully');
+      setError('Password reset email sent. Check your inbox.');
+    } catch (error) {
+      console.error('Error sending password reset email:', error);
+      setError('Error sending password reset email');
+    }
+  };
+
   useEffect(() => {
     const handleResize = () => {
       setIsMobile(window.innerWidth <= 768);
     };
- 
+
     window.addEventListener('resize', handleResize);
     handleResize();
- 
+
     return () => {
       window.removeEventListener('resize', handleResize);
     };
   }, []);
- 
+
   const backgroundImage = isMobile ? mobileBackground : desktopBackground;
- 
+
   return (
     <div
       className={`flex flex-col items-center justify-center h-screen bg-cover bg-center`}
@@ -82,7 +101,7 @@ const Credentials = () => {
             className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
         </div>
- 
+
         <div className="mb-4 w-full sm:w-3/4 md:w-1/2 input-box">
           <label htmlFor="password" className="block text-white mb-1">Password:</label>
           <input
@@ -93,7 +112,7 @@ const Credentials = () => {
             className={`w-full p-2 rounded bg-white text-black border border-gray-300 text-center input-box`}
           />
         </div>
- 
+
         <div className="text-center w-1/3 button">
           <button
             className="bg-blue-500 text-white p-2 rounded w-full hover:bg-blue-600 button"
@@ -101,6 +120,14 @@ const Credentials = () => {
           >
             Login
           </button>
+          <p
+           className="mt-2 text-white text-sm cursor-pointer"
+           onClick={handleResetPassword}
+           style={{ textDecoration: 'underline' }}
+           >
+           <span style={{ transition: 'color 0.3s' }}>Forgot password ?</span>
+          </p>
+        
           {error && <p className="text-red-500 text-sm">{error}</p>}
         </div>
       </div>

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { initializeApp } from "firebase/app";
 import { getAuth } from 'firebase/auth'; // Import getAuth function
-import { getFirestore, collection, doc, getDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, getDoc, addDoc, updateDoc,setDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
 
 const auth = getAuth(); // Initialize auth object
@@ -12,6 +12,7 @@ const Profile = () => {
   const [profileData, setProfileData] = useState({
     email: '',
     semester: '',
+    name:"",
     roll_number: '',
     phone_number: '',
   });
@@ -36,6 +37,7 @@ const Profile = () => {
               semester: userData.semester || '',
               roll_number: userData.roll_number || '',
               phone_number: userData.phone_number || '',
+              name:userData.name || ""
             }));
           }
         } else {
@@ -65,19 +67,24 @@ const Profile = () => {
         console.log('User not authenticated');
         return;
       }
-
-      const docRef = doc(db, 'userprofiles', user.uid);
-      await updateDoc(docRef, profileData);
+  
+      const userId = user.uid;
+  
+      // Assuming profileData is an object containing the profile details
+      const profileRef = doc(db, 'userprofiles', userId);
+      await setDoc(profileRef, profileData);
+  
       console.log('Profile updated successfully!');
       alert('Profile updated successfully!');
-
+  
       // Navigate to home page
       window.location.href = '/home';
     } catch (error) {
-      console.error('Error: ', error);
-      alert('Error . Please try again later.');
+      console.error('Error updating profile:', error);
+      alert('Error updating profile. Please try again.');
     }
   };
+  
 
   return (
     <div className="min-h-screen bg-gray-100 flex items-center justify-center">
