@@ -60,12 +60,16 @@ import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
 import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
+import ClubMembers from './clubmembers';
 
 export function RouterPaths() {
     return (
         <Routes>
+
+            <Route>path=</Route>
             {/* Route for the login page */}
             <Route path="/" element={<Login />} />
+            <Route path="/admin-club-members" element={<ClubMembers />} />
 
             {/* Route for the interface page */}
             <Route
