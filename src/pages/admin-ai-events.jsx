@@ -4,7 +4,7 @@ import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore'
 import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
 
-const AdminCybersecurity = () => {
+const AdminAIEvents = () => {
     const [events, setEvents] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
@@ -26,7 +26,7 @@ const AdminCybersecurity = () => {
         e.preventDefault();
 
         try {
-            const docRef = await addDoc(collection(db, 'cyberevents'), formData);
+            const docRef = await addDoc(collection(db, 'aievents'), formData);
             console.log('Document written with ID: ', docRef.id);
 
             setEvents((prevEvents) => [...prevEvents, { ...formData, id: docRef.id }]);
@@ -48,7 +48,7 @@ const AdminCybersecurity = () => {
     const handleRemoveEvent = async (eventId) => {
         console.log('Attempting to remove event with ID:', eventId);
         try {
-            const eventDocRef = doc(db, 'cyberevents', eventId);
+            const eventDocRef = doc(db, 'aievents', eventId);
             console.log('Document reference:', eventDocRef);
             await deleteDoc(eventDocRef);
             setEvents((prevEvents) => prevEvents.filter((e) => e.id !== eventId));
@@ -62,7 +62,7 @@ const AdminCybersecurity = () => {
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, 'cyberevents'));
+                const querySnapshot = await getDocs(collection(db, 'aievents'));
                 const fetchedEvents = querySnapshot.docs.map(doc => {
                     const data = doc.data();
                     return { ...data, id: doc.id };
@@ -181,4 +181,4 @@ const AdminCybersecurity = () => {
     );
 };
 
-export default AdminCybersecurity;
+export default AdminAIEvents;

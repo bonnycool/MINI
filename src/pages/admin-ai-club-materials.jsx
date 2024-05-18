@@ -1,247 +1,181 @@
-import React, { useState } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import React, { useState, useEffect } from 'react';
+import { db } from "../../backend/firebase";
+import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 
 const AdminAIClubMaterials = () => {
-    // State to manage events data with references and links
-    const [events, setEvents] = useState([
-        {
-            title: 'AI Workshop',
-            references: [
-                {
-                    title: 'Reference 1',
-                    link: 'https://example.com/reference1',
-                },
-                {
-                    title: 'Reference 2',
-                    link: 'https://example.com/reference2',
-                },
-                // Add more references as needed
-            ],
-        },
-        {
-            title: 'AI Symposium',
-            references: [
-                {
-                    title: 'Reference A',
-                    link: 'https://example.com/referenceA',
-                },
-                {
-                    title: 'Reference B',
-                    link: 'https://example.com/referenceB',
-                },
-                // Add more references as needed
-            ],
-        },
-        {
-            title: 'AI Seminar',
-            references: [
-                {
-                    title: 'Resource 1',
-                    link: 'https://example.com/resource1',
-                },
-                {
-                    title: 'Resource 2',
-                    link: 'https://example.com/resource2',
-                },
-                // Add more references as needed
-            ],
-        },
-        {
-            title: 'AI Lecture',
-            references: [
-                {
-                    title: 'Link 1',
-                    link: 'https://example.com/link1',
-                },
-                {
-                    title: 'Link 2',
-                    link: 'https://example.com/link2',
-                },
-                // Add more references as needed
-            ],
-        },
-    ]);
-
-    // State to manage the form data for adding new events and links
-    const [newEvent, setNewEvent] = useState({
-        title: '',
-        references: [],
+    const [events, setEvents] = useState([]);
+    const [formData, setFormData] = useState({
+        session: '',
+        date: '',
+        references: [],   
     });
-    const [newReference, setNewReference] = useState({
-        title: '',
-        link: '',
-    });
+    const [newReference, setNewReference] = useState('');
 
-    // Function to handle input changes in the new event form
-    const handleNewEventChange = (e) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setNewEvent((prevData) => ({
+        setFormData((prevData) => ({
             ...prevData,
             [name]: value,
         }));
     };
 
-    // Function to handle input changes in the new reference form
-    const handleNewReferenceChange = (e) => {
-        const { name, value } = e.target;
-        setNewReference((prevData) => ({
-            ...prevData,
-            [name]: value,
-        }));
-    };
-
-    // Function to add a new reference to the new event
-    const addNewReferenceToEvent = () => {
-        setNewEvent((prevData) => ({
-            ...prevData,
-            references: [...prevData.references, newReference],
-        }));
-        // Clear new reference input fields
-        setNewReference({
-            title: '',
-            link: '',
-        });
-    };
-
-    // Function to handle form submission for adding a new event
-    const handleNewEventSubmit = (e) => {
+    const handleAddReference = (e) => {
         e.preventDefault();
-        // Add the new event to the events list
-        setEvents((prevEvents) => [...prevEvents, newEvent]);
-        // Clear the new event form
-        setNewEvent({
-            title: '',
-            references: [],
-        });
+        if (newReference) {
+            setFormData((prevData) => ({
+                ...prevData,
+                references: [...prevData.references, newReference],
+            }));
+            setNewReference('');
+        }
     };
 
-    // Function to remove an event
-    const handleRemoveEvent = (index) => {
-        setEvents((prevEvents) => prevEvents.filter((_, i) => i !== index));
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const docRef = await addDoc(collection(db, 'aiclubmaterials'), formData);
+            console.log('Document written with ID: ', docRef.id);
+
+            setEvents((prevEvents) => [...prevEvents, { ...formData, id: docRef.id }]);
+            setFormData({
+                session: '',
+                date: '',
+                references: [],
+            });
+
+            alert('Event added successfully!');
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            alert('Error adding event. Please try again later.');
+        }
     };
 
-    // Function to remove a reference from an event
-    const handleRemoveReference = (eventIndex, referenceIndex) => {
-        setEvents((prevEvents) => {
-            const updatedEvents = [...prevEvents];
-            updatedEvents[eventIndex].references = updatedEvents[eventIndex].references.filter(
-                (_, i) => i !== referenceIndex
-            );
-            return updatedEvents;
-        });
+    const handleRemoveEvent = async (eventId) => {
+        console.log('Attempting to remove event with ID:', eventId);
+        try {
+            const eventDocRef = doc(db, 'aiclubmaterials', eventId);
+            console.log('Document reference:', eventDocRef);
+            await deleteDoc(eventDocRef);
+            setEvents((prevEvents) => prevEvents.filter((e) => e.id !== eventId));
+            alert('Event removed successfully!');
+        } catch (error) {
+            console.error('Error removing event: ', error);
+            alert('Error removing event. Please try again later.');
+        }
     };
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'aiclubmaterials'));
+                const fetchedEvents = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, id: doc.id };
+                });
+                setEvents(fetchedEvents);
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
 
     return (
         <div className="flex h-screen">
-            {/* Section A: Navbar on the left side */}
             <div className="w-1/5 h-full">
                 <AdminNavbar />
             </div>
 
-            {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
-                {/* Header component */}
+            <div className="flex-1 p-8 bg-gray-100">
                 <Header />
+                <h2 className="text-3xl font-bold mb-6 text-gray-800">Club Materials</h2>
 
-                {/* Content area */}
-                <div className="flex flex-col gap-6 mt-6">
-                    {events.map((event, eventIndex) => (
-                        <div key={eventIndex} className="bg-white p-4 rounded-lg shadow-md">
-                            {/* Event title */}
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
-
-                            {/* References and links */}
-                            <ul className="space-y-2">
-                                {event.references.map((reference, referenceIndex) => (
-                                    <li key={referenceIndex}>
-                                        <a href={reference.link} className="text-blue-500 hover:underline">
-                                            {reference.title}
-                                        </a>
-                                        {/* Button to remove reference */}
-                                        <button
-                                            className="ml-2 text-red-500 hover:underline"
-                                            onClick={() => handleRemoveReference(eventIndex, referenceIndex)}
-                                        >
-                                            Remove
-                                        </button>
-                                    </li>
+                <div className="grid gap-6">
+                    {events.map((event) => (
+                        <div key={event.id} className="p-4 bg-white rounded-lg shadow-md">
+                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.session}</h3>
+                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
+                            <p className="text-gray-700 mb-1"><strong>References:</strong></p>
+                            <ul className="list-disc list-inside text-gray-600 mb-4">
+                                {event.references.map((ref, index) => (
+                                    <li key={index}><a href={ref} className="text-blue-600 underline" target="_blank" rel="noopener noreferrer">{ref}</a></li>
                                 ))}
                             </ul>
-
-                            {/* Button to remove event */}
-                            <button
-                                className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mt-4"
-                                onClick={() => handleRemoveEvent(eventIndex)}
-                            >
-                                Remove Event
-                            </button>
+                            <div>
+                                <button
+                                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
+                                    onClick={() => handleRemoveEvent(event.id)}
+                                >
+                                    Remove
+                                </button>
+                            </div>
                         </div>
                     ))}
+                </div>
 
-                    {/* Form for adding new events */}
-                    <div className="mt-8">
-                        <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
-                        <form onSubmit={handleNewEventSubmit}>
-                            {/* Event title input */}
-                            <div className="mb-4">
-                                <label htmlFor="newEventTitle" className="block text-gray-700 mb-1">Title:</label>
+                <div className="mt-8">
+                    <h3 className="text-2xl font-bold mb-4">Add New Club Materials</h3>
+                    <form onSubmit={handleFormSubmit}>
+                        <div className="mb-4">
+                            <label htmlFor="session" className="block text-gray-700 mb-1">Session:</label>
+                            <input
+                                type="text"
+                                id="session"
+                                name="session"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.session}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
+                            <input
+                                type="date"
+                                id="date"
+                                name="date"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.date}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="references" className="block text-gray-700 mb-1">References:</label>
+                            <ul className="list-disc list-inside mb-2">
+                                {formData.references.map((ref, index) => (
+                                    <li key={index} className="text-gray-600">{ref}</li>
+                                ))}
+                            </ul>
+                            <div className="flex">
                                 <input
-                                    type="text"
-                                    id="newEventTitle"
-                                    name="title"
+                                    type="url"
+                                    id="newReference"
+                                    name="newReference"
                                     className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={newEvent.title}
-                                    onChange={handleNewEventChange}
-                                    required
+                                    value={newReference}
+                                    onChange={(e) => setNewReference(e.target.value)}
+                                    placeholder="Add reference link"
                                 />
+                                <button
+                                    className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 ml-2"
+                                    onClick={handleAddReference}
+                                >
+                                    Add Reference
+                                </button>
                             </div>
-
-                            {/* Form for adding new references */}
-                            <h4 className="text-xl font-bold mb-2">Add References</h4>
-                            <div className="mb-2">
-                                <label htmlFor="newReferenceTitle" className="block text-gray-700 mb-1">Reference Title:</label>
-                                <input
-                                    type="text"
-                                    id="newReferenceTitle"
-                                    name="title"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={newReference.title}
-                                    onChange={handleNewReferenceChange}
-                                    required
-                                />
-                            </div>
-                            <div className="mb-4">
-                                <label htmlFor="newReferenceLink" className="block text-gray-700 mb-1">Reference Link:</label>
-                                <input
-                                    type="text"
-                                    id="newReferenceLink"
-                                    name="link"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={newReference.link}
-                                    onChange={handleNewReferenceChange}
-                                    required
-                                />
-                            </div>
-
-                            {/* Button to add new reference */}
-                            <button
-                                type="button"
-                                className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 mb-4"
-                                onClick={addNewReferenceToEvent}
-                            >
-                                Add Reference
-                            </button>
-
-                            {/* Button to submit new event */}
-                            <button
-                                type="submit"
-                                className="bg-blue-500 text-white py-2 px-4 ml-5 rounded-lg hover:bg-blue-600"
-                            >
-                                Add Event
-                            </button>
-                        </form>
-                    </div>
+                        </div>
+                        <button
+                            type="submit"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                        >
+                            Add Club Materials
+                        </button>
+                    </form>
                 </div>
             </div>
         </div>
