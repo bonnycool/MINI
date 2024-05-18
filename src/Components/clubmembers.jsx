@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the navbar component
-import Header from '../Components/header'; // Import the header component
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 import { db } from '../../backend/firebase';
 import { collection, getDocs, doc, deleteDoc, setDoc, getDoc } from 'firebase/firestore';
 
@@ -10,6 +10,7 @@ const ClubMembers = () => {
     const [pendingMembers, setPendingMembers] = useState([]);
     const [showPending, setShowPending] = useState(false);
 
+    // Fetch members when currentClub changes
     useEffect(() => {
         const fetchMembers = async () => {
             try {
@@ -19,20 +20,19 @@ const ClubMembers = () => {
                         collectionName = 'ai-members';
                         break;
                     case 'blockchain':
-                        collectionName = 'block-members';
+                        collectionName = 'blockchain-members';
                         break;
                     case 'cybersecurity':
-                        collectionName = 'cyber-members';
+                        collectionName = 'cybersecurity-members';
                         break;
                     case 'opensource':
-                        collectionName = 'open-members';
+                        collectionName = 'opensource-members';
                         break;
                     default:
                         console.error('Unknown club name:', currentClub);
                         return;
                 }
 
-                // Fetch members from the selected club's collection
                 const querySnapshot = await getDocs(collection(db, collectionName));
                 const membersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setMembers(membersData);
@@ -44,6 +44,7 @@ const ClubMembers = () => {
         fetchMembers();
     }, [currentClub]);
 
+    // Fetch pending members when showPending or currentClub changes
     useEffect(() => {
         const fetchPendingMembers = async () => {
             try {
@@ -97,22 +98,40 @@ const ClubMembers = () => {
         fetchPendingMembers();
     }, [showPending, currentClub]);
 
+    // Approve a member and move them to the approved collection
     const approveMember = async (userId, memberData) => {
         try {
             const collectionName = `${currentClub.toLowerCase()}-members`;
             const pendingCollectionName = `${currentClub.toLowerCase()}-approve`;
 
+            console.log(`Approving member: ${userId}`);
+            console.log(`Current club: ${currentClub}`);
+            console.log(`Target collection: ${collectionName}`);
+            console.log(`Pending collection: ${pendingCollectionName}`);
+
             // Add to approved members collection
-            const newMemberRef = doc(db, collectionName, userId); // Assuming userId is used as document ID
+            const newMemberRef = doc(db, collectionName, userId);
             await setDoc(newMemberRef, memberData);
 
+            // Verify if the document is added
+            const addedDoc = await getDoc(newMemberRef);
+            if (!addedDoc.exists()) {
+                throw new Error('Document was not added to the approved collection');
+            }
+
             // Remove from pending collection
-            const memberDoc = doc(db, pendingCollectionName, userId); // Assuming userId is used as document ID
+            const memberDoc = doc(db, pendingCollectionName, userId);
             await deleteDoc(memberDoc);
 
+            // Verify if the document is removed
+            const deletedDoc = await getDoc(memberDoc);
+            if (deletedDoc.exists()) {
+                throw new Error('Document was not deleted from the pending collection');
+            }
+
             // Update state
-            setMembers(prev => [...prev, memberData]);
-            setPendingMembers(prev => prev.map(member => 
+            setMembers(prev => [...prev, { id: userId, ...memberData }]);
+            setPendingMembers(prev => prev.map(member =>
                 member.userId === userId ? { ...member, isApproved: true } : member
             ));
         } catch (error) {
