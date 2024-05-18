@@ -1,10 +1,8 @@
 import React, { useState, useEffect } from 'react';
-import Header from './header'; // Import the Header component
 import { initializeApp } from "firebase/app";
 import { getAuth,onAuthStateChanged } from 'firebase/auth'; // Import getAuth function
 import { getFirestore, collection, doc, getDoc, addDoc, updateDoc,setDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
-import ProfileNavbar from './profilenavbar';
 
 const auth = getAuth(); // Initialize auth object
 const firebaseApp = initializeApp(firebaseConfig);
@@ -88,8 +86,6 @@ const Profile = () => {
 
   return (
     <div>
-      <Header /> {/* Include the Header component */}
-      <ProfileNavbar/>
       <div className="min-h-screen bg-gray-100 flex flex-col  items-center justify-center">
       <div className="flex-grow"></div> {/* This creates space to push content upwards */}
         <div className="bg-white p-4 rounded-lg shadow-lg w-96 border-4 border-black mt-8 mb-8">

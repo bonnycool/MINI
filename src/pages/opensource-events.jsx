@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase"; // Adjust the path to your Firebase configuration
-import { getDocs, collection } from 'firebase/firestore';
+import { getDocs, collection, doc, setDoc, getDoc } from 'firebase/firestore';
+import { getAuth } from 'firebase/auth'; // Import Firebase Auth
 import Navbar from '../Components/navbar'; // Import the Navbar component
 import Header from '../Components/header'; // Import the Header component
 
 const OSEvents = () => {
     const [events, setEvents] = useState([]);
+    const [registeredEvents, setRegisteredEvents] = useState([]);
+    const auth = getAuth(); // Initialize Firebase Auth
 
     useEffect(() => {
         const fetchEvents = async () => {
@@ -23,6 +26,46 @@ const OSEvents = () => {
 
         fetchEvents();
     }, []);
+
+    const handleRegister = async (eventId) => {
+        const user = auth.currentUser; // Get the current user
+
+        if (user) {
+            const { uid, email } = user; // Get basic user details
+
+            try {
+                // Fetch additional user details from the Firestore `userprofiles` collection
+                const userDoc = await getDoc(doc(db, 'userprofiles', uid));
+                if (userDoc.exists()) {
+                    const userData = userDoc.data();
+                    const { name, semester, phone_number } = userData; // Extract additional user details
+
+                    // Create a document in Firestore for the registration in `openeventreg` collection
+                    await setDoc(doc(db, 'open-event-reg', `${eventId}_${uid}`), {
+                        eventId,
+                        uid,
+                        name,
+                        email,
+                        semester,
+                        phone_number,
+                        registeredAt: new Date(),
+                    });
+
+                    // Update the registered events state
+                    setRegisteredEvents([...registeredEvents, eventId]);
+
+                    alert('Successfully registered for the event! Pending for approval.');
+                } else {
+                    alert('User details not found. Please complete your profile.');
+                }
+            } catch (error) {
+                console.error('Error registering for event: ', error);
+                alert('Failed to register for the event.');
+            }
+        } else {
+            alert('You need to be logged in to register for an event.');
+        }
+    };
 
     return (
         <div className="flex h-screen">
@@ -52,11 +95,20 @@ const OSEvents = () => {
                             <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
                             <p className="text-gray-700 mb-1"><strong>Description:</strong> {event.description}</p>
 
-                            {/* Action button */}
+                            {/* Action buttons */}
                             <div className="flex justify-end">
-                                <button className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600">
-                                    Register
-                                </button>
+                                {registeredEvents.includes(event.id) ? (
+                                    <button className="bg-gray-500 text-white py-2 px-4 rounded-lg mr-4" disabled>
+                                        Pending for Approval
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600"
+                                        onClick={() => handleRegister(event.id)}
+                                    >
+                                        Register
+                                    </button>
+                                )}
                                 <a href="/club-calendar" className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
                                     Show in Calendar
                                 </a>

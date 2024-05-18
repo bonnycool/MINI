@@ -1,10 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase";
-import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc } from 'firebase/firestore';
 import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
 
-const AdminCybersecurity = () => {
+const AdminAIEvents = () => {
     const [events, setEvents] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
@@ -13,7 +13,8 @@ const AdminCybersecurity = () => {
         location: '',
         description: '',
     });
-
+    const [registrations, setRegistrations] = useState([]);
+   
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -26,7 +27,7 @@ const AdminCybersecurity = () => {
         e.preventDefault();
 
         try {
-            const docRef = await addDoc(collection(db, 'cyberevents'), formData);
+            const docRef = await addDoc(collection(db, 'events'), formData);
             console.log('Document written with ID: ', docRef.id);
 
             setEvents((prevEvents) => [...prevEvents, { ...formData, id: docRef.id }]);
@@ -48,7 +49,7 @@ const AdminCybersecurity = () => {
     const handleRemoveEvent = async (eventId) => {
         console.log('Attempting to remove event with ID:', eventId);
         try {
-            const eventDocRef = doc(db, 'cyberevents', eventId);
+            const eventDocRef = doc(db, 'events', eventId);
             console.log('Document reference:', eventDocRef);
             await deleteDoc(eventDocRef);
             setEvents((prevEvents) => prevEvents.filter((e) => e.id !== eventId));
@@ -59,10 +60,26 @@ const AdminCybersecurity = () => {
         }
     };
 
+    const handleApproveRegistration = async (regId) => {
+        try {
+            const regDocRef = doc(db, 'ai-event-reg', regId);
+            await updateDoc(regDocRef, {
+                status: 'Approved',
+            });
+            setRegistrations((prevRegs) => prevRegs.map((reg) =>
+                reg.id === regId ? { ...reg, status: 'Approved' } : reg
+            ));
+            alert('Registration approved successfully!');
+        } catch (error) {
+            console.error('Error approving registration: ', error);
+            alert('Error approving registration. Please try again later.');
+        }
+    };
+
     useEffect(() => {
         const fetchEvents = async () => {
             try {
-                const querySnapshot = await getDocs(collection(db, 'cyberevents'));
+                const querySnapshot = await getDocs(collection(db, 'events'));
                 const fetchedEvents = querySnapshot.docs.map(doc => {
                     const data = doc.data();
                     return { ...data, id: doc.id };
@@ -73,41 +90,81 @@ const AdminCybersecurity = () => {
             }
         };
 
+        const fetchRegistrations = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'ai-event-reg'));
+                const fetchedRegistrations = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, id: doc.id };
+                });
+                setRegistrations(fetchedRegistrations);
+            } catch (error) {
+                console.error('Error fetching registrations: ', error);
+            }
+        };
+
         fetchEvents();
+        fetchRegistrations();
     }, []);
+
+
 
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
                 <AdminNavbar />
             </div>
-
+            
             <div className="flex-1 p-8 bg-gray-100">
                 <Header />
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
-
-                <div className="grid gap-6">
-                    {events.map((event) => (
-                        <div key={event.id} className="p-4 bg-white rounded-lg shadow-md">
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
-                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
-                            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
-                            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
-                            <p className="text-gray-600 mb-4">{event.description}</p>
-                            <div>
-                                <button
-                                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
-                                    onClick={() => handleRemoveEvent(event.id)}
-                                >
-                                    Remove
-                                </button>
+                
+                <div>
+                    <h2 className="text-3xl font-bold mb-6 text-gray-800">AI Event Registrations</h2>
+                    <div className="grid gap-6">
+                        {registrations.map((reg) => (
+                            <div key={reg.id} className="p-4 bg-white rounded-lg shadow-md">
+                                <h3 className="text-xl font-bold text-blue-600 mb-2">{reg.name}</h3>
+                                <p className="text-gray-700 mb-1"><strong>Email:</strong> {reg.email}</p>
+                                <p className="text-gray-700 mb-1"><strong>Status:</strong> {reg.status}</p>
+                                <p className="text-gray-700 mb-1"><strong>Event Name:</strong> {reg.eventname}</p>
+                                {reg.status !== 'Approved' && (
+                                    <button
+                                        className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600"
+                                        onClick={() => handleApproveRegistration(reg.id)}
+                                    >
+                                        Approve
+                                    </button>
+                                )}
                             </div>
-                        </div>
-                    ))}
+                        ))}
+                    </div>
                 </div>
-
-                <div className="mt-8">
-                    <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
+                
+                <div>
+                    <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                    <div className="grid gap-6">
+                        {events.map((event) => (
+                            <div key={event.id} className="p-4 bg-white rounded-lg shadow-md">
+                                <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
+                                <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
+                                <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
+                                <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
+                                <p className="text-gray-600 mb-4">{event.description}</p>
+                                <div>
+                                    <button
+                                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
+                                        onClick={() => handleRemoveEvent(event.id)}
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 className="text-2xl font-bold mb-4">Add New Event</h2>
                     <form onSubmit={handleFormSubmit}>
                         <div className="mb-4">
                             <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
@@ -181,4 +238,4 @@ const AdminCybersecurity = () => {
     );
 };
 
-export default AdminCybersecurity;
+export default AdminAIEvents;

@@ -7,6 +7,7 @@ import UserHeader from '../Components/userheader'; // Import the Header componen
 
 const BlockchainEvents = () => {
     const [events, setEvents] = useState([]);
+    const [registeredEvents, setRegisteredEvents] = useState([]);
     const auth = getAuth(); // Initialize Firebase Auth
 
     useEffect(() => {
@@ -37,7 +38,7 @@ const BlockchainEvents = () => {
                 const userDoc = await getDoc(doc(db, 'userprofiles', uid));
                 if (userDoc.exists()) {
                     const userData = userDoc.data();
-                    const { name,semester, phone_number } = userData; // Extract additional user details
+                    const { name, semester, phone_number } = userData; // Extract additional user details
 
                     // Create a document in Firestore for the registration in `blockeventreg` collection
                     await setDoc(doc(db, 'blockeventreg', `${eventId}_${uid}`), {
@@ -50,7 +51,10 @@ const BlockchainEvents = () => {
                         registeredAt: new Date(),
                     });
 
-                    alert('Successfully registered for the event!');
+                    // Update the registered events state
+                    setRegisteredEvents([...registeredEvents, eventId]);
+
+                    alert('Successfully registered for the event! Pending for approval.');
                 } else {
                     alert('User details not found. Please complete your profile.');
                 }
@@ -93,12 +97,18 @@ const BlockchainEvents = () => {
 
                             {/* Action buttons */}
                             <div className="flex justify-end">
-                                <button
-                                    className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600"
-                                    onClick={() => handleRegister(event.id)}
-                                >
-                                    Register
-                                </button>
+                                {registeredEvents.includes(event.id) ? (
+                                    <button className="bg-gray-500 text-white py-2 px-4 rounded-lg mr-4" disabled>
+                                        Pending for Approval
+                                    </button>
+                                ) : (
+                                    <button
+                                        className="bg-blue-500 text-white py-2 px-4 rounded-lg mr-4 hover:bg-blue-600"
+                                        onClick={() => handleRegister(event.id)}
+                                    >
+                                        Register
+                                    </button>
+                                )}
                                 <a href="/club-calendar" className="bg-gray-500 text-white py-2 px-4 rounded-lg hover:bg-gray-600">
                                     Show in Calendar
                                 </a>

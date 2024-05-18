@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import Homenavbar from '../Components/homenavabr';
 import Header from '../Components/header';
 import Box1Image from '../Assests/IMAGES/alan.jpeg';
-import Box2Image from '../Assests/IMAGES/bonny.jpg';
+import Box2Image from '../Assests/IMAGES/bonny.JPG';
 import Box3Image from '../Assests/IMAGES/christopher.jpg';
 import Box4Image from '../Assests/IMAGES/alon.jpg';
 
