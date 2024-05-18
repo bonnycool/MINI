@@ -1,11 +1,14 @@
 import React, { useState, useEffect } from 'react';
+import Header from './header'; // Import the Header component
 import { initializeApp } from "firebase/app";
-import { getAuth } from 'firebase/auth'; // Import getAuth function
+import { getAuth,onAuthStateChanged } from 'firebase/auth'; // Import getAuth function
 import { getFirestore, collection, doc, getDoc, addDoc, updateDoc,setDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
+import ProfileNavbar from './profilenavbar';
 
 const auth = getAuth(); // Initialize auth object
 const firebaseApp = initializeApp(firebaseConfig);
+
 const db = getFirestore(); // Initialize Firestore object
 
 const Profile = () => {
@@ -20,8 +23,7 @@ const Profile = () => {
   useEffect(() => {
     const fetchUserData = async () => {
       try {
-        const user = auth.currentUser;
-        if (user) {
+        auth.onAuthStateChanged(async(user)=> {
           setProfileData((prevData) => ({
             ...prevData,
             email: user.email || '',
@@ -40,9 +42,7 @@ const Profile = () => {
               name:userData.name || ""
             }));
           }
-        } else {
-          console.log('User is not signed in.');
-        }
+        })
       } catch (error) {
         console.error('Error fetching user data: ', error);
       }
@@ -87,65 +87,74 @@ const Profile = () => {
   
 
   return (
-    <div className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <div className="bg-white p-8 rounded-lg shadow-md w-full max-w-md">
-        <h1 className="text-3xl font-bold mb-6">Your Profile</h1>
-        <div className="grid grid-cols-2 gap-4">
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <p className="text-gray-600">Email:</p>
-            <input
-              type="text"
-              name="email"
-              value={profileData.email || ''}
-              readOnly
-              className="w-full bg-gray-200 p-2 rounded-lg"
-            />
+    <div>
+      <Header /> {/* Include the Header component */}
+      <ProfileNavbar/>
+      <div className="min-h-screen bg-gray-100 flex flex-col  items-center justify-center">
+      <div className="flex-grow"></div> {/* This creates space to push content upwards */}
+        <div className="bg-white p-4 rounded-lg shadow-lg w-96 border-4 border-black mt-8 mb-8">
+          <h1 className="text-xl font-extrabold mb-4 text-center">Your Profile</h1>
+          <div className="flex flex-col gap-3">
+            <div className="bg-gray-200 p-2 rounded-lg shadow-inner">
+              <p className="text-gray-600 mb-1">Email:</p>
+              <input
+                type="text"
+                name="email"
+                value={profileData.email || ''}
+                readOnly
+                className="w-full bg-gray-200 p-1 rounded-lg border border-gray-400"
+              />
+            </div>
+            <div className="bg-gray-200 p-2 rounded-lg shadow-inner">
+              <p className="text-gray-600 mb-1">Name:</p>
+              <input
+                type="text"
+                name="name"
+                value={profileData.name || ''}
+                onChange={handleInputChange}
+                className="w-full bg-gray-200 p-1 rounded-lg border border-gray-400"
+              />
+            </div>
+            <div className="bg-gray-200 p-2 rounded-lg shadow-inner">
+              <p className="text-gray-600 mb-1">Semester:</p>
+              <input
+                type="text"
+                name="semester"
+                value={profileData.semester || ''}
+                onChange={handleInputChange}
+                className="w-full bg-gray-200 p-1 rounded-lg border border-gray-400"
+              />
+            </div>
+            <div className="bg-gray-200 p-2 rounded-lg shadow-inner">
+              <p className="text-gray-600 mb-1">Roll Number:</p>
+              <input
+                type="text"
+                name="roll_number"
+                value={profileData.roll_number || ''}
+                onChange={handleInputChange}
+                className="w-full bg-gray-200 p-1 rounded-lg border border-gray-400"
+              />
+            </div>
+            <div className="bg-gray-200 p-2 rounded-lg shadow-inner">
+              <p className="text-gray-600 mb-1">Phone Number:</p>
+              <input
+                type="text"
+                name="phone_number"
+                value={profileData.phone_number || ''}
+                onChange={handleInputChange}
+                className="w-full bg-gray-200 p-1 rounded-lg border border-gray-400"
+              />
+            </div>
+           
           </div>
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <p className="text-gray-600">Name:</p>
-            <input
-              type="text"
-              name="name"
-              value={profileData.name || ''}
-              onChange={handleInputChange}
-              className="w-full bg-gray-200 p-2 rounded-lg"
-            />
-          </div>
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <p className="text-gray-600">Semester:</p>
-            <input
-              type="text"
-              name="semester"
-              value={profileData.semester || ''}
-              onChange={handleInputChange}
-              className="w-full bg-gray-200 p-2 rounded-lg"
-            />
-          </div>
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <p className="text-gray-600">Roll Number:</p>
-            <input
-              type="text"
-              name="roll_number"
-              value={profileData.roll_number || ''}
-              onChange={handleInputChange}
-              className="w-full bg-gray-200 p-2 rounded-lg"
-            />
-          </div>
-          <div className="bg-gray-200 p-4 rounded-lg">
-            <p className="text-gray-600">Phone Number:</p>
-            <input
-              type="text"
-              name="phone_number"
-              value={profileData.phone_number || ''}
-              onChange={handleInputChange}
-              className="w-full bg-gray-200 p-2 rounded-lg"
-            />
-          </div>
+          <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-3 w-full" onClick={handleFormSubmit}>Save</button>
+
         </div>
-        <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded mt-6" onClick={handleFormSubmit}>Save</button>
-      </div>
+
+        </div>
+        <div className="flex-grow"></div> {/* This creates space to push content upwards */}
     </div>
   );
-};
+}
 
 export default Profile;
