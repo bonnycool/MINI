@@ -21,7 +21,7 @@ import OSEvents from '../pages/opensource-events';
 import CyberEvents from '../pages/cyber-events';
 import Dutyleave from '../pages/duty-leave';
 import AdminCalendar from '../pages/admin-calendar';
-import AdminDutyLeave from '../pages/admin-duty-leave';
+import AdminDutyLeave from '../pages/admin-ai-duty-leave';
 import AdminBlockchain from '../pages/admin-blockchain';
 import AdminHome from '../pages/admin-home';
 import AdminNavbar from './adminnavbar';
@@ -112,7 +112,7 @@ export function RouterPaths() {
             <Route path="/cyber-events" element={<CyberEvents />} />
             <Route path="/admin-calendar" element={<AdminCalendar />} />
             <Route path="/duty-leave" element={<Dutyleave />} />
-            <Route path="/admin-duty-leave" element={<AdminDutyLeave />} />
+            <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
             <Route path="/admin-blockchain" element={<AdminBlockchain />} />
             <Route path="/admin-about" element={<AdminAboutUs />} />
             <Route path="/admin-blockchain-events" element={<AdminBlockchainEvents />} />
