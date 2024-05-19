@@ -61,6 +61,7 @@ import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
+import Certificate from '../pages/certificate';
 
 export function RouterPaths() {
     return (
@@ -148,7 +149,7 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
-            
+            <Route path="/certificate" element={<Certificate />} />
 
 
 
