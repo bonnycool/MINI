@@ -93,25 +93,35 @@ const AIEvents = () => {
         alert('You need to be logged in to register for an event.');
     }
 };
-    const handleApproval = async (registrationId) => {
-        try {
-            await updateDoc(doc(db, 'ai-event-reg', registrationId), {
-                status: 'Approved'
+const handleApproval = async (registrationId, eventId) => {
+    try {
+        const regDocRef = doc(db, 'ai-event-reg', registrationId);
+        await updateDoc(regDocRef, {
+            status: 'Approved',
+        });
+        setRegisteredEvents((prevRegs) => prevRegs.map((reg) =>
+            reg.id === registrationId ? { ...reg, status: 'Approved' } : reg
+        ));
+
+        const eventDocRef = doc(db, 'events', eventId);
+        const eventDoc = await getDoc(eventDocRef);
+        const eventData = eventDoc.data();
+
+        if (eventData.remainingSlots > 0) {
+            await updateDoc(eventDocRef, {
+                remainingSlots: eventData.remainingSlots - 1,
             });
-            const updatedRegisteredEvents = registeredEvents.map(event => {
-                if (event.id === registrationId) {
-                    return { ...event, status: 'Approved' };
-                } else {
-                    return event;
-                }
-            });
-            setRegisteredEvents(updatedRegisteredEvents);
-            alert('Registration approved successfully!');
-        } catch (error) {
-            console.error('Error approving registration: ', error);
-            alert('Failed to approve registration.');
+            setRegisteredEvents((prevEvents) => prevEvents.map((event) =>
+                event.id === eventId ? { ...event, remainingSlots: event.remainingSlots - 1 } : event
+            ));
         }
-    };
+
+        alert('Registration approved successfully!');
+    } catch (error) {
+        console.error('Error approving registration: ', error);
+        alert('Error approving registration. Please try again later.');
+    }
+};
 
     return (
         <div className="flex h-screen">
@@ -123,16 +133,20 @@ const AIEvents = () => {
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
                 <div className="grid gap-6">
                     {events.map((event) => (
+                        
                         <div key={event.id} className="p-4 bg-white rounded-lg shadow-md">
                             <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
                             <p className="text-gray-700 mb-1"><strong>Date:</strong> {new Date(event.date).toLocaleDateString()}</p>
                             <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
                             <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
+                            <p className="text-gray-700 mb-1"><strong>Slots:</strong> {event.slots}</p>
                             <p className="text-gray-700 mb-1"><strong>Description:</strong> {event.description}</p>
                             <div className="flex justify-end">
                                 {registeredEvents.find(registration => registration.eventId === event.id && registration.status === 'Approved') ? (
                                     <button className="bg-gray-500 text-white py-2 px-4 rounded-lg mr-4" disabled>
+                                        
                                         Approved
+                                        
                                     </button>
                                 ) : (
                                     <>
@@ -154,6 +168,9 @@ const AIEvents = () => {
                                     </>
                                 )}
                             </div>
+                            {registeredEvents.find(registration => registration.eventId === event.id && registration.status === 'Rejected') && (
+                                <p className="text-red-600">Slots Full</p>
+                            )}
                         </div>
                     ))}
                 </div>
