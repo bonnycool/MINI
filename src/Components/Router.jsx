@@ -24,7 +24,6 @@ import AdminCalendar from '../pages/admin-calendar';
 import AdminDutyLeave from '../pages/admin-duty-leave';
 import AdminBlockchain from '../pages/admin-blockchain';
 import AdminHome from '../pages/admin-home';
-import AdminNavbar from './adminnavbar';
 import AdminAboutUs from '../pages/admin-about';
 import BlockchainClubMaterials from '../pages/blockchain-club-materials';
 import AdminBlockchainEvents from '../pages/admin-blockchain-events';
@@ -61,6 +60,8 @@ import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
+import AIAdminNavbar from './ai-admin-navbar';
+import AdminNavbar from './block-admin-navbar';
 
 export function RouterPaths() {
     return (
@@ -93,6 +94,7 @@ export function RouterPaths() {
                 }
             />
              <Route path="/profile" element={<Profile/>} />
+
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
 
@@ -147,7 +149,7 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
-            
+            <Route path="/ai-admin-navbar" element={<AIAdminNavbar    />} />
 
 
 
