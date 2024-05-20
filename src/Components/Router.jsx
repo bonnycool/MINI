@@ -61,6 +61,12 @@ import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
+import AdminCyberDutyLeave from '../pages/admin-cyber-duty-leave';
+import CyberDutyLeave from '../pages/cyber-duty-leave';
+import BlockchainDutyLeave from '../pages/block-duty-leave';
+import AdminBlockDutyLeave from '../pages/admin-block-duty-leave';
+import OpenDutyLeave from '../pages/open-duty-leave';
+import AdminOpenDutyLeave from '../pages/admin-open-duty-leave';
 
 export function RouterPaths() {
     return (
@@ -148,7 +154,13 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
-            <Route path="/cyber-duty-leave" element={<Dutyleave />} />
+            <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
+            <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
+            <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
+            <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
+            <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
+            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
+
 
             
 

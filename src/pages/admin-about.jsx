@@ -71,7 +71,7 @@ const AdminAboutUs = () => {
                         <div>
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Christopher Thomas</h2>
                             <p className="text-base text-gray-700">
-                                Front-end developer. Expert in crafting visually appealing and user-friendly interfaces. A keen eye for design and attention to detail. Strives to deliver exceptional user experiences through responsive and dynamic web pages.
+                                Full stack developer. Expert in crafting visually appealing and user-friendly interfaces. A keen eye for design and attention to detail. Strives to deliver exceptional user experiences through responsive and dynamic web pages.
                             </p>
                         </div>
                     </div>

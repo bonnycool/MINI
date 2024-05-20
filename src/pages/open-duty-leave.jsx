@@ -20,7 +20,7 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 
-const BlockchainEvents = () => {
+const OpenDutyLeave = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
 
   useEffect(() => {
@@ -81,4 +81,4 @@ const BlockchainEvents = () => {
   );
 };
 
-export default BlockchainEvents;
+export default OpenDutyLeave;
