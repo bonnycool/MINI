@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
 import Navbar from '../Components/navbar';
-import UserHeader from '../Components/userheader';
+import Header from '../Components/header';
 
 const firebaseConfig = {
     apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
@@ -20,14 +20,14 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 
-const BlockchainEvents = () => {
+const BlockchainDutyLeave = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
 
   useEffect(() => {
     // Fetch attendance records from Firebase
     const fetchAttendanceRecords = async () => {
       try {
-        const attendanceSnapshot = await db.collection('aiattendance').get();
+        const attendanceSnapshot = await db.collection('blockattendance').get();
         const attendanceData = attendanceSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setAttendanceRecords(attendanceData);
       } catch (error) {
@@ -45,7 +45,7 @@ const BlockchainEvents = () => {
       </div>
 
       <div className="flex-1 p-8 bg-gray-100">
-        <UserHeader />
+        <Header />
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Attendance Records</h2>
 
         <div className="overflow-x-auto">
@@ -81,4 +81,4 @@ const BlockchainEvents = () => {
   );
 };
 
-export default BlockchainEvents;
+export default BlockchainDutyLeave;

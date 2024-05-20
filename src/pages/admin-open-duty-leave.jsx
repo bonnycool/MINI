@@ -20,13 +20,13 @@ if (!firebase.apps.length) {
 
 const db = firebase.firestore();
 
-const AdminAiDutyLeave = () => {
+const AdminOpenDutyLeave = () => {
   const [eventRegistrations, setEventRegistrations] = useState([]);
 
   useEffect(() => {
     // Fetch event registrations from Firebase
     const fetchEventRegistrations = async () => {
-      const eventRegistrationsRef = db.collection('ai-event-reg');
+      const eventRegistrationsRef = db.collection('open-event-reg');
       const snapshot = await eventRegistrationsRef.get();
       const registrationsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
       setEventRegistrations(registrationsData);
@@ -39,11 +39,11 @@ const AdminAiDutyLeave = () => {
   const handleAttendance = async (eventId, userId, status) => {
     try {
       // Fetch the event registration details
-      const eventRegDoc = await db.collection('ai-event-reg').doc(eventId).get();
+      const eventRegDoc = await db.collection('open-event-reg').doc(eventId).get();
       const eventData = eventRegDoc.data();
 
       // Update the attendance database with the event details
-      const attendanceRef = db.collection('aiattendance').doc(eventId);
+      const attendanceRef = db.collection('openattendance').doc(eventId);
       await attendanceRef.set({
         ...eventData, // Copy all event registration details
         attendanceStatus: { ...eventData.attendanceStatus, [userId]: status } // Update the attendance status for the user
@@ -124,4 +124,4 @@ const AdminAiDutyLeave = () => {
   );
 };
 
-export default AdminAiDutyLeave;
+export default AdminOpenDutyLeave;

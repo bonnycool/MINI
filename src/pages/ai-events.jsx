@@ -44,55 +44,58 @@ const AIEvents = () => {
         fetchEvents();
     }, [auth]);
 
-   const handleRegister = async (eventId) => {
-    const user = auth.currentUser;
-
-    if (user) {
-        const { uid, email } = user;
-
-        try {
-            // Fetch event details from the events collection
-            const eventDoc = await getDoc(doc(db, 'events', eventId));
-            if (eventDoc.exists()) {
-                const eventData = eventDoc.data();
-                const { title: eventname } = eventData; // Assuming the event title is used as the event name
-
-                // Get user details
-                const userDoc = await getDoc(doc(db, 'userprofiles', uid));
-                if (userDoc.exists()) {
-                    const userData = userDoc.data();
-                    const { name, semester, phone_number } = userData;
-
-                    // Register user for the event
-                    await setDoc(doc(db, 'ai-event-reg', `${eventId}_${uid}`), {
-                        eventId,
-                        uid,
-                        name,
-                        email,
-                        semester,
-                        phone_number,
-                        eventname, // Include event name in registration
-                        registeredAt: new Date(),
-                        status: 'Pending for Approval'
-                    });
-
-                    // Update registeredEvents state
-                    setRegisteredEvents([...registeredEvents, { eventId, status: 'Pending for Approval' }]);
-                    alert('Successfully registered for the event! Pending for approval.');
+    const handleRegister = async (eventId) => {
+        const user = auth.currentUser;
+    
+        if (user) {
+            const { uid, email } = user;
+    
+            try {
+                // Fetch event details from the events collection
+                const eventDoc = await getDoc(doc(db, 'events', eventId));
+                if (eventDoc.exists()) {
+                    const eventData = eventDoc.data();
+                    const { title: eventname } = eventData; // Assuming the event title is used as the event name
+    
+                    // Get user details
+                    const userDoc = await getDoc(doc(db, 'userprofiles', uid));
+                    if (userDoc.exists()) {
+                        const userData = userDoc.data();
+                        const { name, semester, phone_number } = userData;
+    
+                        // Convert the date to a string
+                        const date = new Date().toLocaleDateString();
+    
+                        // Register user for the event
+                        await setDoc(doc(db, 'ai-event-reg', `${eventId}_${uid}`), {
+                            eventId,
+                            uid,
+                            name,
+                            email,
+                            semester,
+                            phone_number,
+                            eventname, // Include event name in registration
+                            date, // Store date as a string
+                            status: 'Pending for Approval'
+                        });
+    
+                        // Update registeredEvents state
+                        setRegisteredEvents([...registeredEvents, { eventId, status: 'Pending for Approval' }]);
+                        alert('Successfully registered for the event! Pending for approval.');
+                    } else {
+                        alert('User details not found. Please complete your profile.');
+                    }
                 } else {
-                    alert('User details not found. Please complete your profile.');
+                    alert('Event details not found.');
                 }
-            } else {
-                alert('Event details not found.');
+            } catch (error) {
+                console.error('Error registering for event: ', error);
+                alert('Failed to register for the event.');
             }
-        } catch (error) {
-            console.error('Error registering for event: ', error);
-            alert('Failed to register for the event.');
+        } else {
+            alert('You need to be logged in to register for an event.');
         }
-    } else {
-        alert('You need to be logged in to register for an event.');
-    }
-};
+    };
 const handleApproval = async (registrationId, eventId) => {
     try {
         const regDocRef = doc(db, 'ai-event-reg', registrationId);

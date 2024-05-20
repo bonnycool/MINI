@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import 'react-calendar/dist/Calendar.css'; // Import the CSS for react-calendar
 import Calendar from 'react-calendar'; // Import the Calendar component
 import Homenavbar from '../Components/homenavabr'; // Import the navbar component
-import Header from '../Components/header'; // Import the header component
+import UserHeader from '../Components/userheader'; // Import the header component
 import { db } from "../../backend/firebase";
 import { collection, getDocs } from 'firebase/firestore';
 
@@ -84,7 +84,7 @@ const ClubCalendar = () => {
             </div>
 
             <div className="flex-1 p-8">
-                <Header />
+                <UserHeader />
 
                 <div className="flex flex-col h-full">
                     <div className="mb-4 mt-8">

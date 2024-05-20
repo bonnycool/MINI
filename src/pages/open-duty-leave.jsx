@@ -27,7 +27,7 @@ const BlockchainEvents = () => {
     // Fetch attendance records from Firebase
     const fetchAttendanceRecords = async () => {
       try {
-        const attendanceSnapshot = await db.collection('aiattendance').get();
+        const attendanceSnapshot = await db.collection('openattendance').get();
         const attendanceData = attendanceSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
         setAttendanceRecords(attendanceData);
       } catch (error) {
