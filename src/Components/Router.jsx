@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from '../pages/login'; // Import the Login component
+import Login from '../pages/login';
 import Home from '../pages/home';
 import Homenavbar from './homenavabr';
-import Navbar from './navbar'; // Import the Navbar component
+import Navbar from './navbar';
 import Credentials from '../pages/credentials';
 import Admincredentials from '../pages/admin-credentials';
-import SuperAdmin from '../pages/super-admin'; // Import the Super Admin component
-import Supernavbar from './supernavbar'; // Import the Supernavbar component
+import SuperAdmin from '../pages/super-admin';
+import Supernavbar from './supernavbar';
 import Blockchain from '../pages/blockchain';
 import AI from '../pages/ai-club';
 import Opensource from '../pages/opensource';
@@ -62,43 +62,17 @@ import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
 import Certificate from '../pages/certificate';
+import CertificateGenerator from '../pages/certificategenerator'; // Add this import
 
 export function RouterPaths() {
     return (
         <Routes>
-
-            <Route>path=</Route>
-            {/* Route for the login page */}
             <Route path="/" element={<Login />} />
             <Route path="/admin-club-members" element={<ClubMembers />} />
-
-            {/* Route for the interface page */}
-            <Route
-                path="/home"
-                element={
-                
-                    <>
-                        <Homenavbar />
-                        <Home />
-                    </>
-                    
-                }
-            />
-            <Route
-                path="/admin-home"
-                element={
-                    <>
-                        <AdminNavbar />
-                        <AdminHome />
-                    </>
-                }
-            />
-             <Route path="/profile" element={<Profile/>} />
-
-            {/* Route for the student credentials page */}
+            <Route path="/home" element={<><Homenavbar /><Home /></>} />
+            <Route path="/admin-home" element={<><AdminNavbar /><AdminHome /></>} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/credentials" element={<Credentials />} />
-
-            {/* Route for the admin credentials page */}
             <Route path="/admincredentials" element={<Admincredentials />} />
             <Route path="/blockchain" element={<Blockchain />} />
             <Route path="/aiclub" element={<AI />} />
@@ -148,23 +122,10 @@ export function RouterPaths() {
             <Route path="/admin-ai-events" element={<AdminAIEvents />} />
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
-            <Route path="/supernavbar" element={<SuperNavbar     />} />
+            <Route path="/supernavbar" element={<SuperNavbar />} />
             <Route path="/certificate" element={<Certificate />} />
-
-
-
-
-            {/* Route for the Super Admin page */}
-            <Route
-                path="/superadmin"
-                element={
-                    <>
-                        <Supernavbar /> {/* Add the Supernavbar component */}
-                        <SuperAdmin />
-                    </>
-                }
-            />
-            {/* Add more routes as needed */}
+            <Route path="/certificate/:id" element={<CertificateGenerator />} /> {/* Add this route */}
+            <Route path="/superadmin" element={<><Supernavbar /><SuperAdmin /></>} />
         </Routes>
     );
 }
