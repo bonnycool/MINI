@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import Homenavbar from '../Components/homenavabr'; // Import the navbar component
-import Header from '../Components/header';
+import UserHeader from '../Components/userheader';
 import { FaEnvelope } from 'react-icons/fa'; // Import the envelope icon from react-icons library
 
 const Contact = () => {
@@ -35,7 +35,7 @@ const Contact = () => {
             {/* Main content */}
             <div className="flex-1 bg-gray-100">
                 {/* Header */}
-                <Header />
+                <UserHeader />
 
                 {/* Contact section */}
 =======

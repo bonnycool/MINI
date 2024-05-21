@@ -65,10 +65,25 @@ import AIAdminNavbar from './ai-admin-navbar';
 import BlockAdminNavbar from './block-admin-navbar';
 import OSAdminNavbar from './opensource-admin-navbar';
 import CyberAdminNavbar from './cyber-admin-navbar';
+import AdminDutyLeave from '../pages/admin-ai-duty-leave';
+import AdminCyberDutyLeave from '../pages/admin-cyber-duty-leave';
+import CyberDutyLeave from '../pages/cyber-duty-leave';
+import BlockchainDutyLeave from '../pages/block-duty-leave';
+import AdminBlockDutyLeave from '../pages/admin-block-duty-leave';
+import OpenDutyLeave from '../pages/open-duty-leave';
+import AdminOpenDutyLeave from '../pages/admin-open-duty-leave';
 
 export function RouterPaths() {
     return (
         <Routes>
+                        <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
+                        <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
+            <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
+            <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
+            <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
+            <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
+            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
+
             <Route path="/" element={<Login />} />
             <Route path="/admin-club-members" element={<ClubMembers />} />
             <Route path="/home" element={<><Homenavbar /><Home /></>} />

@@ -149,7 +149,7 @@ const Navbar = () => {
                         <a href="/club-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                     </li>
                     <li>
-                        <a href="/duty-leave" className="block p-2 hover:bg-blue-800 rounded">Duty Leave</a>
+                        <a href="/duty-leave" className="block p-2 hover:bg-blue-800 rounded">Attendance</a>
                     </li>
                     <li>
                         <a href="/about" className="block p-2 hover:bg-blue-800 rounded">About</a>

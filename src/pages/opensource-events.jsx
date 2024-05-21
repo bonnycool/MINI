@@ -63,6 +63,9 @@ const OSEvents = () => {
                     const userData = userDoc.data();
                     const { name, semester, phone_number } = userData;
 
+                    const date = new Date().toLocaleDateString();
+    
+
                     // Register user for the event
                     await setDoc(doc(db, 'open-event-reg', `${eventId}_${uid}`), {
                         eventId,
@@ -72,7 +75,7 @@ const OSEvents = () => {
                         semester,
                         phone_number,
                         eventname, // Include event name in registration
-                        registeredAt: new Date(),
+                        date, // Store date as a string
                         status: 'Pending for Approval'
                     });
 

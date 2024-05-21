@@ -15,6 +15,10 @@ const AIAdminNavbar = ({ isOpen = false }) => {
                 <a href="/admin-ai" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                 </li>
                 <li>
+               
+                    <a href="/admin-ai-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Attendance</a>
+                </li>
+                <li>
                     <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                 </li>   
                 <li>

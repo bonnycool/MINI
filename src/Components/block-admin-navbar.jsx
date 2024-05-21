@@ -16,6 +16,10 @@ const BlockAdminNavbar = ({ isOpen = false }) => {
                     <a href="/admin-blockchain" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                 </li>
                 <li>
+               
+                    <a href="/admin-block-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Attendance</a>
+                </li>
+                <li>
                     <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                 </li>
                 <li>

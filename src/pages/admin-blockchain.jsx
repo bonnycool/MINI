@@ -57,9 +57,9 @@ const AdminBlockchain = () => {
                         <button
                             className="h-48 bg-orange-500 rounded-md flex items-center justify-center transition duration-300 text-black text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box2Image})`, backgroundPosition: 'center' }}
-                            onClick={() => console.log('Duty Leave clicked')}
+                            onClick={() => navigate ('/admin-block-duty-leave')}
                         >
-                            Duty Leave
+                            Attendance
                         </button>
                         <button
                             className="h-48 bg-yellow-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"

@@ -52,6 +52,7 @@ const CyberClubMaterials = () => {
             <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
                 {/* Header component */}
                 <UserHeader />
+                <UserHeader />
 
                 {/* Content area */}
                 <div className="flex flex-col gap-6 mt-6">
