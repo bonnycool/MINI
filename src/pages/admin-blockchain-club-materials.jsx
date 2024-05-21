@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase";
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import AdminNavbar from '../Components/adminnavbar';
+import BlockAdminNavbar from '../Components/block-admin-navbar';
 import Header from '../Components/header';
 
 const AdminBlockchainClubMaterials = () => {
@@ -87,7 +87,7 @@ const AdminBlockchainClubMaterials = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <BlockAdminNavbar />
             </div>
 
             <div className="flex-1 p-8 bg-gray-100">

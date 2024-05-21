@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase";
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import AdminNavbar from '../Components/adminnavbar';
+import AIAdminNavbar from '../Components/ai-admin-navbar';
 import Header from '../Components/header';
 
 const AdminAIEvents = () => {
@@ -79,7 +79,7 @@ const AdminAIEvents = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <AIAdminNavbar />
             </div>
 
             <div className="flex-1 p-8 bg-gray-100">

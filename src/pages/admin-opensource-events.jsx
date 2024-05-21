@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from "../../backend/firebase"; // Adjust the path to your Firebase configuration
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
-import AdminNavbar from '../Components/adminnavbar';
+import OSAdminNavbar from '../Components/opensource-admin-navbar';
 import Header from '../Components/header';
 
 const AdminOpensourceEvents = () => {
@@ -79,7 +79,7 @@ const AdminOpensourceEvents = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <OSAdminNavbar />
             </div>
 
             <div className="flex-1 p-8 bg-gray-100">

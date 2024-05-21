@@ -19,9 +19,7 @@ import BlockchainEvents from '../pages/blockchain-events';
 import AIEvents from '../pages/ai-events';
 import OSEvents from '../pages/opensource-events';
 import CyberEvents from '../pages/cyber-events';
-import Dutyleave from '../pages/duty-leave';
 import AdminCalendar from '../pages/admin-calendar';
-import AdminDutyLeave from '../pages/admin-duty-leave';
 import AdminBlockchain from '../pages/admin-blockchain';
 import AdminHome from '../pages/admin-home';
 import AdminNavbar from './adminnavbar';
@@ -62,7 +60,11 @@ import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
 import Certificate from '../pages/certificate';
-import CertificateGenerator from '../pages/certificategenerator'; // Add this import
+import CertificateGenerator from '../pages/certificategenerator';
+import AIAdminNavbar from './ai-admin-navbar';
+import BlockAdminNavbar from './block-admin-navbar';
+import OSAdminNavbar from './opensource-admin-navbar';
+import CyberAdminNavbar from './cyber-admin-navbar';
 
 export function RouterPaths() {
     return (
@@ -86,8 +88,6 @@ export function RouterPaths() {
             <Route path="/opensource-events" element={<OSEvents />} />
             <Route path="/cyber-events" element={<CyberEvents />} />
             <Route path="/admin-calendar" element={<AdminCalendar />} />
-            <Route path="/duty-leave" element={<Dutyleave />} />
-            <Route path="/admin-duty-leave" element={<AdminDutyLeave />} />
             <Route path="/admin-blockchain" element={<AdminBlockchain />} />
             <Route path="/admin-about" element={<AdminAboutUs />} />
             <Route path="/admin-blockchain-events" element={<AdminBlockchainEvents />} />
@@ -126,6 +126,10 @@ export function RouterPaths() {
             <Route path="/certificate" element={<Certificate />} />
             <Route path="/certificate/:id" element={<CertificateGenerator />} /> {/* Add this route */}
             <Route path="/superadmin" element={<><Supernavbar /><SuperAdmin /></>} />
+            <Route path="/ai-admin-navbar" element={<AIAdminNavbar />} />
+            <Route path="/block-admin-navbar" element={<BlockAdminNavbar />} />
+            <Route path="/cyber-admin-navbar" element={<CyberAdminNavbar />} />
+            <Route path="/opensource-admin-navbar" element={<OSAdminNavbar />} />
         </Routes>
     );
 }
