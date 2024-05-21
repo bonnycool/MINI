@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminNavbar = ({ isOpen = false }) => {
+const CyberAdminNavbar = ({ isOpen = false }) => {
     return (
         <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-900 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
             {/* Branding/logo */}
@@ -11,6 +11,9 @@ const AdminNavbar = ({ isOpen = false }) => {
             
             {/* Navigation links */}
             <ul className="space-y-4">
+                <li>  
+                    <a href="/admin-cyber" className="block p-2 hover:bg-blue-800 rounded">Home</a>
+                </li>
                 <li>
                     <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                 </li>
@@ -29,4 +32,4 @@ const AdminNavbar = ({ isOpen = false }) => {
     );
 };
 
-export default AdminNavbar;
+export default CyberAdminNavbar;
