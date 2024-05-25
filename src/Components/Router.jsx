@@ -21,7 +21,7 @@ import OSEvents from '../pages/opensource-events';
 import CyberEvents from '../pages/cyber-events';
 import Dutyleave from '../pages/duty-leave';
 import AdminCalendar from '../pages/admin-calendar';
-import AdminDutyLeave from '../pages/admin-duty-leave';
+import AdminDutyLeave from '../pages/admin-ai-duty-leave';
 import AdminBlockchain from '../pages/admin-blockchain';
 import AdminHome from '../pages/admin-home';
 import AdminNavbar from './adminnavbar';
@@ -60,23 +60,33 @@ import AdminAIClubMaterials from '../pages/admin-ai-club-materials';
 import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
+import ClubMembers from './clubmembers';
+import AdminCyberDutyLeave from '../pages/admin-cyber-duty-leave';
+import CyberDutyLeave from '../pages/cyber-duty-leave';
+import BlockchainDutyLeave from '../pages/block-duty-leave';
+import AdminBlockDutyLeave from '../pages/admin-block-duty-leave';
+import OpenDutyLeave from '../pages/open-duty-leave';
+import AdminOpenDutyLeave from '../pages/admin-open-duty-leave';
 
 export function RouterPaths() {
     return (
         <Routes>
+
+            <Route>path=</Route>
             {/* Route for the login page */}
             <Route path="/" element={<Login />} />
+            <Route path="/admin-club-members" element={<ClubMembers />} />
 
             {/* Route for the interface page */}
             <Route
                 path="/home"
                 element={
-                    <ProtectedRoute>
+                
                     <>
                         <Homenavbar />
                         <Home />
                     </>
-                    </ProtectedRoute>
+                    
                 }
             />
             <Route
@@ -88,7 +98,8 @@ export function RouterPaths() {
                     </>
                 }
             />
-             <Route path="/edit-profile" element={<Profile/>} />
+             <Route path="/profile" element={<Profile/>} />
+
             {/* Route for the student credentials page */}
             <Route path="/credentials" element={<Credentials />} />
 
@@ -107,7 +118,7 @@ export function RouterPaths() {
             <Route path="/cyber-events" element={<CyberEvents />} />
             <Route path="/admin-calendar" element={<AdminCalendar />} />
             <Route path="/duty-leave" element={<Dutyleave />} />
-            <Route path="/admin-duty-leave" element={<AdminDutyLeave />} />
+            <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
             <Route path="/admin-blockchain" element={<AdminBlockchain />} />
             <Route path="/admin-about" element={<AdminAboutUs />} />
             <Route path="/admin-blockchain-events" element={<AdminBlockchainEvents />} />
@@ -143,6 +154,15 @@ export function RouterPaths() {
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
             <Route path="/supernavbar" element={<SuperNavbar     />} />
+            <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
+            <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
+            <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
+            <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
+            <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
+            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
+
+
+            
 
 
 
@@ -158,6 +178,7 @@ export function RouterPaths() {
                 }
             />
             {/* Add more routes as needed */}
+            
         </Routes>
     );
 }

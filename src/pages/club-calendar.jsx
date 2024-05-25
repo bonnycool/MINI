@@ -1,30 +1,62 @@
-import React, { useState } from 'react';
-import 'react-calendar/dist/Calendar.css';
-import Calendar from 'react-calendar';
-import Homenavbar from '../Components/homenavabr';
-import Header from '../Components/header';
+import React, { useState, useEffect } from 'react';
+import 'react-calendar/dist/Calendar.css'; // Import the CSS for react-calendar
+import Calendar from 'react-calendar'; // Import the Calendar component
+import Homenavbar from '../Components/homenavabr'; // Import the navbar component
+import UserHeader from '../Components/userheader'; // Import the header component
+import { db } from "../../backend/firebase";
+import { collection, getDocs } from 'firebase/firestore';
 
 const ClubCalendar = () => {
     const [currentClub, setCurrentClub] = useState('Blockchain');
     const [events, setEvents] = useState({
-        Blockchain: [
-            { date: new Date(2024, 3, 10), description: 'Blockchain Event', time: '2 PM', conductedBy: 'John Doe' },
-        ],
-        Cybersecurity: [
-            { date: new Date(2024, 3, 15), description: 'Cybersecurity Event', time: '11 AM', conductedBy: 'Jane Doe' },
-        ],
-        Opensource: [
-            { date: new Date(2024, 3, 20), description: 'Opensource Event', time: '3 PM', conductedBy: 'Mark Smith' },
-        ],
-        AI: [
-            { date: new Date(2024, 3, 25), description: 'AI Event', time: '4 PM', conductedBy: 'Alice Johnson' },
-        ],
+        Blockchain: [],
+        Cybersecurity: [],
+        Opensource: [],
+        AI: [],
     });
     const [selectedDate, setSelectedDate] = useState(new Date());
     const [selectedEvent, setSelectedEvent] = useState(null);
 
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const fetchClubEvents = async (clubCollection, clubKey) => {
+                    const querySnapshot = await getDocs(collection(db, clubCollection));
+                    const clubEvents = querySnapshot.docs.map(doc => {
+                        const data = doc.data();
+                        let date = data.date;
+                        if (date && date.toDate) {
+                            date = date.toDate(); // Firestore timestamp
+                        } else if (date && !(date instanceof Date)) {
+                            date = new Date(date); // Handle string or other date formats
+                        }
+                        return {
+                            id: doc.id,
+                            ...data,
+                            date: date,
+                        };
+                    });
+                    setEvents(prevEvents => ({
+                        ...prevEvents,
+                        [clubKey]: clubEvents,
+                    }));
+                };
+
+                await fetchClubEvents('blockevents', 'Blockchain');
+                await fetchClubEvents('cyberevents', 'Cybersecurity');
+                await fetchClubEvents('openevents', 'Opensource');
+                await fetchClubEvents('events', 'AI');
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+
+        fetchEvents();
+    }, []);
+
     const handleDateChange = (date) => {
         setSelectedDate(date);
+
         const event = events[currentClub].find(event => event.date.toDateString() === date.toDateString());
         setSelectedEvent(event || null);
     };
@@ -36,7 +68,7 @@ const ClubCalendar = () => {
                 return (
                     <ul>
                         {dayEvents.map((event, index) => (
-                            <li key={index}>{event.description}</li>
+                            <li key={index}>{event.title}</li>
                         ))}
                     </ul>
                 );
@@ -46,15 +78,15 @@ const ClubCalendar = () => {
     };
 
     return (
-        <div className="flex flex-col lg:flex-row h-screen">
-            <div className="w-full lg:w-1/5">
+        <div className="flex h-screen">
+            <div className="w-1/5">
                 <Homenavbar />
             </div>
 
-            <div className="flex-1 p-4 lg:p-8">
-                <Header />
+            <div className="flex-1 p-8">
+                <UserHeader />
 
-                <div className="flex flex-col lg:flex-row h-full">
+                <div className="flex flex-col h-full">
                     <div className="mb-4 mt-8">
                         <h3 className="text-2xl font-bold mb-2">Select Club:</h3>
                         <div className="flex flex-wrap">
@@ -79,13 +111,12 @@ const ClubCalendar = () => {
                         />
                     </div>
 
-                    <div className="mt-4 p-4 border border-gray-300 rounded-lg flex-grow lg:w-1/3">
+                    <div className="mt-4 p-4 border border-gray-300 rounded-lg">
                         <h3 className="text-xl font-bold mb-2">Event Details</h3>
                         {selectedEvent ? (
                             <>
                                 <p><strong>Description:</strong> {selectedEvent.description}</p>
                                 <p><strong>Time:</strong> {selectedEvent.time}</p>
-                                <p><strong>Conducted By:</strong> {selectedEvent.conductedBy}</p>
                             </>
                         ) : (
                             <p>No event</p>

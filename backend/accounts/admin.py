@@ -1,22 +1,32 @@
-# In accounts/admin.py
 from django.contrib import admin
-from .models import AdminCredentials, Role, UserCredentials ,Profile # Import your model
+from .models import CustomUser, AdminCredentials
+from .choices import Role
+@admin.register(CustomUser)
+class CustomUserAdmin(admin.ModelAdmin):
+    list_display = ('username', 'email', 'roll_no', 'semester', 'branch', 'get_role_display', 'is_staff', 'is_active',)
+    list_filter = ('is_staff', 'is_superuser', 'is_active', 'groups')
+    search_fields = ('username', 'email', 'roll_no', 'first_name', 'last_name')
+    ordering = ('-date_joined',)
 
-admin.site.register(Role)
+    fieldsets = (
+        (None, {'fields': ('username', 'email', 'password')}),
+        (('Personal info'), {'fields': ('roll_no', 'semester', 'branch', 'phone_number')}),
+        (('Permissions'), {'fields': ('is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}),
+        (('Important dates'), {'fields': ('last_login', 'date_joined')}),
+    )
+
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'email', 'password1', 'password2', 'roll_no', 'semester', 'branch', 'phone_number', 'is_active', 'is_staff', 'is_superuser', 'groups', 'user_permissions')}
+         ),
+    )
+
 class RoleAdmin(admin.ModelAdmin):
-    list_display = ('id', 'role_name')  # Display the ID and role name
-    search_fields = ('role_name',)  # Enable search by role name
-    list_filter = ('role_name',)  # Add a filter for role names
-# Register the UserCredentials model with the admin site
-admin.site.register(UserCredentials)
+    list_display = ('name',)
 
-# If you're customizing the admin options
-class UserCredentialsAdmin(admin.ModelAdmin):
-    list_display = ('username', 'password')  # Display specific fields
-    search_fields = ('username',)  # Optional search functionality
-    list_filter = ('roles',)  # Filter by roles
-    autocomplete_fields = ['roles']  # Enable autocomplete for many-to-many field
+admin.site.register(Role, RoleAdmin)
 
-# Register the AdminCredentials model with the admin interface
-admin.site.register(AdminCredentials)
-admin.site.register(Profile)
+@admin.register(AdminCredentials)
+class AdminCredentialsAdmin(admin.ModelAdmin):
+    list_display = ('username', 'password')

@@ -1,14 +1,11 @@
-# In accounts/urls.py
 from django.urls import path
-from .views import admin_login, create_user, get_profile, get_users,login_view,logout_view # Ensure both are imported
-
+from .views import admin_login, create_user, get_profile, get_users, logout_view
+from .decorator import role_required
 
 urlpatterns = [
-    path('create-user/', create_user, name='create-user'),  # Ensure function is correctly referenced
-    path('get-users/', get_users, name='get_users'),  # Import for retrieving all users
-    path('login/', login_view, name='login'),  # Ensure the login endpoint is defined
-    path('admin-login/', admin_login, name='admin-login'),  # URL for admin login
-    path('logout/',logout_view, name='logout'),  # Correct mapping
-     path('get-profile/', get_profile, name='get_profile'),
-   
+    path('create-user/', role_required(required_role='admin')(create_user), name='create-user'),
+    path('get-users/', role_required(required_role='admin')(get_users), name='get_users'),
+    path('admin-login/', admin_login, name='admin-login'),
+    path('logout/', logout_view, name='logout'),
+    path('get-profile/', role_required(required_role='user')(get_profile), name='get_profile'),
 ]

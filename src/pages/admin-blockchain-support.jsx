@@ -1,62 +1,77 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { db } from '../../backend/firebase'; // Import the Firebase configuration
+import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore'; // Import Firestore functions
 import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
 
 const AdminBlockchainClubContactInfo = () => {
-    const [contactInfo, setContactInfo] = useState({
-        head: {
-            email: 'head@blockchainclub.com',
-            phone: '+1 (555) 123-4567',
-        },
-        secretary: {
-            email: 'secretary@blockchainclub.com',
-            phone: '+1 (555) 234-5678',
-        },
-        faculty: [
-            {
-                email: 'faculty1@blockchainclub.com',
-                phone: '+1 (555) 345-6789',
-            },
-            // Other faculty members...
-        ],
-        members: [
-            {
-                email: 'member1@blockchainclub.com',
-                phone: '+1 (555) 678-9012',
-            },
-            // Other members...
-        ],
+    const [supportItems, setSupportItems] = useState([]);
+    const [formData, setFormData] = useState({
+        name: '',
+        email: '',
+        phone: '',
+        description: '',
     });
 
-    const handleInputChange = (e, category, index) => {
+    const handleInputChange = (e) => {
         const { name, value } = e.target;
-        setContactInfo(prevState => {
-            const updatedInfo = { ...prevState };
-            if (category === 'head' || category === 'secretary') {
-                updatedInfo[category][name] = value;
-            } else {
-                updatedInfo[category][index][name] = value;
+        setFormData((prevData) => ({
+            ...prevData,
+            [name]: value,
+        }));
+    };
+
+    const handleFormSubmit = async (e) => {
+        e.preventDefault();
+
+        try {
+            const docRef = await addDoc(collection(db, 'blocksupport'), formData);
+            console.log('Document written with ID: ', docRef.id);
+
+            setSupportItems((prevItems) => [...prevItems, { ...formData, id: docRef.id }]);
+            setFormData({
+                name: '',
+                email: '',
+                phone: '',
+                description: '',
+            });
+
+            alert('Support item added successfully!');
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            alert('Error adding support item. Please try again later.');
+        }
+    };
+
+    const handleRemoveSupportItem = async (itemId) => {
+        console.log('Attempting to remove support item with ID:', itemId);
+        try {
+            const itemDocRef = doc(db, 'blocksupport', itemId);
+            console.log('Document reference:', itemDocRef);
+            await deleteDoc(itemDocRef);
+            setSupportItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
+            alert('Support item removed successfully!');
+        } catch (error) {
+            console.error('Error removing support item: ', error);
+            alert('Error removing support item. Please try again later.');
+        }
+    };
+
+    useEffect(() => {
+        const fetchSupportItems = async () => {
+            try {
+                const supportItemsCollection = collection(db, 'blocksupport');
+                const supportItemsSnapshot = await getDocs(supportItemsCollection);
+                const supportItemsData = supportItemsSnapshot.docs.map(doc => ({ ...doc.data(), id: doc.id }));
+                console.log('Fetched support items:', supportItemsData);
+                setSupportItems(supportItemsData);
+            } catch (error) {
+                console.error('Error fetching support items: ', error);
             }
-            return updatedInfo;
-        });
-    };
+        };
 
-    const handleAddContact = category => {
-        setContactInfo(prevState => {
-            const updatedInfo = { ...prevState };
-            const newContact = { email: '', phone: '' };
-            updatedInfo[category].push(newContact);
-            return updatedInfo;
-        });
-    };
-
-    const handleRemoveContact = (category, index) => {
-        setContactInfo(prevState => {
-            const updatedInfo = { ...prevState };
-            updatedInfo[category].splice(index, 1);
-            return updatedInfo;
-        });
-    };
+        fetchSupportItems();
+    }, []);
 
     return (
         <div className="flex flex-col md:flex-row h-screen">
@@ -67,146 +82,86 @@ const AdminBlockchainClubContactInfo = () => {
             <div className="flex-1 h-full p-4 md:p-8 bg-gray-100">
                 <Header />
                 <div className="mt-6">
-                    <h2 className="text-3xl font-semibold mb-6 text-gray-800">Blockchain Club Contact Information</h2>
+                    <h2 className="text-3xl font-semibold mb-6 text-gray-800">Blockchain Club Support Items</h2>
 
-                    {/* Club Head */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-4 md:p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Club Head</h3>
-                        <form className="flex flex-col md:flex-row md:items-center">
-                            <label className="mb-4 md:mb-0 md:mr-4">
-                                Email:
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={contactInfo.head.email}
-                                    onChange={e => handleInputChange(e, 'head')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                            <label>
-                                Phone:
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={contactInfo.head.phone}
-                                    onChange={e => handleInputChange(e, 'head')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                        </form>
-                    </div>
-
-                    {/* Secretary */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-4 md:p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Secretary</h3>
-                        <form className="flex flex-col md:flex-row md:items-center">
-                            <label className="mb-4 md:mb-0 md:mr-4">
-                                Email:
-                                <input
-                                    type="text"
-                                    name="email"
-                                    value={contactInfo.secretary.email}
-                                    onChange={e => handleInputChange(e, 'secretary')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                            <label>
-                                Phone:
-                                <input
-                                    type="text"
-                                    name="phone"
-                                    value={contactInfo.secretary.phone}
-                                    onChange={e => handleInputChange(e, 'secretary')}
-                                    className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                />
-                            </label>
-                        </form>
-                    </div>
-
-                    {/* Faculty Members */}
-                    <div className="mb-8 border-black border-2 rounded-lg p-4 md:p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Faculty Members</h3>
-                        {contactInfo.faculty.map((faculty, index) => (
-                            <div key={index} className="mb-4">
-                                <form className="flex flex-col md:flex-row md:items-center">
-                                    <label className="mb-4 md:mb-0 md:mr-4">
-                                        Email:
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={faculty.email}
-                                            onChange={e => handleInputChange(e, 'faculty', index)}
-                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                        />
-                                    </label>
-                                    <label>
-                                        Phone:
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            value={faculty.phone}
-                                            onChange={e => handleInputChange(e, 'faculty', index)}
-                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                        />
-                                    </label>
-                                </form>
-                                <button
-                                    className="bg-red-500 text-white py-2 px-4 rounded mt-2 md:ml-4 hover:bg-red-600"
-                                    onClick={() => handleRemoveContact('faculty', index)}
-                                >
-                                    Remove Faculty Member
-                                </button>
+                    {/* Support Items List */}
+                    <div className="grid gap-6">
+                        {supportItems.map((item) => (
+                            <div key={item.id} className="p-4 bg-white rounded-lg shadow-md">
+                                <h3 className="text-xl font-bold text-blue-600 mb-2">{item.name}</h3>
+                                <p className="text-gray-600 mb-2"><strong>Email:</strong> {item.email}</p>
+                                <p className="text-gray-600 mb-2"><strong>Phone:</strong> {item.phone}</p>
+                                <p className="text-gray-600 mb-4"><strong>Description:</strong> {item.description}</p>
+                                <div>
+                                    <button
+                                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
+                                        onClick={() => handleRemoveSupportItem(item.id)}
+                                    >
+                                        Remove
+                                    </button>
+                                </div>
                             </div>
                         ))}
-                        <button
-                            className="bg-green-500 text-white py-2 px-4 rounded mt-2 hover:bg-green-600"
-                            onClick={() => handleAddContact('faculty')}
-                        >
-                            Add Faculty Member
-                        </button>
                     </div>
 
-                    {/* Other Members */}
-                    <div className="border-black border-2 rounded-lg p-4 md:p-6">
-                        <h3 className="text-xl font-semibold text-blue-600 mb-2">Other Members</h3>
-                        {contactInfo.members.map((member, index) => (
-                            <div key={index} className="mb-4">
-                                <form className="flex flex-col md:flex-row md:items-center">
-                                    <label className="mb-4 md:mb-0 md:mr-4">
-                                        Email:
-                                        <input
-                                            type="text"
-                                            name="email"
-                                            value={member.email}
-                                            onChange={e => handleInputChange(e, 'members', index)}
-                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                        />
-                                    </label>
-                                    <label>
-                                        Phone:
-                                        <input
-                                            type="text"
-                                            name="phone"
-                                            value={member.phone}
-                                            onChange={e => handleInputChange(e, 'members', index)}
-                                            className="block border-b border-gray-400 py-2 px-4 focus:outline-none"
-                                        />
-                                    </label>
-                                </form>
-                                <button
-                                    className="bg-red-500 text-white py-2 px-4 rounded mt-2 md:ml-4 hover:bg-red-600"
-                                    onClick={() => handleRemoveContact('members', index)}
-                                >
-                                    Remove Member
-                                </button>
+                    {/* Add New Support Item Form */}
+                    <div className="mt-8">
+                        <h3 className="text-2xl font-bold mb-4">Add New Support Item</h3>
+                        <form onSubmit={handleFormSubmit}>
+                            <div className="mb-4">
+                                <label htmlFor="name" className="block text-gray-700 mb-1">Name:</label>
+                                <input
+                                    type="text"
+                                    id="name"
+                                    name="name"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.name}
+                                    onChange={handleInputChange}
+                                    required
+                                />
                             </div>
-                        ))}
-                        <button
-                            className="bg-green-500 text-white py-2 px-4 rounded mt-2 hover:bg-green-600"
-                            onClick={() => handleAddContact('members')}
-                        >
-                            Add Member
-                        </button>
+                            <div className="mb-4">
+                                <label htmlFor="email" className="block text-gray-700 mb-1">Email:</label>
+                                <input
+                                    type="email"
+                                    id="email"
+                                    name="email"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.email}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="phone" className="block text-gray-700 mb-1">Phone:</label>
+                                <input
+                                    type="tel"
+                                    id="phone"
+                                    name="phone"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.phone}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <div className="mb-4">
+                                <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
+                                <textarea
+                                    id="description"
+                                    name="description"
+                                    className="w-full p-2 border border-gray-300 rounded-lg"
+                                    value={formData.description}
+                                    onChange={handleInputChange}
+                                    required
+                                />
+                            </div>
+                            <button
+                                type="submit"
+                                className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                            >
+                                Add Support Item
+                            </button>
+                        </form>
                     </div>
                 </div>
             </div>

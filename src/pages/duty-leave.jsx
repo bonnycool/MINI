@@ -1,73 +1,84 @@
-import React from 'react';
-import Navbar from '../Components/navbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import React, { useState, useEffect } from 'react';
+import firebase from 'firebase/compat/app';
+import 'firebase/compat/firestore';
+import Navbar from '../Components/navbar';
+import UserHeader from '../Components/userheader';
+
+const firebaseConfig = {
+    apiKey: "AIzaSyAVt-PT18cT_Jzlx3zHs0Ng4TaykNdSd-s",
+    authDomain: "gitsconnect-aa3f5.firebaseapp.com",
+    projectId: "gitsconnect-aa3f5",
+    storageBucket: "gitsconnect-aa3f5.appspot.com",
+    messagingSenderId: "229347354180",
+    appId: "1:229347354180:web:f520ed4f2baceaeccffe11",
+    measurementId: "G-JQHTHQTJ76"
+};
+
+if (!firebase.apps.length) {
+  firebase.initializeApp(firebaseConfig);
+}
+
+const db = firebase.firestore();
 
 const BlockchainEvents = () => {
-    // Sample events data with status and reason
-    const events = [
-        {
-            title: 'Blockchain Workshop',
-            date: 'April 10, 2024',
-            time: '2:00 PM',
-            location: 'Room 101',
-            description: 'A workshop on blockchain technology and its applications.',
-            status: 'Approved',
-        },
-        {
-            title: 'AI Symposium',
-            date: 'April 15, 2024',
-            time: '10:00 AM',
-            location: 'Auditorium',
-            description: 'A symposium on the latest trends in AI and machine learning.',
-            status: 'Not approved',
-            reason: 'Invalid request',
-        },
-        // Add more events as needed
-    ];
+  const [attendanceRecords, setAttendanceRecords] = useState([]);
 
-    return (
-        <div className="flex flex-col md:flex-row h-screen">
-            {/* Section A: Navbar on the left side */}
-            <div className="w-full md:w-1/5 h-full">
-                <Navbar />
-            </div>
+  useEffect(() => {
+    // Fetch attendance records from Firebase
+    const fetchAttendanceRecords = async () => {
+      try {
+        const attendanceSnapshot = await db.collection('aiattendance').get();
+        const attendanceData = attendanceSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+        setAttendanceRecords(attendanceData);
+      } catch (error) {
+        console.error('Error fetching attendance records:', error);
+      }
+    };
 
-            {/* Section B: Main content area */}
-            <div className="flex-1 p-8 bg-gray-100">
-                {/* Header component */}
-                <Header />
+    fetchAttendanceRecords();
+  }, []);
 
-                {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+  return (
+    <div className="flex h-screen">
+      <div className="w-1/5 h-full">
+        <Navbar />
+      </div>
 
-                {/* Event list */}
-                <div className="grid gap-6">
-                    {events.map((event, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                            {/* Event title */}
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
+      <div className="flex-1 p-8 bg-gray-100">
+        <UserHeader />
+        <h2 className="text-3xl font-bold mb-6 text-gray-800">Attendance Records</h2>
 
-                            {/* Event details */}
-                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
-                            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
-                            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
-
-                            {/* Event description */}
-                            <p className="text-gray-600 mb-4">{event.description}</p>
-
-                            {/* Status */}
-                            <p className="text-gray-700 mb-1"><strong>Status:</strong> {event.status}</p>
-
-                            {/* Reason for not approved */}
-                            {event.status === 'Not approved' && (
-                                <p className="text-red-600"><strong>Reason:</strong> {event.reason}</p>
-                            )}
-                        </div>
-                    ))}
-                </div>
-            </div>
+        <div className="overflow-x-auto">
+          <table className="min-w-full bg-white border border-black">
+            <thead>
+              <tr>
+                <th className="py-2 px-4 border border-black text-center">Event Name</th>
+                <th className="py-2 px-4 border border-black text-center">Name</th>
+                <th className="py-2 px-4 border border-black text-center">Attendance Status</th>
+                <th className="py-2 px-4 border border-black text-center">Date</th>
+                <th className="py-2 px-4 border border-black text-center">Reason</th>
+              </tr>
+            </thead>
+            <tbody>
+              {attendanceRecords.map((record, index) => (
+                <tr key={index} className="hover:bg-gray-100">
+                  <td className="py-2 px-4 border border-black text-center">{record.eventname}</td>
+                  <td className="py-2 px-4 border border-black text-center">{record.name}</td>
+                  <td className="py-2 px-4 border border-black text-center">
+                    {typeof record.attendanceStatus === 'string' ? record.attendanceStatus : JSON.stringify(record.attendanceStatus)}
+                  </td>
+                  <td className="py-2 px-4 border border-black text-center">{new Date(record.date).toLocaleDateString()}</td>
+                  <td className="py-2 px-4 border border-black text-center">
+                    {record.attendanceStatus === 'Not approved' && record.reason ? record.reason : 'N/A'}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
         </div>
-    );
+      </div>
+    </div>
+  );
 };
 
 export default BlockchainEvents;

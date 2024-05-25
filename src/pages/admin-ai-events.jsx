@@ -1,37 +1,22 @@
-import React, { useState } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the Navbar component
-import Header from '../Components/header'; // Import the Header component
+import React, { useState, useEffect } from 'react';
+import { db } from "../../backend/firebase";
+import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 
 const AdminAIEvents = () => {
-    // State to manage events data
-    const [events, setEvents] = useState([
-        {
-            title: 'AI Workshop',
-            date: 'April 10, 2024',
-            time: '2:00 PM',
-            location: 'Room 101',
-            description: 'A workshop on blockchain technology and its applications.',
-        },
-        {
-            title: 'AI Symposium',
-            date: 'April 15, 2024',
-            time: '10:00 AM',
-            location: 'Auditorium',
-            description: 'A symposium on the latest trends in AI and machine learning.',
-        },
-        // Add more events as needed
-    ]);
-
-    // State to manage the form data
+    const [events, setEvents] = useState([]);
     const [formData, setFormData] = useState({
         title: '',
         date: '',
         time: '',
         location: '',
         description: '',
+        slots: ''
     });
+    const [registrations, setRegistrations] = useState([]);
+    const [submitting, setSubmitting] = useState(false);
 
-    // Function to handle changes in the form inputs
     const handleInputChange = (e) => {
         const { name, value } = e.target;
         setFormData((prevData) => ({
@@ -40,145 +25,297 @@ const AdminAIEvents = () => {
         }));
     };
 
-    // Function to handle form submission
-    const handleFormSubmit = (e) => {
+    const handleFormSubmit = async (e) => {
         e.preventDefault();
-        // Add the new event to the events list
-        setEvents((prevEvents) => [...prevEvents, formData]);
-        // Clear the form data
-        setFormData({
-            title: '',
-            date: '',
-            time: '',
-            location: '',
-            description: '',
-        });
+        setSubmitting(true);
+
+        try {
+            const docRef = await addDoc(collection(db, 'events'), {
+                ...formData,
+                remainingSlots: parseInt(formData.slots)
+            });
+            console.log('Document written with ID: ', docRef.id);
+
+            setEvents((prevEvents) => [...prevEvents, { ...formData, id: docRef.id, remainingSlots: parseInt(formData.slots) }]);
+            setFormData({
+                title: '',
+                date: '',
+                time: '',
+                location: '',
+                description: '',
+                slots: ''
+            });
+
+            alert('Event added successfully!');
+        } catch (error) {
+            console.error('Error adding document: ', error);
+            alert('Error adding event. Please try again later.');
+        } finally {
+            setSubmitting(false);
+        }
     };
 
-    // Function to handle removing an event
-    const handleRemoveEvent = (index) => {
-        setEvents((prevEvents) => prevEvents.filter((_, i) => i !== index));
+    const handleRemoveEvent = async (eventId) => {
+        console.log('Attempting to remove event with ID:', eventId);
+        try {
+            const eventDocRef = doc(db, 'events', eventId);
+            console.log('Document reference:', eventDocRef);
+            await deleteDoc(eventDocRef);
+            setEvents((prevEvents) => prevEvents.filter((e) => e.id !== eventId));
+            alert('Event removed successfully!');
+        } catch (error) {
+            console.error('Error removing event: ', error);
+            alert('Error removing event. Please try again later.');
+        }
     };
+
+    const handleApproveRegistration = async (regId, eventId) => {
+        try {
+            const regDocRef = doc(db, 'ai-event-reg', regId);
+            await updateDoc(regDocRef, {
+                status: 'Approved',
+            });
+            setRegistrations((prevRegs) => prevRegs.map((reg) =>
+                reg.id === regId ? { ...reg, status: 'Approved' } : reg
+            ));
+
+            const eventDocRef = doc(db, 'events', eventId);
+            const eventDoc = await getDoc(eventDocRef);
+            const eventData = eventDoc.data();
+
+            if (eventData.remainingSlots > 0) {
+                await updateDoc(eventDocRef, {
+                    remainingSlots: eventData.remainingSlots - 1,
+                });
+                setEvents((prevEvents) => prevEvents.map((event) =>
+                    event.id === eventId ? { ...event, remainingSlots: event.remainingSlots - 1 } : event
+                ));
+            }
+
+            alert('Registration approved successfully!');
+        } catch (error) {
+            console.error('Error approving registration: ', error);
+            alert('Error approving registration. Please try again later.');
+        }
+    };
+
+    const handleReject = async (regId, eventId) => {
+        try {
+            const regDocRef = doc(db, 'ai-event-reg', regId);
+            await updateDoc(regDocRef, {
+                status: 'Rejected',
+            });
+            setRegistrations((prevRegs) => prevRegs.map((reg) =>
+                reg.id === regId ? { ...reg, status: 'Rejected' } : reg
+            ));
+            alert('Registration rejected successfully!');
+        } catch (error) {
+            console.error('Error rejecting registration: ', error);
+            alert('Error rejecting registration. Please try again later.');
+        }
+    };
+
+
+    useEffect(() => {
+        const fetchEvents = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'events'));
+                const fetchedEvents = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, id: doc.id };
+                });
+                setEvents(fetchedEvents);
+            } catch (error) {
+                console.error('Error fetching events: ', error);
+            }
+        };
+
+        const fetchRegistrations = async () => {
+            try {
+                const querySnapshot = await getDocs(collection(db, 'ai-event-reg'));
+                const fetchedRegistrations = querySnapshot.docs.map(doc => {
+                    const data = doc.data();
+                    return { ...data, id: doc.id };
+                });
+                setRegistrations(fetchedRegistrations);
+            } catch (error) {
+                console.error('Error fetching registrations: ', error);
+            }
+        };
+
+        fetchEvents();
+        fetchRegistrations();
+    }, []);
+
+    const RegistrationCard = ({ registration, onApprove, onReject }) => (
+        <div className="p-4 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-bold text-blue-600 mb-2">{registration.name}</h3>
+            <p className="text-gray-700 mb-1"><strong>Email:</strong> {registration.email}</p>
+            <p className="text-gray-700 mb-1"><strong>Status:</strong> {registration.status}</p>
+            <p className="text-gray-700 mb-1"><strong>Event Name:</strong> {registration.eventname}</p>
+            {registration.status !== 'Approved' && (
+                <div>
+                    <button
+                        className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mr-2"
+                        onClick={() => onApprove(registration.id, registration.eventId)}
+                    >
+                        Approve
+                    </button>
+                    <button
+                        className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
+                        onClick={() => onReject(registration.id, registration.eventId)}
+                    >
+                        Reject
+                    </button>
+                </div>
+            )}
+            {registration.status === 'Approved' && registration.remainingSlots <= 0 && (
+                <p className="text-red-600">Slots Full</p>
+            )}
+            {registration.status === 'Rejected' && (
+                <p className="text-red-600">Registration Rejected</p>
+            )}
+        </div>
+    );
+
+    
+    const EventCard = ({ event, onRemove }) => (
+        <div className="p-4 bg-white rounded-lg shadow-md">
+            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
+            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
+            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
+            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
+            <p className="text-gray-700 mb-1"><strong>Slots:</strong> {event.remainingSlots}</p>
+            <p className="text-gray-600 mb-4">{event.description}</p>
+            <div>
+                <button
+                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
+                    onClick={() => onRemove(event.id)}
+                >
+                    Remove
+                </button>
+            </div>
+        </div>
+    );
 
     return (
-        <div className="flex flex-col md:flex-row min-h-screen">
-            {/* Section A: Navbar on the left side */}
-            <div className="md:w-1/5 h-full">
+        <div className="flex h-screen">
+            <div className="w-1/5 h-full">
                 <AdminNavbar />
             </div>
-
-            {/* Section B: Main content area */}
+            
             <div className="flex-1 p-8 bg-gray-100">
-                {/* Header component */}
                 <Header />
-
-                {/* Page header */}
-                <h2 className="text-3xl font-bold mb-6 text-gray-800 mt-10 md:mt-20">Upcoming Events</h2>
-
-                {/* Event list */}
-                <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-                    {events.map((event, index) => (
-                        <div key={index} className="p-4 bg-white rounded-lg shadow-md">
-                            {/* Event title */}
-                            <h3 className="text-xl font-bold text-blue-600 mb-2">{event.title}</h3>
-
-                            {/* Event details */}
-                            <p className="text-gray-700 mb-1"><strong>Date:</strong> {event.date}</p>
-                            <p className="text-gray-700 mb-1"><strong>Time:</strong> {event.time}</p>
-                            <p className="text-gray-700 mb-1"><strong>Location:</strong> {event.location}</p>
-
-                            {/* Event description */}
-                            <p className="text-gray-600 mb-4">{event.description}</p>
-
-                            {/* Action buttons */}
-                            <div>
-                                <button
-                                    className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600 mr-2"
-                                    onClick={() => handleRemoveEvent(index)}
-                                >
-                                    Remove
-                                </button>
-                            </div>
-                        </div>
+                
+                <div>
+                <h2 className="text-3xl font-bold mb-6 text-gray-800">AI Event Registrations</h2>
+                <div className="grid gap-6">
+                    {registrations.map((reg) => (
+                        <RegistrationCard
+                            key={reg.id}
+                            registration={reg}
+                            onApprove={handleApproveRegistration}
+                            onReject={handleReject} // Pass onReject here
+                        />
                     ))}
                 </div>
-
-                {/* Form for adding new events */}
-                <div className="mt-8">
-                    <h3 className="text-2xl font-bold mb-4">Add New Event</h3>
+            </div>
+                <div>
+                    <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                    <div className="grid gap-6">
+                        {events.map((event) => (
+                            <EventCard key={event.id} event={event} onRemove={handleRemoveEvent} />
+                        ))}
+                    </div>
+                </div>
+                
+                <div>
+                    <h2 className="text-2xl font-bold mb-4">Add New Event</h2>
                     <form onSubmit={handleFormSubmit}>
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
-                                <input
-                                    type="text"
-                                    id="title"
-                                    name="title"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.title}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
-                                <input
-                                    type="date"
-                                    id="date"
-                                    name="date"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.date}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
-                                <input
-                                    type="time"
-                                    id="time"
-                                    name="time"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.time}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div>
-                                <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
-                                <input
-                                    type="text"
-                                    id="location"
-                                    name="location"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.location}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
-                            <div className="col-span-2">
-                                <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
-                                <textarea
-                                    id="description"
-                                    name="description"
-                                    className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.description}
-                                    onChange={handleInputChange}
-                                    required
-                                />
-                            </div>
+                        <div className="mb-4">
+                            <label htmlFor="title" className="block text-gray-700 mb-1">Title:</label>
+                            <input
+                                type="text"
+                                id="title"
+                                name="title"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.title}
+                                onChange={handleInputChange}
+                                required
+                            />
                         </div>
+                        <div className="mb-4">
+                            <label htmlFor="date" className="block text-gray-700 mb-1">Date:</label>
+                            <input
+                                type="date"
+                                id="date"
+                                name="date"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.date}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="time" className="block text-gray-700 mb-1">Time:</label>
+                            <input
+                                type="time"
+                                id="time"
+                                name="time"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.time}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="location" className="block text-gray-700 mb-1">Location:</label>
+                            <input
+                                type="text"
+                                id="location"
+                                name="location"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.location}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="slots" className="block text-gray-700 mb-1">Slots:</label>
+                            <input
+                                type="text"
+                                id="slots"
+                                name="slots"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.slots}
+                                onChange={handleInputChange}
+                                required
+                                
+                            />
+                        </div>
+                        <div className="mb-4">
+                            <label htmlFor="description" className="block text-gray-700 mb-1">Description:</label>
+                            <textarea
+                                id="description"
+                                name="description"
+                                className="w-full p-2 border border-gray-300 rounded-lg"
+                                value={formData.description}
+                                onChange={handleInputChange}
+                                required
+                            />
+                        </div>
+                        
                         <button
                             type="submit"
-                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600 mt-4"
+                            className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
+                            disabled={submitting}
                         >
-                            Add Event
+                            {submitting ? 'Adding...' : 'Add Event'}
                         </button>
                     </form>
                 </div>
             </div>
         </div>
-    );
-};
+    );};
 
-export default AdminAIEvents;
+    export default AdminAIEvents;

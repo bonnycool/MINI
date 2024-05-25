@@ -31,10 +31,9 @@ const Userheader = ({ username }) => {
     navigate('/profile'); // Navigate to the profile page
   };
 
-  const handleLogout = async () => {
+  const handleLogout = () => {
     try {
-      await axios.post('http://127.0.0.1:8000/api/logout/'); // Send logout request to backend
-      navigate('/credentials'); // Redirect to login page after logout
+      navigate('/'); // Redirect to login page after logout
     } catch (error) {
       console.error("Logout error:", error);
     }
@@ -107,7 +106,7 @@ const Userheader = ({ username }) => {
               <span>{username}</span> {/* Display the username */}
             </div>
             <div>
-              <Link to="/edit-profile" style={{ cursor: 'pointer' }}>Edit Profile</Link> {/* Link to edit profile */}
+              <Link to="/profile" style={{ cursor: 'pointer' }}>Your Profile</Link> {/* Link to edit profile */}
             </div>
             <div onClick={handleLogout} style={{ cursor: 'pointer' }}>Logout</div> {/* Trigger logout */}
           </div>
