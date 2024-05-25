@@ -43,7 +43,7 @@ const Home = () => {
                     </div>
 
                     {/* Section C (right section with two buttons) */}
-                    <div className="flex flex-col mt-5 items-center w-1/3 ml-8">
+                    <div className="flex padding-50px flex-col mt-5 items-center w-1/3 ml-8">
                         {/* Button 3: Open Source Club */}
                         <button
                             className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"

@@ -1,7 +1,7 @@
 import React from 'react';
-import { useNavigate } from 'react-router-dom';
-import AdminNavbar from '../Components/adminnavbar';
-import Header from '../Components/header';
+import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
+import OSAdminNavbar from '../Components/opensource-admin-navbar';
+import Header from '../Components/header'; // Import the Header component
 import Box1Image from '../Assests/imagesroni/ai1.jpg';
 import Box2Image from '../Assests/imagesroni/dl3.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
@@ -13,10 +13,9 @@ const AdminOpenSource = () => {
     const navigate = useNavigate();
 
     return (
-        <div className="flex flex-col lg:flex-row h-screen">
-            {/* Sidebar */}
-            <div className="w-full lg:w-1/5 h-full">
-                <AdminNavbar />
+        <div className="flex h-screen">
+            <div className="w-1/5 h-full">
+                <OSAdminNavbar />
             </div>
 
             {/* Main Content */}

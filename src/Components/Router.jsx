@@ -1,13 +1,13 @@
 import React from 'react';
 import { Routes, Route } from 'react-router-dom';
-import Login from '../pages/login'; // Import the Login component
+import Login from '../pages/login';
 import Home from '../pages/home';
 import Homenavbar from './homenavabr';
-import Navbar from './navbar'; // Import the Navbar component
+import Navbar from './navbar';
 import Credentials from '../pages/credentials';
 import Admincredentials from '../pages/admin-credentials';
-import SuperAdmin from '../pages/super-admin'; // Import the Super Admin component
-import Supernavbar from './supernavbar'; // Import the Supernavbar component
+import SuperAdmin from '../pages/super-admin';
+import Supernavbar from './supernavbar';
 import Blockchain from '../pages/blockchain';
 import AI from '../pages/ai-club';
 import Opensource from '../pages/opensource';
@@ -19,9 +19,7 @@ import BlockchainEvents from '../pages/blockchain-events';
 import AIEvents from '../pages/ai-events';
 import OSEvents from '../pages/opensource-events';
 import CyberEvents from '../pages/cyber-events';
-import Dutyleave from '../pages/duty-leave';
 import AdminCalendar from '../pages/admin-calendar';
-import AdminDutyLeave from '../pages/admin-ai-duty-leave';
 import AdminBlockchain from '../pages/admin-blockchain';
 import AdminHome from '../pages/admin-home';
 import AdminNavbar from './adminnavbar';
@@ -61,6 +59,13 @@ import ProtectedRoute from './protected';
 import Profile from './profile';
 import SuperNavbar from './supernavbar';
 import ClubMembers from './clubmembers';
+import Certificate from '../pages/certificate';
+import CertificateGenerator from '../pages/certificategenerator';
+import AIAdminNavbar from './ai-admin-navbar';
+import BlockAdminNavbar from './block-admin-navbar';
+import OSAdminNavbar from './opensource-admin-navbar';
+import CyberAdminNavbar from './cyber-admin-navbar';
+import AdminDutyLeave from '../pages/admin-ai-duty-leave';
 import AdminCyberDutyLeave from '../pages/admin-cyber-duty-leave';
 import CyberDutyLeave from '../pages/cyber-duty-leave';
 import BlockchainDutyLeave from '../pages/block-duty-leave';
@@ -71,39 +76,20 @@ import AdminOpenDutyLeave from '../pages/admin-open-duty-leave';
 export function RouterPaths() {
     return (
         <Routes>
+                        <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
+                        <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
+            <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
+            <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
+            <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
+            <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
+            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
 
-            <Route>path=</Route>
-            {/* Route for the login page */}
             <Route path="/" element={<Login />} />
             <Route path="/admin-club-members" element={<ClubMembers />} />
-
-            {/* Route for the interface page */}
-            <Route
-                path="/home"
-                element={
-                
-                    <>
-                        <Homenavbar />
-                        <Home />
-                    </>
-                    
-                }
-            />
-            <Route
-                path="/admin-home"
-                element={
-                    <>
-                        <AdminNavbar />
-                        <AdminHome />
-                    </>
-                }
-            />
-             <Route path="/profile" element={<Profile/>} />
-
-            {/* Route for the student credentials page */}
+            <Route path="/home" element={<><Homenavbar /><Home /></>} />
+            <Route path="/admin-home" element={<><AdminNavbar /><AdminHome /></>} />
+            <Route path="/profile" element={<Profile />} />
             <Route path="/credentials" element={<Credentials />} />
-
-            {/* Route for the admin credentials page */}
             <Route path="/admincredentials" element={<Admincredentials />} />
             <Route path="/blockchain" element={<Blockchain />} />
             <Route path="/aiclub" element={<AI />} />
@@ -117,8 +103,6 @@ export function RouterPaths() {
             <Route path="/opensource-events" element={<OSEvents />} />
             <Route path="/cyber-events" element={<CyberEvents />} />
             <Route path="/admin-calendar" element={<AdminCalendar />} />
-            <Route path="/duty-leave" element={<Dutyleave />} />
-            <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
             <Route path="/admin-blockchain" element={<AdminBlockchain />} />
             <Route path="/admin-about" element={<AdminAboutUs />} />
             <Route path="/admin-blockchain-events" element={<AdminBlockchainEvents />} />
@@ -153,32 +137,14 @@ export function RouterPaths() {
             <Route path="/admin-ai-events" element={<AdminAIEvents />} />
             <Route path="/admin-ai-rules" element={<AdminAIClubRules />} />
             <Route path="/admin-ai-club-materials" element={<AdminAIClubMaterials />} />
-            <Route path="/supernavbar" element={<SuperNavbar     />} />
-            <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
-            <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
-            <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
-            <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
-            <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
-            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
-
-
-            
-
-
-
-
-            {/* Route for the Super Admin page */}
-            <Route
-                path="/superadmin"
-                element={
-                    <>
-                        <Supernavbar /> {/* Add the Supernavbar component */}
-                        <SuperAdmin />
-                    </>
-                }
-            />
-            {/* Add more routes as needed */}
-            
+            <Route path="/supernavbar" element={<SuperNavbar />} />
+            <Route path="/certificate" element={<Certificate />} />
+            <Route path="/certificate/:id" element={<CertificateGenerator />} /> {/* Add this route */}
+            <Route path="/superadmin" element={<><Supernavbar /><SuperAdmin /></>} />
+            <Route path="/ai-admin-navbar" element={<AIAdminNavbar />} />
+            <Route path="/block-admin-navbar" element={<BlockAdminNavbar />} />
+            <Route path="/cyber-admin-navbar" element={<CyberAdminNavbar />} />
+            <Route path="/opensource-admin-navbar" element={<OSAdminNavbar />} />
         </Routes>
     );
 }

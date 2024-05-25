@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { db } from "../../backend/firebase";
-import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
-import AdminNavbar from '../Components/adminnavbar';
+import { db } from "../../backend/firebase"; // Adjust the path to your Firebase configuration
+import { addDoc, collection, getDocs, deleteDoc, doc,updateDoc } from 'firebase/firestore';
+import OSAdminNavbar from '../Components/opensource-admin-navbar';
 import Header from '../Components/header';
 
 const AdminOSEvents = () => {
@@ -80,7 +80,7 @@ const AdminOSEvents = () => {
             ));
 
             const eventDocRef = doc(db, 'openevents', eventId);
-            const eventDoc = await getDoc(eventDocRef);
+            const eventDoc = await getDocs(eventDocRef);
             const eventData = eventDoc.data();
 
             if (eventData.remainingSlots > 0) {
@@ -201,7 +201,7 @@ const AdminOSEvents = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <OSAdminNavbar />
             </div>
             
             <div className="flex-1 p-8 bg-gray-100">
