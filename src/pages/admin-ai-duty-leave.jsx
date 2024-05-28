@@ -22,18 +22,24 @@ const db = firebase.firestore();
 
 const AdminAiDutyLeave = () => {
   const [eventRegistrations, setEventRegistrations] = useState([]);
-
   useEffect(() => {
-    // Fetch event registrations from Firebase
+    // Fetch event registrations and their attendance status from Firebase
     const fetchEventRegistrations = async () => {
       const eventRegistrationsRef = db.collection('ai-event-reg');
       const snapshot = await eventRegistrationsRef.get();
-      const registrationsData = snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+      const registrationsData = await Promise.all(snapshot.docs.map(async (doc) => {
+        const data = doc.data();
+        const attendanceDoc = await db.collection('aiattendance').doc(doc.id).get();
+        const attendanceData = attendanceDoc.data();
+        const status = attendanceData ? attendanceData.attendanceStatus[data.userId] : '';
+        return { id: doc.id, ...data, status };
+      }));
       setEventRegistrations(registrationsData);
     };
 
     fetchEventRegistrations();
   }, []);
+
 
   // Function to handle attendance and update Firestore
   const handleAttendance = async (eventId, userId, status) => {
