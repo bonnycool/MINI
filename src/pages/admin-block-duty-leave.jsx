@@ -24,7 +24,6 @@ const AdminBlockDutyLeave = () => {
   const [eventRegistrations, setEventRegistrations] = useState([]);
 
   useEffect(() => {
-    // Fetch event registrations and their attendance status from Firebase
     const fetchEventRegistrations = async () => {
       const eventRegistrationsRef = db.collection('blockeventreg');
       const snapshot = await eventRegistrationsRef.get();
@@ -33,7 +32,7 @@ const AdminBlockDutyLeave = () => {
         const attendanceDoc = await db.collection('blockattendance').doc(doc.id).get();
         const attendanceData = attendanceDoc.data();
         const status = attendanceData ? attendanceData.attendanceStatus[data.userId] : '';
-        return { id: doc.id, ...data, status };
+        return { id: doc.id, ...data, status, attendanceMarked: !!status };
       }));
       setEventRegistrations(registrationsData);
     };
@@ -41,25 +40,21 @@ const AdminBlockDutyLeave = () => {
     fetchEventRegistrations();
   }, []);
 
-  // Function to handle attendance and update Firestore
   const handleAttendance = async (eventId, userId, status) => {
     try {
-      // Fetch the event registration details
       const eventRegDoc = await db.collection('blockeventreg').doc(eventId).get();
       const eventData = eventRegDoc.data();
 
-      // Update the attendance database with the event details
       const attendanceRef = db.collection('blockattendance').doc(eventId);
       await attendanceRef.set({
-        ...eventData, // Copy all event registration details
-        attendanceStatus: { ...eventData.attendanceStatus, [userId]: status } // Update the attendance status for the user
+        ...eventData,
+        attendanceStatus: { ...eventData.attendanceStatus, [userId]: status }
       }, { merge: true });
 
-      // Update the local state
       setEventRegistrations(prevRegistrations =>
         prevRegistrations.map(registration =>
           registration.id === eventId
-            ? { ...registration, status }
+            ? { ...registration, status, attendanceMarked: true }
             : registration
         )
       );
@@ -100,21 +95,20 @@ const AdminBlockDutyLeave = () => {
                   <td className="py-2 px-4 border-b border-black text-center">{registration.email}</td>
                   <td className="py-2 px-4 border-b border-black text-center">{registration.eventname}</td>
                   <td className="py-2 px-4 border-b border-black text-center">{new Date(registration.date).toLocaleDateString()}</td>
-
                   <td className="py-2 px-4 border-b border-black text-center">{registration.status}</td>
                   <td className="py-2 px-4 border-b border-black text-center">
                     <div className="flex justify-center space-x-2">
                       <button
-                        className={`bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-green-600 ${registration.status === 'Present' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-green-600 ${registration.attendanceMarked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => handleAttendance(registration.id, registration.userId, 'Present')}
-                        disabled={registration.status === 'Present'}
+                        disabled={registration.attendanceMarked}
                       >
                         Present
                       </button>
                       <button
-                        className={`bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 ${registration.status === 'Absent' ? 'opacity-50 cursor-not-allowed' : ''}`}
+                        className={`bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 ${registration.attendanceMarked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => handleAttendance(registration.id, registration.userId, 'Absent')}
-                        disabled={registration.status === 'Absent'}
+                        disabled={registration.attendanceMarked}
                       >
                         Absent
                       </button>
