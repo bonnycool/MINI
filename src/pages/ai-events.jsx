@@ -133,7 +133,7 @@ const handleApproval = async (registrationId, eventId) => {
             </div>
             <div className="flex-1 p-8 bg-gray-100">
                 <UserHeader />
-                <h2 className="text-3xl font-bold mb-6 text-gray-800">Upcoming Events</h2>
+                <h2 className="text-3xl font-bold mt-16 text-gray-800">Upcoming Events</h2>
                 <div className="grid gap-6">
                     {events.map((event) => (
                         

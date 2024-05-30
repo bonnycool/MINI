@@ -36,7 +36,7 @@ const CyberSecurityClubContact = () => {
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="mt-6">
+                <div className="mt-8">
                     {/* Display Support Items */}
                     {supportItems.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md p-8 mb-4">

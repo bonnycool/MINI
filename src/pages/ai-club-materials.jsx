@@ -42,17 +42,17 @@ const AIClubMaterials = () => {
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 mt-10 bg-gray-100">
+            <div className="flex-1 h-full p-4 md:p-8 bg-gray-100">
                 {/* Header component */}
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="flex flex-col gap-6 mt-6">
+                <div className="flex flex-col gap-6 mt-16 md:mt-20">  {/* Adjusted margin-top values */}
                     {materials.length > 0 ? (
                         materials.map((material) => (
-                            <div key={material.id} className="bg-white p-4 rounded-lg shadow-md">
+                            <div key={material.id} className="bg-white p-4 md:p-6 rounded-lg shadow-md">
                                 {/* Event title */}
-                                <h3 className="text-xl font-bold text-blue-600 mb-2">{material.title}</h3>
+                                <h3 className="text-xl font-bold text-blue-600 mb-6">{material.title}</h3>
 
                                 {/* References and links */}
                                 <ul className="space-y-2">

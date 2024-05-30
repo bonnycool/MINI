@@ -49,7 +49,7 @@ const OpenSourceClubMaterials = () => {
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-4 lg:p-8 lg:mt-10 bg-gray-100">
+            <div className="flex-1 h-full p-4 lg:p-8 lg:pl-12 lg:mt-10 bg-gray-100">
                 {/* Header component */}
                 <UserHeader />
 

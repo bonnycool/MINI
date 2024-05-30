@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
-import { getFirestore, collection, doc, addDoc, getDoc, setDoc, updateDoc } from 'firebase/firestore';
+import { getFirestore, collection, doc, addDoc, getDoc, setDoc } from 'firebase/firestore';
 import firebaseConfig from '../../backend/firebaseConfig';
 import { db } from '../../backend/firebase';
 
@@ -11,6 +11,7 @@ const firestore = getFirestore();
 const Navbar = () => {
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [hasJoinedClub, setHasJoinedClub] = useState(false); // State to track if user has joined a club
+    const [isOpen, setIsOpen] = useState(false); // State to manage navbar visibility on mobile
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -131,19 +132,43 @@ const Navbar = () => {
         }
     };
 
+    const handleToggle = () => {
+        setIsOpen(!isOpen);
+    };
+
     return (
         <div>
-            <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-900 text-white p-4 z-50 md:block`}>
+            {/* Hamburger menu button (visible on mobile) */}
+            <button
+                className="fixed top-16 left-0 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 md:hidden z-50" // Adjusted left value to move it further to the left
+                onClick={handleToggle}
+            >
+                <div className="space-y-1">
+                    <div className="w-5 h-0.5 bg-white"></div>
+                    <div className="w-5 h-0.5 bg-white"></div>
+                    <div className="w-5 h-0.5 bg-white"></div>
+                </div>
+            </button>
+
+            <div className={`fixed top-0 left-0 h-full w-3/4 md:w-1/5 bg-gray-900 text-white p-4 z-50 transform transition-transform ${isOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 md:block`}>
                 {/* Branding/logo */}
                 <div className="flex items-center mb-14">
                     <img src="/path/to/logo.png" alt="Logo" className="w-8 h-8 mr-2" />
                     <span className="text-xl font-bold">GITSCONNECT</span>
                 </div>
-                
+
+                {/* Close button (visible on mobile when navbar is open) */}
+                <button
+                    className="fixed top-16 left-1 bg-blue-500 text-white p-2 rounded hover:bg-blue-600 md:hidden" // Adjusted left value to move it further to the left and made it blue
+                    onClick={handleToggle}
+                >
+                    Close
+                </button>
+
                 {/* Navigation links */}
-                <ul className="space-y-4">
+                <ul className="space-y-4 mt-16">
                     <li>
-                        <a href="home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
+                        <a href="/home" className="block p-2 hover:bg-blue-800 rounded">Home</a>
                     </li>
                     <li>
                         <a href="/club-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
@@ -190,4 +215,3 @@ const Navbar = () => {
 };
 
 export default Navbar;
-

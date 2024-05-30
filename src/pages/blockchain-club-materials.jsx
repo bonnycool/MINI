@@ -54,7 +54,7 @@ const CyberClubMaterials = () => {
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="flex flex-col gap-6 mt-6">
+                <div className="flex flex-col gap-6 mt-12">
                     <div className="bg-white p-4 rounded-lg shadow-md">
                         {/* Event title */}
                         <h3 className="text-xl font-bold text-blue-600 mb-2">{material.title}</h3>

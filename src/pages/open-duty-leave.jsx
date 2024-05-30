@@ -44,9 +44,9 @@ const OpenDutyLeave = () => {
         <Navbar />
       </div>
 
-      <div className="flex-1 p-8 bg-gray-100">
+      <div className="flex-1 p-12 bg-gray-100">
         <UserHeader />
-        <h2 className="text-3xl font-bold mb-6 text-gray-800">Attendance Records</h2>
+        <h2 className="text-3xl font-bold mb-7 text-gray-800">Attendance Records</h2>
 
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-black">

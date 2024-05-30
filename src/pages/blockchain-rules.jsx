@@ -27,22 +27,22 @@ const BlockchainClubRules = () => {
     return (
         <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full bg-gray-800 text-white">
+            <div className="w-full md:w-1/5 h-full bg-gray-800 text-white">
                 <Navbar />
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 bg-gray-100">
+            <div className="flex-1 h-full p-4 md:p-8 bg-gray-100 overflow-y-auto">
                 {/* Add Header component at the top */}
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="mt-6">
+                <div className="mt-10">
                     {/* Display rules */}
                     {supportItems.map((item) => (
-                        <div key={item.id} className="bg-white rounded-lg shadow-md p-8 mb-4">
+                        <div key={item.id} className="bg-white rounded-lg shadow-md p-4 md:p-8 mb-4">
                             <h2 className="text-xl font-bold text-blue-600 mb-2">{item.title}</h2>
-                            <p className="text-gray-600 mb-4"><strong>Description:</strong> {item.description}</p>
+                            <p className="text-gray-600"><strong>Description:</strong> {item.description}</p>
                         </div>
                     ))}
                 </div>

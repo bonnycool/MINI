@@ -31,12 +31,12 @@ const BlockchainClubContact = () => {
             </div>
 
             {/* Section B: Main content area */}
-            <div className="flex-1 h-full p-8 bg-gray-100">
+            <div className="flex-1 h-full p-10 bg-gray-100">
                 {/* Add Header component at the top */}
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="mt-6">
+                <div className="mt-10">
                     {/* Display Support Items */}
                     {supportItems.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md p-8 mb-4">
