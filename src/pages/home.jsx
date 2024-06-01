@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
-import Homenavbar from '../Components/homenavabr'; // Import the navbar component
+import Homenavbar from '../Components/homenavabr'; // Ensure the correct path for the import
 import Userheader from '../Components/userheader';
 import Box1Image from '../Assests/imagesroni/blockchain1.jpg';
 import Box2Image from '../Assests/imagesroni/cyber1.jpg';
@@ -33,7 +33,7 @@ const Home = () => {
     }, []);
 
     return (
-        <div className="flex flex-col md:flex-row">
+        <div className="flex flex-col md:flex-row h-screen">
             <div className="fixed top-20 left-4 z-50 md:hidden">
                 <button className="bg-blue-500 text-white p-2 rounded hover:bg-blue-600" onClick={toggleNavbar}>
                     ☰
@@ -44,20 +44,20 @@ const Home = () => {
                 <Homenavbar isOpen={true} />
             </div>
 
-            <div className="flex-1 p-4 md:ml-20 lg:ml-24 xl:ml-32">
+            <div className="flex-1 p-4 md:ml-20 lg:ml-24 xl:ml-32 overflow-hidden">
                 <Userheader />
 
-                <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-900 text-white p-4 z-50 transform transition-transform ${isNavbarOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden`} ref={navbarRef}>
+                <div className={`fixed top-0 left-0 h-full w-64 bg-gray-900 text-white p-4 z-50 transform transition-transform ${isNavbarOpen ? 'translate-x-0' : '-translate-x-full'} md:hidden`} ref={navbarRef}>
                     {isNavbarOpen && (
                         <button
-                            className="absolute top-10 right-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
+                            className="absolute top-4 right-4 bg-blue-500 text-white p-2 rounded hover:bg-blue-600"
                             onClick={closeNavbar}
                         >
                             Close
                         </button>
                     )}
 
-                    <div className="flex items-center mb-14">
+                    <div className="flex items-center mb-14 mt-10">
                         <img src="/path/to/logo.png" alt="Logo" className="w-8 h-8 mr-2" />
                         <span className="text-xl font-bold">GITSCONNECT</span>
                     </div>
@@ -78,7 +78,7 @@ const Home = () => {
                     </ul>
                 </div>
 
-                <div className="flex flex-col lg:flex-row justify-center mt-16">
+                <div className="flex flex-col lg:flex-row justify-center mt-16 h-full overflow-y-auto">
                     <div className="flex flex-col mt-5 lg:mt-0 lg:ml-20 items-center w-full lg:w-1/3 px-4 lg:px-0">
                         <button
                             className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
@@ -110,7 +110,7 @@ const Home = () => {
                         </button>
 
                         <button
-                            className="w-full h-72 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="w-full h-72 mb-10 bg-cover bg-center rounded-lg hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})` }}
                             onClick={() => window.location.href = '/aiclub'}
                         >
