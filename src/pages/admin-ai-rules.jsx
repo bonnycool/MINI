@@ -7,7 +7,7 @@ import Header from '../Components/header';
 const AdminAIClubRules = () => {
     const [supportItems, setSupportItems] = useState([]);
     const [formData, setFormData] = useState({
-        rule : '',
+        rule: '',
         description: '',
     });
 
@@ -46,7 +46,7 @@ const AdminAIClubRules = () => {
             console.log('Document reference:', itemDocRef);
             await deleteDoc(itemDocRef);
             setSupportItems((prevItems) => prevItems.filter((item) => item.id !== itemId));
-            alert('rule removed successfully!');
+            alert('Rule removed successfully!');
         } catch (error) {
             console.error('Error removing rule: ', error);
             alert('Error removing rule. Please try again later.');
@@ -70,9 +70,9 @@ const AdminAIClubRules = () => {
     }, []);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full bg-gray-800 text-white">
+            <div className="w-full md:w-1/5 h-full bg-gray-800 text-white">
                 <AIAdminNavbar />
             </div>
 
@@ -83,10 +83,10 @@ const AdminAIClubRules = () => {
 
                 {/* Content area */}
                 <div className="mt-6">
-                    <h2 className="text-3xl font-semibold mb-6 text-gray-800">AI Club Rules and Reulations</h2>
+                    <h2 className="text-3xl font-semibold mb-6 text-gray-800">AI Club Rules and Regulations</h2>
 
-                    {/* rules List */}
-                    <div className="grid gap-6">
+                    {/* Rules List */}
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {supportItems.map((item) => (
                             <div key={item.id} className="p-4 bg-white rounded-lg shadow-md">
                                 <h3 className="text-xl font-bold text-blue-600 mb-2">{item.rule}</h3>
@@ -103,18 +103,18 @@ const AdminAIClubRules = () => {
                         ))}
                     </div>
 
-                    {/* Add New rule Form */}
+                    {/* Add New Rule Form */}
                     <div className="mt-8">
-                        <h3 className="text-2xl font-bold mb-4">Add New rule</h3>
+                        <h3 className="text-2xl font-bold mb-4">Add New Rule</h3>
                         <form onSubmit={handleFormSubmit}>
                             <div className="mb-4">
-                                <label htmlFor="Rule" className="block text-gray-700 mb-1">Rule:</label>
+                                <label htmlFor="rule" className="block text-gray-700 mb-1">Rule:</label>
                                 <input
                                     type="text"
                                     id="rule"
                                     name="rule"
                                     className="w-full p-2 border border-gray-300 rounded-lg"
-                                    value={formData.name}
+                                    value={formData.rule}
                                     onChange={handleInputChange}
                                     required
                                 />
@@ -134,7 +134,7 @@ const AdminAIClubRules = () => {
                                 type="submit"
                                 className="bg-blue-500 text-white py-2 px-4 rounded-lg hover:bg-blue-600"
                             >
-                                Add rule
+                                Add Rule
                             </button>
                         </form>
                     </div>

@@ -67,12 +67,12 @@ const AdminAiDutyLeave = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/5 h-full">
+    <div className="flex flex-col md:flex-row min-h-screen">
+      <div className="w-full md:w-1/5">
         <AdminNavbar />
       </div>
 
-      <div className="flex-1 p-8 bg-gray-100">
+      <div className="flex-1 p-10 bg-gray-100">
         <Header />
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Event Registrations</h2>
 

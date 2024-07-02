@@ -12,7 +12,11 @@ const BlockchainClubRules = () => {
             try {
                 const supportItemsCollection = collection(db, 'blockrules');
                 const supportItemsSnapshot = await getDocs(supportItemsCollection);
-                const supportItemsData = supportItemsSnapshot.docs.map(doc => ({ title: doc.data().title, description: doc.data().description, id: doc.id }));
+                const supportItemsData = supportItemsSnapshot.docs.map(doc => ({
+                    title: doc.data().title,
+                    description: doc.data().description,
+                    id: doc.id
+                }));
 
                 console.log('Fetched rules:', supportItemsData);
                 setSupportItems(supportItemsData);
@@ -37,11 +41,11 @@ const BlockchainClubRules = () => {
                 <UserHeader />
 
                 {/* Content area */}
-                <div className="mt-10">
+                <div className="mt-4 md:mt-10">
                     {/* Display rules */}
                     {supportItems.map((item) => (
                         <div key={item.id} className="bg-white rounded-lg shadow-md p-4 md:p-8 mb-4">
-                            <h2 className="text-xl font-bold text-blue-600 mb-2">{item.title}</h2>
+                            <h2 className="text-lg md:text-xl font-bold text-blue-600 mb-2">{item.title}</h2>
                             <p className="text-gray-600"><strong>Description:</strong> {item.description}</p>
                         </div>
                     ))}

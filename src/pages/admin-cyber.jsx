@@ -14,34 +14,40 @@ const AdminCybersecurity = () => {
 
     return (
         <div className="flex h-screen">
+            {/* Sidebar */}
             <div className="w-1/5 h-full">
                 <CyberAdminNavbar />
             </div>
 
             {/* Main Content */}
-            <div className="flex-1 h-full">
+            <div className="flex-1 h-full bg-gray-100">
                 <Header />
 
                 {/* Boxes */}
-                <div className="flex flex-col lg:flex-row h-full">
+                <div className="flex flex-col md:flex-row h-full">
                     {/* Left Side */}
-                    <div className="flex flex-col lg:w-1/2 space-y-6 p-4">
+                    <div className="flex flex-col md:w-1/2 p-4">
+                        {/* Box 1 */}
                         <button
-                            className="h-48 lg:h-auto bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg lg:mb-4"
+                            className="h-48 mt-20 bg-blue-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box3Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate('/admin-cyber-events')}
                         >
                             Upcoming Events
                         </button>
+
+                        {/* Box 2 */}
                         <button
-                            className="h-48 lg:h-auto bg-green-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg lg:mb-4"
+                            className="h-48 mt-6 bg-green-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})`, backgroundPosition: 'center' }}
                             onClick={() => console.log('E-Certificate')}
                         >
                             E-Certificate
                         </button>
+
+                        {/* Box 3 */}
                         <button
-                            className="h-48 lg:h-auto bg-red-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 mt-6 bg-red-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box1Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate('/admin-cyber-rules')}
                         >
@@ -50,24 +56,28 @@ const AdminCybersecurity = () => {
                     </div>
 
                     {/* Right Side */}
-                    <div className="flex flex-col lg:w-1/2 space-y-6 p-4">
+                    <div className="flex flex-col md:w-1/2 p-4">
+                        {/* Box 4 */}
                         <button
-                            className="h-48 lg:h-auto bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg lg:mb-4"
+                            className="h-48 mt-6 md:mt-20 bg-purple-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box5Image})`, backgroundPosition: 'center' }}
-                            onClick={() => navigate ('/admin-cyber-club-materials')}
+                            onClick={() => navigate('/admin-cyber-club-materials')}
                         >
                             Club Materials
                         </button>
+
+                        {/* Box 5 */}
                         <button
-                            className="h-48 lg:h-auto bg-orange-500 rounded-md flex items-center justify-center transition duration-300 text-black text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg lg:mb-4"
+                            className="h-48 mt-6 bg-orange-500 rounded-md flex items-center justify-center transition duration-300 text-black text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box2Image})`, backgroundPosition: 'center' }}
-                            onClick={() => navigate ('/admin-cyber-duty-leave')}
-                            >
-                        
+                            onClick={() => navigate('/admin-cyber-duty-leave')}
+                        >
                             Attendance
                         </button>
+
+                        {/* Box 6 */}
                         <button
-                            className="h-48 lg:h-auto bg-yellow-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:bg-yellow-600 hover:opacity-80 relative overflow-hidden shadow-lg"
+                            className="h-48 mt-6 bg-yellow-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box6Image})`, backgroundPosition: 'center' }}
                             onClick={() => navigate('/admin-cyber-support')}
                         >

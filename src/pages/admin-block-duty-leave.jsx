@@ -67,15 +67,19 @@ const AdminBlockDutyLeave = () => {
   };
 
   return (
-    <div className="flex h-screen">
-      <div className="w-1/5 h-full">
-        < BlockAdminNavbar/>
+    <div className="flex flex-col md:flex-row h-screen">
+      {/* Section A: Sidebar */}
+      <div className="w-full md:w-1/5 h-full">
+        <BlockAdminNavbar />
       </div>
 
+      {/* Section B: Main Content */}
       <div className="flex-1 p-8 bg-gray-100">
+        {/* Header */}
         <Header />
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Event Registrations</h2>
 
+        {/* Table for Event Registrations */}
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-black">
             <thead>
@@ -98,6 +102,7 @@ const AdminBlockDutyLeave = () => {
                   <td className="py-2 px-4 border-b border-black text-center">{registration.status}</td>
                   <td className="py-2 px-4 border-b border-black text-center">
                     <div className="flex justify-center space-x-2">
+                      {/* Button for marking Present */}
                       <button
                         className={`bg-green-500 text-white py-1 px-3 rounded-lg hover:bg-green-600 ${registration.attendanceMarked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => handleAttendance(registration.id, registration.userId, 'Present')}
@@ -105,6 +110,7 @@ const AdminBlockDutyLeave = () => {
                       >
                         Present
                       </button>
+                      {/* Button for marking Absent */}
                       <button
                         className={`bg-red-500 text-white py-1 px-3 rounded-lg hover:bg-red-600 ${registration.attendanceMarked ? 'opacity-50 cursor-not-allowed' : ''}`}
                         onClick={() => handleAttendance(registration.id, registration.userId, 'Absent')}

@@ -68,11 +68,13 @@ const AdminOpenDutyLeave = () => {
 
   return (
     <div className="flex h-screen">
+      {/* Sidebar */}
       <div className="w-1/5 h-full">
         <OSAdminNavbar />
       </div>
 
-      <div className="flex-1 p-8 bg-gray-100">
+      {/* Main Content */}
+      <div className="flex-1 p-10 bg-gray-100">
         <Header />
         <h2 className="text-3xl font-bold mb-6 text-gray-800">Event Registrations</h2>
 

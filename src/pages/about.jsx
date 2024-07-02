@@ -59,7 +59,7 @@ const AboutUs = () => {
                         <div className="text-center">
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Alon John</h2>
                             <p className="text-base text-gray-700">
-                                Full stack developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
+                            Front-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
                             </p>
                         </div>
                     </div>
@@ -81,17 +81,6 @@ const AboutUs = () => {
                             <h2 className="text-xl font-bold text-gray-800 mb-2">Christopher Thomas</h2>
                             <p className="text-base text-gray-700">
                                 Full stack developer. Expert in crafting visually appealing and user-friendly interfaces. A keen eye for design and attention to detail. Strives to deliver exceptional user experiences through responsive and dynamic web pages.
-                            </p>
-                        </div>
-                    </div>
-
-                    {/* Box 5 */}
-                    <div className="box p-8 bg-white rounded-lg shadow-md flex items-center transition-transform transform hover:scale-105">
-                        <img src={Box4Image} alt="Alon John" className="w-20 h-20 rounded-full mr-4" />
-                        <div>
-                            <h2 className="text-xl font-bold text-gray-800 mb-2">Alon John</h2>
-                            <p className="text-base text-gray-700">
-                                Front-end developer. Proficient in building scalable and robust server-side applications. Strong problem-solving skills and a passion for optimizing performance. Enjoys working with databases and creating efficient data structures.
                             </p>
                         </div>
                     </div>

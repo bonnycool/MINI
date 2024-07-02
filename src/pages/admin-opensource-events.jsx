@@ -204,7 +204,7 @@ const AdminOSEvents = () => {
                 <OSAdminNavbar />
             </div>
             
-            <div className="flex-1 p-8 bg-gray-100">
+            <div className="flex-1 p-10 bg-gray-100">
                 <Header />
                 
                 <div>

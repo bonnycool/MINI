@@ -29,31 +29,31 @@ const Certificates = () => {
     }, []);
 
     return (
-        <div className="flex h-screen">
-            <div className="w-1/5 h-full bg-gray-800 text-white p-4">
+        <div className="flex flex-col md:flex-row h-screen">
+            <div className="w-full md:w-1/5 h-full bg-gray-800 text-white p-4">
                 <Navbar />
             </div>
 
-            <div className="flex-1 h-full p-8 bg-gray-100 flex flex-col">
-                <div className="p-4">
+            <div className="flex-1 h-full p-4 md:p-8 bg-gray-100 flex flex-col">
+                <div className="mb-4 md:mb-20">
                     <UserHeader />
                 </div>
 
-                <div className="flex-1 mt-6 overflow-y-auto p-4">
+                <div className="flex-1 overflow-y-auto">
                     <table className="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
                         <thead className="bg-gray-800 text-white">
                             <tr>
-                                <th className="w-1/3 py-3 px-4 uppercase font-semibold text-sm text-center">Event Name</th>
-                                <th className="w-1/3 py-3 px-4 uppercase font-semibold text-sm text-center">Date</th>
-                                <th className="w-1/3 py-3 px-4 uppercase font-semibold text-sm text-center">Download e-Certificate</th>
+                                <th className="py-2 px-4 md:py-3 md:px-4 uppercase font-semibold text-xs md:text-sm text-center">Event Name</th>
+                                <th className="py-2 px-4 md:py-3 md:px-4 uppercase font-semibold text-xs md:text-sm text-center">Date</th>
+                                <th className="py-2 px-4 md:py-3 md:px-4 uppercase font-semibold text-xs md:text-sm text-center">Download e-Certificate</th>
                             </tr>
                         </thead>
                         <tbody className="text-gray-700">
                             {attendanceData.map((item) => (
-                                <tr key={item.id}>
-                                    <td className="w-1/3 py-3 px-4 text-center">{item.eventName}</td>
-                                    <td className="w-1/3 py-3 px-4 text-center">{item.date.toDateString()}</td>
-                                    <td className="w-1/3 py-3 px-4 text-center">
+                                <tr key={item.id} className="border-t">
+                                    <td className="py-2 px-4 md:py-3 md:px-4 text-center text-sm md:text-base">{item.eventName}</td>
+                                    <td className="py-2 px-4 md:py-3 md:px-4 text-center text-sm md:text-base">{item.date.toDateString()}</td>
+                                    <td className="py-2 px-4 md:py-3 md:px-4 text-center text-sm md:text-base">
                                         <a href={`/certificate/${item.id}`} target="_blank" rel="noopener noreferrer" className="text-blue-500 hover:underline">
                                             Download e-Certificate
                                         </a>

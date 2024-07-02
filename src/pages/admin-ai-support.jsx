@@ -74,19 +74,23 @@ const AdminAIClubContactInfo = () => {
     }, []);
 
     return (
-        <div className="flex h-screen">
+        <div className="flex flex-col md:flex-row h-screen">
             {/* Section A: Navbar on the left side */}
-            <div className="w-1/5 h-full bg-gray-800 text-white">
+            <div className="w-full md:w-1/5 h-full bg-gray-800 text-white">
                 <AIAdminNavbar />
             </div>
 
+            {/* Section B: Main content area */}
             <div className="flex-1 h-full p-8 bg-gray-100">
+                {/* Add Header component at the top */}
                 <Header />
+
+                {/* Content area */}
                 <div className="mt-6">
                     <h2 className="text-3xl font-semibold mb-6 text-gray-800">AI Club Support Items</h2>
 
                     {/* Support Items List */}
-                    <div className="grid gap-6">
+                    <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
                         {supportItems.map((item) => (
                             <div key={item.id} className="p-4 bg-white rounded-lg shadow-md">
                                 <h3 className="text-xl font-bold text-blue-600 mb-2">{item.name}</h3>
@@ -171,4 +175,3 @@ const AdminAIClubContactInfo = () => {
 };
 
 export default AdminAIClubContactInfo;
-
