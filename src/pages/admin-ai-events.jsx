@@ -3,6 +3,7 @@ import { db } from "../../backend/firebase";
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import AIAdminNavbar from '../Components/ai-admin-navbar';
 import Header from '../Components/header';
+import DropdownTable from '../Components/dropdowntable'; 
 
 const AdminAIEvents = () => {
     const [events, setEvents] = useState([]);
@@ -153,17 +154,19 @@ const AdminAIEvents = () => {
             <p className="text-gray-700 mb-1"><strong>Email:</strong> {registration.email}</p>
             <p className="text-gray-700 mb-1"><strong>Status:</strong> {registration.status}</p>
             <p className="text-gray-700 mb-1"><strong>Event Name:</strong> {registration.eventname}</p>
-            {registration.status !== 'Approved' && (
+            {registration.status !== 'Approved' && registration.status !== 'Rejected' && (
                 <div>
                     <button
                         className="bg-green-500 text-white py-2 px-4 rounded-lg hover:bg-green-600 mr-2"
                         onClick={() => onApprove(registration.id, registration.eventId)}
+                        disabled={registration.status === 'Approved' || registration.status === 'Rejected'}
                     >
                         Approve
                     </button>
                     <button
                         className="bg-red-500 text-white py-2 px-4 rounded-lg hover:bg-red-600"
                         onClick={() => onReject(registration.id, registration.eventId)}
+                        disabled={registration.status === 'Approved' || registration.status === 'Rejected'}
                     >
                         Reject
                     </button>
@@ -210,14 +213,11 @@ const AdminAIEvents = () => {
                 <div>
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">AI Event Registrations</h2>
                 <div className="grid gap-6">
-                    {registrations.map((reg) => (
-                        <RegistrationCard
-                            key={reg.id}
-                            registration={reg}
-                            onApprove={handleApproveRegistration}
-                            onReject={handleReject} // Pass onReject here
-                        />
-                    ))}
+                <DropdownTable
+                    registrations={registrations}
+                    onApprove={handleApproveRegistration}
+                    onReject={handleReject}
+                />
                 </div>
             </div>
                 <div>
@@ -318,4 +318,4 @@ const AdminAIEvents = () => {
         </div>
     );};
 
-    export default AdminAIEvents;
+export default AdminAIEvents;
