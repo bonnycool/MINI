@@ -33,7 +33,7 @@ const OpenSource = () => {
                         <button
                             className="h-48 bg-green-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})`, backgroundPosition: 'center' }}
-                            onClick={() => console.log('E-Certificate')}
+                            onClick={() => navigate('/certificate')}
                         >
                             E-Certificate
                         </button>

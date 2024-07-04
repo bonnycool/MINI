@@ -1,10 +1,8 @@
-// ClubMembers.jsx
-
 import React, { useState, useEffect } from 'react';
-import AdminNavbar from '../Components/adminnavbar'; // Import the navbar component
-import Header from '../Components/header'; // Import the header component
+import AdminNavbar from '../Components/adminnavbar';
+import Header from '../Components/header';
 import { db } from '../../backend/firebase';
-import { collection, getDocs, updateDoc, doc } from 'firebase/firestore';
+import { collection, getDocs, doc, deleteDoc, setDoc, getDoc } from 'firebase/firestore';
 
 const ClubMembers = () => {
     const [currentClub, setCurrentClub] = useState('AI');
@@ -12,6 +10,7 @@ const ClubMembers = () => {
     const [pendingMembers, setPendingMembers] = useState([]);
     const [showPending, setShowPending] = useState(false);
 
+    // Fetch members when currentClub changes
     useEffect(() => {
         const fetchMembers = async () => {
             try {
@@ -21,13 +20,13 @@ const ClubMembers = () => {
                         collectionName = 'ai-members';
                         break;
                     case 'blockchain':
-                        collectionName = 'block-members';
+                        collectionName = 'blockchain-members';
                         break;
                     case 'cybersecurity':
-                        collectionName = 'cyber-members';
+                        collectionName = 'cybersecurity-members';
                         break;
                     case 'opensource':
-                        collectionName = 'open-members';
+                        collectionName = 'opensource-members';
                         break;
                     default:
                         console.error('Unknown club name:', currentClub);
@@ -35,15 +34,8 @@ const ClubMembers = () => {
                 }
 
                 const querySnapshot = await getDocs(collection(db, collectionName));
-                const membersData = querySnapshot.docs.map(doc => doc.data());
+                const membersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setMembers(membersData);
-
-                // Fetch pending members
-                const pendingCollectionName = `pending-${collectionName}`;
-                const pendingQuerySnapshot = await getDocs(collection(db, pendingCollectionName));
-                const pendingMembersData = pendingQuerySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-                setPendingMembers(pendingMembersData);
-
             } catch (error) {
                 console.error('Error fetching members:', error);
             }
@@ -52,23 +44,96 @@ const ClubMembers = () => {
         fetchMembers();
     }, [currentClub]);
 
-    const approveMember = async (memberId) => {
+    // Fetch pending members when showPending or currentClub changes
+    useEffect(() => {
+        const fetchPendingMembers = async () => {
+            try {
+                if (showPending) {
+                    let approveCollection = '';
+                    switch (currentClub.toLowerCase()) {
+                        case 'ai':
+                            approveCollection = 'approve';
+                            break;
+                        case 'blockchain':
+                            approveCollection = 'block-approve';
+                            break;
+                        case 'cybersecurity':
+                            approveCollection = 'cyber-approve';
+                            break;
+                        case 'opensource':
+                            approveCollection = 'open-approve';
+                            break;
+                        default:
+                            console.error('Unknown club name:', currentClub);
+                            return;
+                    }
+
+                    const pendingQuerySnapshot = await getDocs(collection(db, approveCollection));
+                    const pendingMembersData = await Promise.all(
+                        pendingQuerySnapshot.docs.map(async (doc) => {
+                            const isApproved = await checkIfApproved(doc.id);
+                            return {
+                                userId: doc.id,
+                                name: doc.data().name,
+                                email: doc.data().email,
+                                phone_number: doc.data().phone_number,
+                                isApproved,
+                            };
+                        })
+                    );
+                    setPendingMembers(pendingMembersData);
+                }
+            } catch (error) {
+                console.error('Error fetching pending members:', error);
+            }
+        };
+
+        const checkIfApproved = async (userId) => {
+            const approvedCollectionName = `${currentClub.toLowerCase()}-members`;
+            const docRef = doc(db, approvedCollectionName, userId);
+            const docSnapshot = await getDoc(docRef);
+            return docSnapshot.exists();
+        };
+
+        fetchPendingMembers();
+    }, [showPending, currentClub]);
+
+    // Approve a member and move them to the approved collection
+    const approveMember = async (userId, memberData) => {
         try {
             const collectionName = `${currentClub.toLowerCase()}-members`;
-            const pendingCollectionName = `pending-${collectionName}`;
+            const pendingCollectionName = `${currentClub.toLowerCase()}-approve`;
 
-            const memberDoc = doc(db, pendingCollectionName, memberId);
-            const memberData = (await getDoc(memberDoc)).data();
+            console.log(`Approving member: ${userId}`);
+            console.log(`Current club: ${currentClub}`);
+            console.log(`Target collection: ${collectionName}`);
+            console.log(`Pending collection: ${pendingCollectionName}`);
 
             // Add to approved members collection
-            await updateDoc(doc(db, collectionName, memberId), memberData);
+            const newMemberRef = doc(db, collectionName, userId);
+            await setDoc(newMemberRef, memberData);
+
+            // Verify if the document is added
+            const addedDoc = await getDoc(newMemberRef);
+            if (!addedDoc.exists()) {
+                throw new Error('Document was not added to the approved collection');
+            }
 
             // Remove from pending collection
+            const memberDoc = doc(db, pendingCollectionName, userId);
             await deleteDoc(memberDoc);
 
+            // Verify if the document is removed
+            const deletedDoc = await getDoc(memberDoc);
+            if (deletedDoc.exists()) {
+                throw new Error('Document was not deleted from the pending collection');
+            }
+
             // Update state
-            setMembers(prev => [...prev, memberData]);
-            setPendingMembers(prev => prev.filter(member => member.id !== memberId));
+            setMembers(prev => [...prev, { id: userId, ...memberData }]);
+            setPendingMembers(prev => prev.map(member =>
+                member.userId === userId ? { ...member, isApproved: true } : member
+            ));
         } catch (error) {
             console.error('Error approving member:', error);
         }
@@ -126,13 +191,25 @@ const ClubMembers = () => {
                                 <ul className="list-disc pl-5">
                                     {pendingMembers.map((member, index) => (
                                         <li key={index} className="mb-2 flex justify-between items-center">
-                                            {member.name} {/* Adjust according to your data structure */}
-                                            <button
-                                                onClick={() => approveMember(member.id)}
-                                                className="bg-blue-500 text-white rounded-md px-4 py-2"
-                                            >
-                                                Approve
-                                            </button>
+                                            <div>
+                                                <p className="font-bold">{member.name}</p>
+                                                <p>Email: {member.email}</p>
+                                                <p>Phone: {member.phone_number}</p>
+                                            </div>
+                                            {member.isApproved ? (
+                                                <span className="text-green-500 font-bold">Approved</span>
+                                            ) : (
+                                                <button
+                                                    onClick={() => approveMember(member.userId, {
+                                                        name: member.name,
+                                                        email: member.email,
+                                                        phone_number: member.phone_number,
+                                                    })}
+                                                    className="bg-blue-500 text-white rounded-md px-4 py-2"
+                                                >
+                                                    Approve
+                                                </button>
+                                            )}
                                         </li>
                                     ))}
                                 </ul>
@@ -147,7 +224,7 @@ const ClubMembers = () => {
                                 <ul className="list-disc pl-5">
                                     {members.map((member, index) => (
                                         <li key={index} className="mb-2">
-                                            {member.name} {/* Adjust according to your data structure */}
+                                            {member.name}
                                         </li>
                                     ))}
                                 </ul>

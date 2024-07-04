@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { db } from '../../backend/firebase'; // Import the Firebase configuration
 import { collection, getDocs, addDoc, deleteDoc, doc } from 'firebase/firestore'; // Import Firestore functions
-import AdminNavbar from '../Components/adminnavbar';
+import BlockAdminNavbar from '../Components/block-admin-navbar';
 import Header from '../Components/header';
 
 const AdminBlockchainClubContactInfo = () => {
@@ -77,7 +77,7 @@ const AdminBlockchainClubContactInfo = () => {
         <div className="flex h-screen">
             {/* Section A: Navbar on the left side */}
             <div className="w-1/5 h-full bg-gray-800 text-white">
-                <AdminNavbar />
+                <BlockAdminNavbar />
             </div>
 
             {/* Section B: Main content area */}

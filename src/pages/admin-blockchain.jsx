@@ -1,6 +1,6 @@
 import React from 'react';
 import { useNavigate } from 'react-router-dom'; // Import useNavigate hook from react-router-dom
-import AdminNavbar from '../Components/adminnavbar';
+import BlockAdminNavbar from '../Components/block-admin-navbar';
 import Header from '../Components/header'; // Import the Header component
 import Box1Image from '../Assests/imagesroni/ai1.jpg';
 import Box2Image from '../Assests/imagesroni/dl3.jpg';
@@ -15,7 +15,7 @@ const AdminBlockchain = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <BlockAdminNavbar />
             </div>
 
             <div className="flex-1 h-full">

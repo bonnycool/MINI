@@ -1,6 +1,6 @@
 import React from 'react';
 
-const AdminNavbar = ({ isOpen = false }) => {
+const OSAdminNavbar = ({ isOpen = false }) => {
     return (
         <div className={`fixed top-0 left-0 h-full w-1/5 bg-gray-900 text-white p-4 z-50 ${isOpen ? 'block' : 'hidden'} md:block`}>
             {/* Branding/logo */}
@@ -12,10 +12,17 @@ const AdminNavbar = ({ isOpen = false }) => {
             {/* Navigation links */}
             <ul className="space-y-4">
                 <li>
+                    <a href="/admin-opensource" className="block p-2 hover:bg-blue-800 rounded">Home</a>
+                </li>
+                <li>
+               
+                    <a href="/admin-open-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Attendance</a>
+                </li>
+                <li>
                     <a href="/admin-calendar" className="block p-2 hover:bg-blue-800 rounded">Calendar</a>
                 </li>
                 <li>
-                    <a href="/admin-ai-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Attendance</a>
+                    <a href="/admin-duty-leave" className="block p-2 hover:bg-blue-800 rounded">Duty Leave Status</a>
                 </li>
                 <li>
                     <a href="/admin-about" className="block p-2 hover:bg-blue-800 rounded">About</a>
@@ -29,4 +36,4 @@ const AdminNavbar = ({ isOpen = false }) => {
     );
 };
 
-export default AdminNavbar;
+export default OSAdminNavbar;

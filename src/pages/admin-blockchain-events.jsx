@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { db } from "../../backend/firebase";
-import { addDoc, collection, getDocs, deleteDoc, doc, updateDoc, getDoc } from 'firebase/firestore';
-import AdminNavbar from '../Components/adminnavbar';
+import { db } from "../../backend/firebase"; // Adjust the path to your Firebase configuration
+import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
+import BlockAdminNavbar from '../Components/block-admin-navbar';
 import Header from '../Components/header';
 import DropdownTable from '../Components/dropdowntable'; 
 
@@ -202,7 +202,7 @@ const AdminBlockchainEvents = () => {
     return (
         <div className="flex h-screen">
             <div className="w-1/5 h-full">
-                <AdminNavbar />
+                <BlockAdminNavbar />
             </div>
             
             <div className="flex-1 p-8 bg-gray-100">
