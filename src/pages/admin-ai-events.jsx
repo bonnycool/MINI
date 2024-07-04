@@ -3,6 +3,7 @@ import { db } from "../../backend/firebase";
 import { addDoc, collection, getDocs, deleteDoc, doc } from 'firebase/firestore';
 import AIAdminNavbar from '../Components/ai-admin-navbar';
 import Header from '../Components/header';
+import DropdownTable from '../Components/dropdowntable'; 
 
 const AdminAIEvents = () => {
     const [events, setEvents] = useState([]);
@@ -210,14 +211,11 @@ const AdminAIEvents = () => {
                 <div>
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">AI Event Registrations</h2>
                 <div className="grid gap-6">
-                    {registrations.map((reg) => (
-                        <RegistrationCard
-                            key={reg.id}
-                            registration={reg}
-                            onApprove={handleApproveRegistration}
-                            onReject={handleReject} // Pass onReject here
-                        />
-                    ))}
+                <DropdownTable
+                    registrations={registrations}
+                    onApprove={handleApproveRegistration}
+                    onReject={handleReject}
+                />
                 </div>
             </div>
                 <div>
