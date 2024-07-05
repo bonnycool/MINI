@@ -25,17 +25,23 @@ const Certificates = () => {
         const fetchAttendanceData = async () => {
             if (user) {
                 try {
-                    const attendanceCollection = collection(db, 'aiattendance');
-                    const userQuery = query(attendanceCollection, where('uid', '==', user.uid)); // Updated to use 'uid'
-                    const attendanceSnapshot = await getDocs(userQuery);
-                    const attendanceData = attendanceSnapshot.docs.map(doc => ({
-                        date: new Date(doc.data().date),  // Convert date string to Date object
-                        eventName: doc.data().eventname,
-                        id: doc.id
-                    }));
+                    const collections = ['aiattendance', 'blockattendance', 'openattendance', 'cyberattendance'];
+                    let allData = [];
 
-                    console.log('Fetched attendance data:', attendanceData);
-                    setAttendanceData(attendanceData);
+                    for (const col of collections) {
+                        const attendanceCollection = collection(db, col);
+                        const userQuery = query(attendanceCollection, where('uid', '==', user.uid));
+                        const attendanceSnapshot = await getDocs(userQuery);
+                        const attendanceData = attendanceSnapshot.docs.map(doc => ({
+                            date: new Date(doc.data().date),  // Convert date string to Date object
+                            eventName: doc.data().eventname,
+                            id: doc.id
+                        }));
+                        allData = [...allData, ...attendanceData];
+                    }
+
+                    console.log('Fetched attendance data:', allData);
+                    setAttendanceData(allData);
                 } catch (error) {
                     console.error('Error fetching attendance data: ', error);
                 }
