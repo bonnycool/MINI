@@ -1,32 +1,49 @@
 import React, { useState, useEffect } from 'react';
 import Navbar from '../Components/navbar';
 import UserHeader from '../Components/userheader';
-import { db } from '../../backend/firebase';
-import { collection, getDocs } from 'firebase/firestore';
+import { db, auth } from '../../backend/firebase';
+import { collection, query, where, getDocs } from 'firebase/firestore';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const Certificates = () => {
     const [attendanceData, setAttendanceData] = useState([]);
+    const [user, setUser] = useState(null);
+
+    useEffect(() => {
+        const unsubscribe = onAuthStateChanged(auth, (user) => {
+            if (user) {
+                setUser(user);
+            } else {
+                setUser(null);
+            }
+        });
+
+        return () => unsubscribe();
+    }, []);
 
     useEffect(() => {
         const fetchAttendanceData = async () => {
-            try {
-                const attendanceCollection = collection(db, 'aiattendance');
-                const attendanceSnapshot = await getDocs(attendanceCollection);
-                const attendanceData = attendanceSnapshot.docs.map(doc => ({
-                    date: new Date(doc.data().date),  // Convert date string to Date object
-                    eventName: doc.data().eventname,
-                    id: doc.id
-                }));
+            if (user) {
+                try {
+                    const attendanceCollection = collection(db, 'aiattendance');
+                    const userQuery = query(attendanceCollection, where('uid', '==', user.uid)); // Updated to use 'uid'
+                    const attendanceSnapshot = await getDocs(userQuery);
+                    const attendanceData = attendanceSnapshot.docs.map(doc => ({
+                        date: new Date(doc.data().date),  // Convert date string to Date object
+                        eventName: doc.data().eventname,
+                        id: doc.id
+                    }));
 
-                console.log('Fetched attendance data:', attendanceData);
-                setAttendanceData(attendanceData);
-            } catch (error) {
-                console.error('Error fetching attendance data: ', error);
+                    console.log('Fetched attendance data:', attendanceData);
+                    setAttendanceData(attendanceData);
+                } catch (error) {
+                    console.error('Error fetching attendance data: ', error);
+                }
             }
         };
 
         fetchAttendanceData();
-    }, []);
+    }, [user]);
 
     return (
         <div className="flex h-screen">
