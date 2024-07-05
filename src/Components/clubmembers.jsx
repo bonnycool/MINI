@@ -9,6 +9,8 @@ const ClubMembers = () => {
     const [members, setMembers] = useState([]);
     const [pendingMembers, setPendingMembers] = useState([]);
     const [showPending, setShowPending] = useState(false);
+    const [memberCount, setMemberCount] = useState(0);
+    const [pendingMemberCount, setPendingMemberCount] = useState(0);
 
     // Fetch members when currentClub changes
     useEffect(() => {
@@ -36,6 +38,7 @@ const ClubMembers = () => {
                 const querySnapshot = await getDocs(collection(db, collectionName));
                 const membersData = querySnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
                 setMembers(membersData);
+                setMemberCount(membersData.length);
             } catch (error) {
                 console.error('Error fetching members:', error);
             }
@@ -82,6 +85,7 @@ const ClubMembers = () => {
                         })
                     );
                     setPendingMembers(pendingMembersData);
+                    setPendingMemberCount(pendingMembersData.length);
                 }
             } catch (error) {
                 console.error('Error fetching pending members:', error);
@@ -131,9 +135,9 @@ const ClubMembers = () => {
 
             // Update state
             setMembers(prev => [...prev, { id: userId, ...memberData }]);
-            setPendingMembers(prev => prev.map(member =>
-                member.userId === userId ? { ...member, isApproved: true } : member
-            ));
+            setMemberCount(prev => prev + 1);
+            setPendingMembers(prev => prev.filter(member => member.userId !== userId));
+            setPendingMemberCount(prev => prev - 1);
         } catch (error) {
             console.error('Error approving member:', error);
         }
@@ -186,7 +190,7 @@ const ClubMembers = () => {
 
                     {showPending ? (
                         <div>
-                            <h3 className="text-2xl font-bold mb-4">{currentClub} Pending Members</h3>
+                            <h3 className="text-2xl font-bold mb-4">{currentClub} Pending Members ({pendingMemberCount})</h3>
                             {pendingMembers.length > 0 ? (
                                 <ul className="list-disc pl-5">
                                     {pendingMembers.map((member, index) => (
@@ -219,7 +223,7 @@ const ClubMembers = () => {
                         </div>
                     ) : (
                         <div>
-                            <h3 className="text-2xl font-bold mb-4">{currentClub} Club Members</h3>
+                            <h3 className="text-2xl font-bold mb-4">{currentClub} Club Members ({memberCount})</h3>
                             {members.length > 0 ? (
                                 <ul className="list-disc pl-5">
                                     {members.map((member, index) => (
