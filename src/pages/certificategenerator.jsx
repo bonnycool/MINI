@@ -11,19 +11,22 @@ const CertificateGenerator = () => {
 
     useEffect(() => {
         const fetchCertificateData = async () => {
-            try {
-                const docRef = doc(db, 'aiattendance', id);
-                const docSnap = await getDoc(docRef);
-                if (docSnap.exists()) {
-                    setCertificateData(docSnap.data());
-                } else {
-                    console.error('No such document!');
+            const collections = ['aiattendance', 'blockattendance', 'openattendance', 'cyberattendance'];
+
+            for (const col of collections) {
+                try {
+                    const docRef = doc(db, col, id);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        setCertificateData(docSnap.data());
+                        break; // Exit the loop once the document is found
+                    }
+                } catch (error) {
+                    console.error(`Error fetching document from ${col}:`, error);
                 }
-            } catch (error) {
-                console.error('Error fetching document:', error);
-            } finally {
-                setLoading(false);
             }
+
+            setLoading(false);
         };
 
         fetchCertificateData();

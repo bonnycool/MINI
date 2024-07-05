@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
-import OSAdminNavbar from '../Components/opensource-admin-navbar';
+import AdminNavbar from '../Components/adminnavbar';
 import Header from '../Components/header';
 
 const firebaseConfig = {
@@ -69,7 +69,7 @@ const AdminOpenDutyLeave = () => {
   return (
     <div className="flex h-screen">
       <div className="w-1/5 h-full">
-        <OSAdminNavbar />
+        <AdminNavbar />
       </div>
 
       <div className="flex-1 p-8 bg-gray-100">

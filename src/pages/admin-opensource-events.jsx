@@ -3,7 +3,7 @@ import { db } from "../../backend/firebase"; // Adjust the path to your Firebase
 import { addDoc, collection, getDocs, deleteDoc, doc,updateDoc } from 'firebase/firestore';
 import OSAdminNavbar from '../Components/opensource-admin-navbar';
 import Header from '../Components/header';
-
+import DropdownTable from '../Components/dropdowntable'; 
 const AdminOSEvents = () => {
     const [events, setEvents] = useState([]);
     const [formData, setFormData] = useState({
@@ -210,14 +210,11 @@ const AdminOSEvents = () => {
                 <div>
                 <h2 className="text-3xl font-bold mb-6 text-gray-800">AI Event Registrations</h2>
                 <div className="grid gap-6">
-                    {registrations.map((reg) => (
-                        <RegistrationCard
-                            key={reg.id}
-                            registration={reg}
-                            onApprove={handleApproveRegistration}
-                            onReject={handleReject} // Pass onReject here
-                        />
-                    ))}
+                <DropdownTable
+                    registrations={registrations}
+                    onApprove={handleApproveRegistration}
+                    onReject={handleReject}
+                />
                 </div>
             </div>
                 <div>
