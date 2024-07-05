@@ -9,6 +9,7 @@ import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
 import Box5Image from '../Assests/imagesroni/ai2.jpg';
 import Box6Image from '../Assests/imagesroni/computer2.jpg';
 
+
 const AdminAI = () => {
     const navigate = useNavigate();
 
@@ -33,9 +34,9 @@ const AdminAI = () => {
                         <button
                             className="h-48 bg-green-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})`, backgroundPosition: 'center' }}
-                            onClick={() => console.log('E-Certificate')}
+                            onClick={() => navigate('/admin-club-members')}
                         >
-                            E-Certificate
+                            Club Members
                         </button>
                         <button
                             className="h-48 bg-red-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
