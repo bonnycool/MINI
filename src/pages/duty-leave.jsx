@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import firebase from 'firebase/compat/app';
 import 'firebase/compat/firestore';
+import 'firebase/compat/auth'; // Import Firebase Auth
 import Navbar from '../Components/navbar';
 import Header from '../Components/header';
 
@@ -19,24 +20,43 @@ if (!firebase.apps.length) {
 }
 
 const db = firebase.firestore();
+const auth = firebase.auth(); // Initialize Firebase Auth
 
-const BlochainEvents = () => {
+const DutyLeave = () => {
   const [attendanceRecords, setAttendanceRecords] = useState([]);
+  const [user, setUser] = useState(null);
 
   useEffect(() => {
-    // Fetch attendance records from Firebase
+    // Listen for auth state changes
+    const unsubscribe = auth.onAuthStateChanged((user) => {
+      if (user) {
+        setUser(user);
+      } else {
+        setUser(null);
+      }
+    });
+
+    return () => unsubscribe();
+  }, []);
+
+  useEffect(() => {
     const fetchAttendanceRecords = async () => {
-      try {
-        const attendanceSnapshot = await db.collection('aiattendance').get();
-        const attendanceData = attendanceSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
-        setAttendanceRecords(attendanceData);
-      } catch (error) {
-        console.error('Error fetching attendance records:', error);
+      if (user) {
+        try {
+          const attendanceSnapshot = await db
+            .collection('aiattendance')
+            .where('uid', '==', user.uid) // Filter records by user ID
+            .get();
+          const attendanceData = attendanceSnapshot.docs.map(doc => ({ id: doc.id, ...doc.data() }));
+          setAttendanceRecords(attendanceData);
+        } catch (error) {
+          console.error('Error fetching attendance records:', error);
+        }
       }
     };
 
     fetchAttendanceRecords();
-  }, []);
+  }, [user]);
 
   const getAttendanceStatus = (statusObj) => {
     if (statusObj && typeof statusObj === 'object' && 'undefined' in statusObj) {
@@ -84,4 +104,4 @@ const BlochainEvents = () => {
   );
 };
 
-export default BlochainEvents;
+export default DutyLeave;

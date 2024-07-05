@@ -72,17 +72,19 @@ import BlockchainDutyLeave from '../pages/block-duty-leave';
 import AdminBlockDutyLeave from '../pages/admin-block-duty-leave';
 import OpenDutyLeave from '../pages/open-duty-leave';
 import AdminOpenDutyLeave from '../pages/admin-open-duty-leave';
+import DutyLeave from '../pages/duty-leave';
 
 export function RouterPaths() {
     return (
         <Routes>
                         <Route path="/admin-ai-duty-leave" element={<AdminDutyLeave />} />
+                        <Route path="duty-leave" element={<DutyLeave/>}/>
                         <Route path="/cyber-duty-leave" element={<CyberDutyLeave />} />
             <Route path="/admin-cyber-duty-leave" element={<AdminCyberDutyLeave />} />
             <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
             <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
             <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
-            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
+            <Route path="/admin-opene-duty-leave" element={<AdminOpenDutyLeave />} />
 
             <Route path="/" element={<Login />} />
             <Route path="/admin-club-members" element={<ClubMembers />} />
