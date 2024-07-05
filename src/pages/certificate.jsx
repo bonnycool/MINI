@@ -32,16 +32,23 @@ const Certificates = () => {
                         const attendanceCollection = collection(db, col);
                         const userQuery = query(attendanceCollection, where('uid', '==', user.uid));
                         const attendanceSnapshot = await getDocs(userQuery);
-                        const attendanceData = attendanceSnapshot.docs.map(doc => ({
-                            date: new Date(doc.data().date),  // Convert date string to Date object
-                            eventName: doc.data().eventname,
-                            id: doc.id
-                        }));
+                        const attendanceData = attendanceSnapshot.docs.map(doc => {
+                            const data = doc.data();
+                            return {
+                                date: new Date(data.date),  // Convert date string to Date object
+                                eventName: data.eventname,
+                                attendanceStatus: data.attendanceStatus,
+                                id: doc.id
+                            };
+                        });
                         allData = [...allData, ...attendanceData];
                     }
 
-                    console.log('Fetched attendance data:', allData);
-                    setAttendanceData(allData);
+                    // Filter out records without a defined attendance status
+                    const filteredData = allData.filter(record => record.attendanceStatus?.undefined === 'Present');
+                    
+                    console.log('Fetched attendance data:', filteredData);
+                    setAttendanceData(filteredData);
                 } catch (error) {
                     console.error('Error fetching attendance data: ', error);
                 }
