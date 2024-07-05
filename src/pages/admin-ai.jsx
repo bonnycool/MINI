@@ -5,10 +5,9 @@ import Header from '../Components/header'; // Import the Header component
 import Box1Image from '../Assests/imagesroni/ai1.jpg';
 import Box2Image from '../Assests/imagesroni/dl3.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
-import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
+import Box4Image from '../Assests/imagesroni/Default_crowd_connsisting_of_students_0.jpg';
 import Box5Image from '../Assests/imagesroni/ai2.jpg';
 import Box6Image from '../Assests/imagesroni/computer2.jpg';
-
 
 const AdminAI = () => {
     const navigate = useNavigate();
@@ -34,9 +33,9 @@ const AdminAI = () => {
                         <button
                             className="h-48 bg-green-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"
                             style={{ backgroundImage: `url(${Box4Image})`, backgroundPosition: 'center' }}
-                            onClick={() => navigate('/admin-club-members')}
+                            onClick={() => navigate('/clubmembers')}
                         >
-                            Club Members
+                            E-Certificate
                         </button>
                         <button
                             className="h-48 bg-red-500 rounded-md flex items-center justify-center transition duration-300 text-white text-3xl font-bold px-8 hover:opacity-80 relative overflow-hidden shadow-lg"

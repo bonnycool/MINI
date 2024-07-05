@@ -5,7 +5,7 @@ import Header from '../Components/header'; // Import the Header component
 import Box1Image from '../Assests/imagesroni/ai1.jpg';
 import Box2Image from '../Assests/imagesroni/dl3.jpg';
 import Box3Image from '../Assests/imagesroni/opensource1.jpg';
-import Box4Image from '../Assests/imagesroni/certificate 3.jpg';
+import Box4Image from '../Assests/imagesroni/Default_crowd_connsisting_of_students_2.jpg';
 import Box5Image from '../Assests/imagesroni/ai2.jpg';
 import Box6Image from '../Assests/imagesroni/computer2.jpg';
 
