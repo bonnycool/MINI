@@ -84,7 +84,7 @@ export function RouterPaths() {
             <Route path="/block-duty-leave" element={<BlockchainDutyLeave />} />
             <Route path="/admin-block-duty-leave" element={<AdminBlockDutyLeave />} />
             <Route path="/open-duty-leave" element={<OpenDutyLeave />} />
-            <Route path="/admin-opene-duty-leave" element={<AdminOpenDutyLeave />} />
+            <Route path="/admin-open-duty-leave" element={<AdminOpenDutyLeave />} />
 
             <Route path="/" element={<Login />} />
             <Route path="/admin-club-members" element={<ClubMembers />} />
